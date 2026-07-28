@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { projects } from "@/data/projects";
+import { projects, type Project } from "@/data/projects";
 
 export const Route = createFileRoute("/portfolio/$slug")({
   head: ({ params }) => {
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/portfolio/$slug")({
       ],
     };
   },
-  loader: ({ params }) => {
+  loader: ({ params }): Project => {
     const p = projects.find((x) => x.slug === params.slug);
     if (!p) throw notFound();
     return p;
