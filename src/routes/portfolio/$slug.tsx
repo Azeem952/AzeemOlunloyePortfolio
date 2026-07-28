@@ -26,7 +26,7 @@ export const Route = createFileRoute("/portfolio/$slug")({
 });
 
 function ProjectPage() {
-  const p = Route.useLoaderData();
+  const p = Route.useLoaderData() as Project;
   const related = projects.filter((x) => x.slug !== p.slug).slice(0, 2);
   const [lightbox, setLightbox] = useState<number | null>(null);
 
