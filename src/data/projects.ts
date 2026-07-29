@@ -22,7 +22,7 @@ export type Project = {
   features: string[];
   outcome: { metric: string; label: string }[];
   gallery: { src: string; caption: string }[];
-  gallery: { src: string; caption: string }[];
+
   video?: string;
 };
 
