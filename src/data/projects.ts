@@ -39,7 +39,7 @@ export const projects: Project[] = [
     client: "Real-estate agency (private)",
     duration: "3 weeks",
     role: "AI Automation Engineer — architecture, prompt design, delivery",
-    cover: "/media/crm-cover.svg",
+    cover: media.crmWorkflow,
     accent: "oklch(0.62 0.16 34)",
     overview:
       "Sales reps were losing warm leads because manual follow-up was inconsistent. I built a workflow that watches HubSpot for new contacts and lifecycle changes, generates a personalised sequence with an LLM, sends the emails on cadence, and stops the moment a lead replies.",
@@ -77,10 +77,10 @@ export const projects: Project[] = [
       { metric: "0", label: "manual sends per week" },
     ],
     gallery: [
-      { src: "/media/crm-webhook.jpg", caption: "HubSpot private app webhook — contact.creation & propertyChange subscriptions." },
-      { src: "/media/crm-workflow.jpg", caption: "n8n orchestration: parse → generate → send → wait → reply guard → repeat." },
-      { src: "/media/crm-email.jpg", caption: "Sample follow-up email generated and delivered by the workflow." },
-      { src: "/media/crm-contacts.jpg", caption: "HubSpot contacts list kept in sync as the source of truth." },
+      { src: media.crmWebhook, caption: "HubSpot private app webhook — contact.creation & propertyChange subscriptions." },
+      { src: media.crmWorkflow, caption: "n8n orchestration: parse → generate → send → wait → reply guard → repeat." },
+      { src: media.crmEmail, caption: "Sample follow-up email generated and delivered by the workflow." },
+      { src: media.crmContacts, caption: "HubSpot contacts list kept in sync as the source of truth." },
     ],
   },
   {
@@ -94,7 +94,7 @@ export const projects: Project[] = [
     client: "SMB operations team",
     duration: "2 weeks",
     role: "AI Automation Engineer — end-to-end build",
-    cover: "/media/receipt-cover.svg",
+    cover: media.receiptWorkflow,
     accent: "oklch(0.62 0.16 34)",
     overview:
       "Bookkeeping was drowning in phone photos of receipts. I built a WhatsApp-first pipeline that ingests images through Green API, runs OCR with a vision LLM, validates the extraction, dedupes against previous filings and writes the result to Sheets and Drive.",
@@ -133,7 +133,9 @@ export const projects: Project[] = [
       { metric: "2 clicks", label: "for the person submitting" },
     ],
     gallery: [
-      { src: "/media/receipt-workflow.jpg", caption: "n8n pipeline: WhatsApp ingest → dedupe → OCR → validate → Sheets + Drive." },
+      { src: media.receiptWorkflow, caption: "n8n pipeline: WhatsApp ingest → dedupe → OCR → validate → Sheets + Drive." },
+      { src: media.receiptWhatsapp, caption: "WhatsApp submission and instant confirmation back to the sender." },
+      { src: media.receiptSheet, caption: "Google Sheets ledger — every receipt parsed into structured rows." },
     ],
   },
   {
@@ -147,7 +149,7 @@ export const projects: Project[] = [
     client: "Bright Smile Dental (concept build)",
     duration: "2 weeks",
     role: "AI Automation Engineer — agent design + delivery",
-    cover: "/media/booking-cover.svg",
+    cover: media.bookingWorkflow,
     accent: "oklch(0.62 0.16 34)",
     overview:
       "A dental practice wanted their website chat to book appointments end-to-end without a receptionist. I built an AI agent that checks live availability, negotiates a slot, writes the booking to the calendar and sends a branded confirmation email.",
@@ -184,9 +186,9 @@ export const projects: Project[] = [
       { metric: "1 webhook", label: "handles the whole flow" },
     ],
     gallery: [
-      { src: "/media/booking-chat.jpg", caption: "Live chat with the agent confirming a mouth-cleaning appointment." },
-      { src: "/media/booking-email.jpg", caption: "Branded confirmation email dispatched on booking." },
-      { src: "/media/booking-workflow.jpg", caption: "n8n workflow — agent, tools, calendar and email in one pass." },
+      { src: media.bookingChat, caption: "Live chat with the agent confirming a mouth-cleaning appointment." },
+      { src: media.bookingEmail, caption: "Branded confirmation email dispatched on booking." },
+      { src: media.bookingWorkflow, caption: "n8n workflow — agent, tools, calendar and email in one pass." },
     ],
   },
 ];
