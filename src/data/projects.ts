@@ -1,4 +1,7 @@
+import { media } from "./media";
+
 export type Project = {
+
   slug: string;
   title: string;
   tagline: string;
