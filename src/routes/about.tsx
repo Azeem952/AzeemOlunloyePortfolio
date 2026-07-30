@@ -31,7 +31,7 @@ function About() {
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">About</p>
           <h1 className="mt-4 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-8xl">
             Engineering the boring<br />
-            <span className="italic text-muted-foreground">out of good businesses.</span>
+            <span className="text-muted-foreground">out of good businesses.</span>
           </h1>
         </section>
 
