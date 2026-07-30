@@ -14,6 +14,7 @@ export const media = {
   bookingWorkflow: "/__l5e/assets-v1/ee6f2f4b-3aa7-4d55-9bb2-2335aa45ecb5/booking-workflow.png",
   bookingChat: "/__l5e/assets-v1/a0d29ad6-5f6f-4727-bd5b-7482b8c1ae0a/booking-chat.jpg",
   bookingEmail: "/__l5e/assets-v1/2575dd1e-bfd1-4b15-bfc9-5229ec75f8be/booking-email.png",
+  bookingVideo: "/__l5e/assets-v1/c8387e3c-06b3-4e60-ac9d-4a4c2c662376/booking-demo.mp4",
 
   officeWorkflow:
     "/__l5e/assets-v1/92a6a0f6-d326-4fe8-b618-ac6757a661df/office-assistant-workflow.png",
@@ -21,4 +22,18 @@ export const media = {
     "/__l5e/assets-v1/36a0ce4b-4216-48e1-9129-6941f1610c1e/office-assistant-gmail.png",
   officeVideo:
     "/__l5e/assets-v1/d290e1d6-a317-4675-9c3f-c80136c48e73/office-assistant-demo.mp4",
+
+  reminderSms: "/__l5e/assets-v1/3edafde0-4ed8-4fab-85a7-bf59d85d48d7/reminder-sms.png",
+  reminderBrief: "/__l5e/assets-v1/abe05b80-f33a-40eb-a189-d0c8b439c01d/reminder-brief.png",
+  reminderAirtable:
+    "/__l5e/assets-v1/c14dac07-794a-4b32-927b-f7d309756126/reminder-airtable.png",
+  reminderCalendar:
+    "/__l5e/assets-v1/6c838387-f6fd-40ac-b0b5-1c888e917b91/reminder-calendar.png",
+  reminderVideo: "/__l5e/assets-v1/c209e0c2-57c9-4dd5-a675-e1077f683b33/reminder-demo.mp4",
+
+  mamateeDashboard:
+    "/__l5e/assets-v1/51181dae-f074-4681-92d2-6cd563ffeb48/mamatee-dashboard.png",
+  mamateeWorkflow:
+    "/__l5e/assets-v1/eb05f822-cb1d-44c3-80b2-4917a5d64155/mamatee-workflow.png",
+  mamateeVideo: "/__l5e/assets-v1/0d46e10d-d93d-4ee6-91c4-4dbeeb679195/mamatee-demo.mp4",
 } as const;

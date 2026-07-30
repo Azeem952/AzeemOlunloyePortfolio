@@ -73,14 +73,32 @@ function ProjectPage() {
           </header>
 
           <div className="container-page">
-            <div className="overflow-hidden rounded-lg bg-subtle">
+            <div className="overflow-hidden rounded-2xl border bg-subtle shadow-card">
               <img
                 src={p.gallery[0]?.src ?? p.cover}
                 alt={p.gallery[0]?.caption ?? p.title}
                 className="aspect-[16/9] w-full object-cover"
               />
             </div>
+
+            {p.video && (
+              <figure className="mt-8 overflow-hidden rounded-2xl border bg-ink shadow-card">
+                <video
+                  src={p.video}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="aspect-video w-full bg-ink"
+                >
+                  Your browser does not support embedded video.
+                </video>
+                <figcaption className="px-5 py-4 text-xs text-ink-foreground/70">
+                  Recorded walkthrough — {p.title}
+                </figcaption>
+              </figure>
+            )}
           </div>
+
 
           <section className="container-page grid gap-12 py-24 md:grid-cols-[1fr_2fr] md:py-32">
             <aside className="space-y-6 md:sticky md:top-24 md:self-start">

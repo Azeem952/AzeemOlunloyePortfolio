@@ -58,7 +58,7 @@ function Portfolio() {
           </p>
           <h1 className="mt-4 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-8xl">
             Systems shipped.<br />
-            <span className="italic text-muted-foreground">Not slideware.</span>
+            <span className="text-muted-foreground">Not slideware.</span>
           </h1>
         </section>
 
