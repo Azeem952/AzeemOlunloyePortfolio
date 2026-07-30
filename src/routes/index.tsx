@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Production AI automation systems — AI agents, CRM sequences, voice ops and integrations that quietly do the work.",
+          "Azeem Olunloye designs and ships production AI automation systems — AI agents, CRM sequences, voice ops and integrations that quietly do the work.",
       },
     ],
   }),
