@@ -38,16 +38,15 @@ export const submitContact = createServerFn({ method: "POST" })
 
     let emailed = false;
     try {
-      const { sendLovableEmail } = await import("@lovable.dev/email-js");
-      const subject = data.subject
-        ? `Portfolio enquiry — ${data.subject}`
-        : `Portfolio enquiry from ${data.name}`;
+      const apiKey = process.env.LOVABLE_API_KEY;
+      const senderDomain = process.env.LOVABLE_EMAIL_DOMAIN;
+      if (apiKey && senderDomain) {
+        const { sendLovableEmail } = await import("@lovable.dev/email-js");
+        const subject = data.subject
+          ? `Portfolio enquiry — ${data.subject}`
+          : `Portfolio enquiry from ${data.name}`;
 
-      const result = await sendLovableEmail({
-        to: NOTIFY_TO,
-        replyTo: data.email,
-        subject,
-        text: [
+        const lines = [
           `New contact form submission`,
           ``,
           `Name: ${data.name}`,
@@ -57,12 +56,30 @@ export const submitContact = createServerFn({ method: "POST" })
           ``,
           `Message:`,
           data.message,
-        ].join("\n"),
-      });
-      emailed = result?.sent !== false;
+        ];
+
+        const result = await sendLovableEmail(
+          {
+            to: NOTIFY_TO,
+            from: `notify@${senderDomain}`,
+            sender_domain: senderDomain,
+            reply_to: data.email,
+            subject,
+            text: lines.join("\n"),
+            html: `<pre style="font:14px/1.6 ui-sans-serif,system-ui,sans-serif;white-space:pre-wrap">${lines
+              .join("\n")
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")}</pre>`,
+            idempotency_key: row.id,
+          },
+          { apiKey },
+        );
+        emailed = result.success === true;
+      }
     } catch (err) {
       console.error("contact email dispatch failed", err);
     }
+
 
     await supabaseAdmin
       .from("contact_submissions")
