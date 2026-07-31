@@ -307,7 +307,7 @@ function Home() {
                   Case studies
                 </p>
                 <h2 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight text-balance md:text-6xl">
-                  Six systems, built end-to-end and still running.
+                  Systems built end-to-end — and still running.
                 </h2>
                 <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-foreground/70">
                   Workflow diagrams, live screenshots and video walkthroughs for
