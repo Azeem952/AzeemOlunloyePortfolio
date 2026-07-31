@@ -76,6 +76,7 @@ export const projects: Project[] = [
       { metric: "3→7 days", label: "adaptive cadence per lead" },
       { metric: "0", label: "manual sends per week" },
     ],
+    video: media.crmVideo,
     gallery: [
       { src: media.crmWebhook, caption: "HubSpot private app webhook — contact.creation & propertyChange subscriptions." },
       { src: media.crmWorkflow, caption: "n8n orchestration: parse → generate → send → wait → reply guard → repeat." },
