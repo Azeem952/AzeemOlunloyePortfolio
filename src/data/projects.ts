@@ -133,6 +133,7 @@ export const projects: Project[] = [
       { metric: "0", label: "manual data entry" },
       { metric: "2 clicks", label: "for the person submitting" },
     ],
+    video: media.receiptVideo,
     gallery: [
       { src: media.receiptWorkflow, caption: "n8n pipeline: WhatsApp ingest → dedupe → OCR → validate → Sheets + Drive." },
       { src: media.receiptWhatsapp, caption: "WhatsApp submission and instant confirmation back to the sender." },
