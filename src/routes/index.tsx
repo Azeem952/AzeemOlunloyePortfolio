@@ -79,7 +79,7 @@ function Home() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
                 </span>
-                Available for select projects — 2026
+                Open for new projects — remote, worldwide
               </p>
 
               <h1 className="reveal mt-7 font-display text-[2.75rem] leading-[1.02] tracking-tight text-balance sm:text-6xl lg:text-7xl">
@@ -307,7 +307,7 @@ function Home() {
                   Case studies
                 </p>
                 <h2 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight text-balance md:text-6xl">
-                  Six systems, built end-to-end and still running.
+                  Systems built end-to-end — and still running.
                 </h2>
                 <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-foreground/70">
                   Workflow diagrams, live screenshots and video walkthroughs for

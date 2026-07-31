@@ -36,4 +36,15 @@ export const media = {
   mamateeWorkflow:
     "/__l5e/assets-v1/eb05f822-cb1d-44c3-80b2-4917a5d64155/mamatee-workflow.png",
   mamateeVideo: "/__l5e/assets-v1/0d46e10d-d93d-4ee6-91c4-4dbeeb679195/mamatee-demo.mp4",
+
+  crmVideo: "/__l5e/assets-v1/f5296b3c-6fc8-4101-a5a9-d41dab903d5d/crm-demo.mp4",
+  receiptVideo: "/__l5e/assets-v1/5d3f44c2-df20-4837-8177-bc5cf4e7e181/receipt-demo.mp4",
+
+  leadgenWorkflow: "/__l5e/assets-v1/dda1dc73-295b-482e-87ea-7335f4bbd500/leadgen-workflow.jpg",
+  leadgenEmail: "/__l5e/assets-v1/2aaf423f-9505-4679-b8dd-c7c0ec68d67d/leadgen-email.jpg",
+  leadgenVideo: "/__l5e/assets-v1/c383a3b0-a4f0-4234-9ff8-18266642ba3c/leadgen-demo.mp4",
+
+  forexWorkflow: "/__l5e/assets-v1/0238baea-6b0a-4b10-bf1c-e420f5ebbdd6/forex-workflow.jpg",
+  forexTelegram: "/__l5e/assets-v1/8a074d3a-3cb8-4860-a90f-67c22c1ed20e/forex-telegram.jpg",
+  forexVideo: "/__l5e/assets-v1/8cae781d-3f42-40c1-831d-4b51be62459e/forex-demo.mp4",
 } as const;

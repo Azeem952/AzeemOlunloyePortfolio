@@ -76,6 +76,7 @@ export const projects: Project[] = [
       { metric: "3→7 days", label: "adaptive cadence per lead" },
       { metric: "0", label: "manual sends per week" },
     ],
+    video: media.crmVideo,
     gallery: [
       { src: media.crmWebhook, caption: "HubSpot private app webhook — contact.creation & propertyChange subscriptions." },
       { src: media.crmWorkflow, caption: "n8n orchestration: parse → generate → send → wait → reply guard → repeat." },
@@ -132,6 +133,7 @@ export const projects: Project[] = [
       { metric: "0", label: "manual data entry" },
       { metric: "2 clicks", label: "for the person submitting" },
     ],
+    video: media.receiptVideo,
     gallery: [
       { src: media.receiptWorkflow, caption: "n8n pipeline: WhatsApp ingest → dedupe → OCR → validate → Sheets + Drive." },
       { src: media.receiptWhatsapp, caption: "WhatsApp submission and instant confirmation back to the sender." },
@@ -354,6 +356,120 @@ export const projects: Project[] = [
     gallery: [
       { src: media.mamateeDashboard, caption: "Operations dashboard — follow-up queue and recent orders with CSV export." },
       { src: media.mamateeWorkflow, caption: "n8n routing: webhook → normalise → switch → sheets → Telegram." },
+    ],
+  },
+  {
+    slug: "ai-lead-generation-scouting",
+    title: "AI Lead Generation & Scouting Engine",
+    tagline:
+      "Crawls prospect websites, spots the automation gap, writes the pitch, and sends it — a whole outbound desk running as one n8n workflow.",
+    category: "Lead Generation",
+    categories: ["Lead Generation", "AI Agents", "n8n", "Workflow Automation"],
+    year: "2026",
+    client: "Own agency pipeline",
+    duration: "3 weeks",
+    role: "AI Automation Engineer — research agent, copy generation, delivery",
+    cover: media.leadgenWorkflow,
+    accent: "oklch(0.62 0.16 34)",
+    overview:
+      "Outbound only works when the message proves you actually looked at the business. This system reads a sheet of prospects, crawls each website, has an AI agent identify the specific operational gap automation could close, drafts a tailored email around that finding, sends it, and writes the outcome back to the sheet.",
+    problem:
+      "Manual prospecting meant an hour per lead: open the site, read the services, guess at a pain point, write something bespoke, log it. At that rate the pipeline was capped at a handful of contacts a week and the research quality drifted whenever the day got busy.",
+    solution:
+      "One n8n workflow owns the loop. It batches rows from Google Sheets, crawls and scrapes every page of each site with Firecrawl, cleans the markdown in a Code node, and passes it to an AI Agent with a structured output parser. The agent returns a named opportunity plus a subject and body; Gmail sends it, a Wait node paces the send rate, and the sheet row is updated so nobody is contacted twice.",
+    architecture: [
+      "Google Sheets holds the prospect list — company, URL, status, last contacted.",
+      "Loop Over Items batches rows so long crawls never block the run.",
+      "Firecrawl crawls and scrapes every page; polling nodes wait on crawl status.",
+      "A JavaScript node strips navigation, boilerplate and markdown noise.",
+      "An IF node routes sites with enough content to the agent and parks thin ones on a second crawl pass.",
+      "An AI Agent (OpenAI chat model + structured output parser) returns the opportunity, subject and body as strict JSON.",
+      "Gmail sends the email; a Wait node throttles the cadence; the sheet row is updated with status and timestamp.",
+    ],
+    workflow: [
+      { step: "Read", detail: "Pull unworked prospect rows from Google Sheets." },
+      { step: "Crawl", detail: "Firecrawl scrapes all pages of the prospect's website." },
+      { step: "Poll", detail: "Wait and check crawl status until the scrape completes." },
+      { step: "Clean", detail: "JavaScript node reduces the pages to usable business context." },
+      { step: "Qualify", detail: "IF branch sends thin sites through a second, deeper crawl." },
+      { step: "Reason", detail: "AI Agent names the automation gap and drafts subject + body." },
+      { step: "Send", detail: "Gmail delivers the email; Wait node paces the sequence." },
+      { step: "Log", detail: "Sheet row updated with status, opportunity and sent time." },
+    ],
+    tools: ["n8n", "Firecrawl", "OpenAI", "Structured Output Parser", "Gmail API", "Google Sheets", "JavaScript"],
+    features: [
+      "Per-prospect research instead of merge-tag personalisation",
+      "Structured output parser keeps every draft machine-safe",
+      "Two-pass crawling for thin or JavaScript-heavy sites",
+      "Rate-paced sending to protect domain reputation",
+      "Sheet as source of truth — no duplicate outreach",
+    ],
+    outcome: [
+      { metric: "20", label: "prospects researched per run, unattended" },
+      { metric: "~1 hr → 0", label: "manual research time per lead" },
+      { metric: "100%", label: "of emails reference a real, site-specific finding" },
+    ],
+    video: media.leadgenVideo,
+    gallery: [
+      { src: media.leadgenWorkflow, caption: "n8n scouting workflow — sheet → crawl → clean → AI agent → Gmail → update row." },
+      { src: media.leadgenEmail, caption: "Generated outreach: an abandoned-cart recovery pitch written from the prospect's own store." },
+    ],
+  },
+  {
+    slug: "forex-signal-workflow",
+    title: "Forex Signal Workflow Automation",
+    tagline:
+      "An hourly n8n bot that pulls multi-timeframe market data, filters the news, scores every pair, and reports only what clears the threshold.",
+    category: "Workflow Automation",
+    categories: ["Workflow Automation", "AI Agents", "n8n", "Integrations"],
+    year: "2026",
+    client: "Private trading desk",
+    duration: "2 weeks",
+    role: "AI Automation Engineer — data pipeline, scoring model, delivery",
+    cover: media.forexWorkflow,
+    accent: "oklch(0.62 0.16 34)",
+    overview:
+      "Chart-watching does not scale. I built a scheduled workflow that fetches 5m, 15m, 1H and 4H data for a basket of pairs from Twelve Data, merges the timeframes, filters out high-impact news windows, scores each pair out of 100, and posts a clean Telegram report — including the honest 'no qualifying signals' case.",
+    problem:
+      "The manual routine meant checking four timeframes across several pairs every hour, cross-referencing the news calendar, and deciding under time pressure. It was inconsistent, easy to skip, and impossible to review afterwards.",
+    solution:
+      "A published n8n workflow runs hourly. Staggered Wait nodes keep the Twelve Data API inside its rate limit while four HTTP requests pull each timeframe. A Merge node assembles one object per pair, an ANALYSIS node computes technical conditions, a SCORING node grades the setup out of 100, and a ranking node composes the Telegram message — actionable signals above 70, a watchlist for 60–69, and a full scan summary for everything else.",
+    architecture: [
+      "Schedule Trigger fires the run every hour.",
+      "Four staggered Wait branches pace requests to stay inside API rate limits.",
+      "HTTP Request nodes fetch 5m, 15m, 1H and 4H candles from Twelve Data.",
+      "A News Filter node suppresses pairs inside high-impact news windows.",
+      "Merge (append) assembles all timeframes into a single evaluation payload.",
+      "ANALYSIS computes technical conditions; SCORING grades each pair out of 100.",
+      "A ranking node formats the report and Telegram delivers it to the desk.",
+    ],
+    workflow: [
+      { step: "Schedule", detail: "Hourly trigger starts the scan." },
+      { step: "Pace", detail: "Staggered waits keep the market-data API within limits." },
+      { step: "Fetch", detail: "Pull 5m, 15m, 1H and 4H candles per pair." },
+      { step: "Filter", detail: "Drop pairs sitting inside a high-impact news window." },
+      { step: "Merge", detail: "Combine timeframes into one object per pair." },
+      { step: "Analyse", detail: "Compute technical conditions across the timeframes." },
+      { step: "Score", detail: "Grade each pair out of 100 against the strategy rules." },
+      { step: "Report", detail: "Telegram posts signals, watchlist and full scan summary." },
+    ],
+    tools: ["n8n", "Twelve Data API", "Telegram Bot API", "JavaScript", "Webhooks", "Cron"],
+    features: [
+      "Multi-timeframe confluence — 5m, 15m, 1H and 4H in one score",
+      "News-aware filtering before any signal is published",
+      "70-point threshold with a 60–69 watchlist tier",
+      "Reports the empty result honestly instead of forcing a trade",
+      "Every run logged in n8n executions for later review",
+    ],
+    outcome: [
+      { metric: "24", label: "unattended scans per day" },
+      { metric: "~3.5 min", label: "full scan, start to Telegram report" },
+      { metric: "100%", label: "of runs archived for post-trade review" },
+    ],
+    video: media.forexVideo,
+    gallery: [
+      { src: media.forexWorkflow, caption: "n8n execution view — staggered timeframe fetches, news filter, merge, analysis, scoring." },
+      { src: media.forexTelegram, caption: "Telegram report: scored pairs, watchlist tier and an honest no-signal result." },
     ],
   },
 ];
