@@ -79,7 +79,7 @@ function Home() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
                 </span>
-                Available for select projects — 2026
+                Open for new projects — remote, worldwide
               </p>
 
               <h1 className="reveal mt-7 font-display text-[2.75rem] leading-[1.02] tracking-tight text-balance sm:text-6xl lg:text-7xl">
