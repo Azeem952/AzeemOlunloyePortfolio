@@ -89,7 +89,7 @@ function Contact() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
               </span>
-              Available for select projects — 2026
+              Open for new projects — remote, worldwide
             </p>
             <h1 className="reveal mt-6 max-w-3xl font-display text-[2.75rem] leading-[1.02] tracking-tight text-balance sm:text-6xl md:text-7xl">
               Let's talk about <span className="text-gradient">what to automate.</span>
@@ -218,8 +218,8 @@ function Contact() {
                   Availability
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  Taking on two new automation builds this quarter. Typical
-                  engagements run one to four weeks from brief to handover.
+                  Always open to new automation projects — no waitlist, no cap.
+                  Typical engagements run one to four weeks from brief to handover.
                 </p>
               </div>
 
