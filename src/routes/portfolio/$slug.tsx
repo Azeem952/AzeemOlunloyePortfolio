@@ -2,11 +2,14 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { projects, type Project } from "@/data/projects";
+import { getPublicProject, listPublicProjects } from "@/lib/content.functions";
+import type { CmsProject } from "@/lib/cms-types";
+
+type LoaderData = { project: CmsProject; related: CmsProject[] };
 
 export const Route = createFileRoute("/portfolio/$slug")({
-  head: ({ params }) => {
-    const p = projects.find((x) => x.slug === params.slug);
+  head: ({ loaderData }) => {
+    const p = (loaderData as LoaderData | undefined)?.project;
     if (!p) return { meta: [{ title: "Case study — Azeem Olunloye" }] };
     return {
       meta: [
@@ -17,17 +20,32 @@ export const Route = createFileRoute("/portfolio/$slug")({
       ],
     };
   },
-  loader: ({ params }): Project => {
-    const p = projects.find((x) => x.slug === params.slug);
-    if (!p) throw notFound();
-    return p;
+  loader: async ({ params }): Promise<LoaderData> => {
+    const [project, all] = await Promise.all([
+      getPublicProject({ data: params.slug }),
+      listPublicProjects(),
+    ]);
+    if (!project) throw notFound();
+    return { project, related: all.filter((x) => x.slug !== project.slug).slice(0, 2) };
   },
+  errorComponent: () => (
+    <div className="container-page py-32 text-center">
+      <p className="text-muted-foreground">This case study could not be loaded.</p>
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="container-page py-32 text-center">
+      <p className="text-muted-foreground">Case study not found.</p>
+      <Link to="/portfolio" className="mt-4 inline-block underline underline-offset-4">
+        Back to portfolio
+      </Link>
+    </div>
+  ),
   component: ProjectPage,
 });
 
 function ProjectPage() {
-  const p = Route.useLoaderData() as Project;
-  const related = projects.filter((x) => x.slug !== p.slug).slice(0, 2);
+  const { project: p, related } = Route.useLoaderData() as LoaderData;
   const [lightbox, setLightbox] = useState<number | null>(null);
 
   useEffect(() => {
