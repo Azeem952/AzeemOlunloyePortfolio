@@ -18,6 +18,7 @@ import { Route as PortfolioIndexRouteImport } from './routes/portfolio/index'
 import { Route as AzeemadminIndexRouteImport } from './routes/azeemadmin/index'
 import { Route as PortfolioSlugRouteImport } from './routes/portfolio/$slug'
 import { Route as AzeemadminProjectsIndexRouteImport } from './routes/azeemadmin/projects/index'
+import { Route as AzeemadminProjectsIdRouteImport } from './routes/azeemadmin/projects/$id'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -65,6 +66,11 @@ const AzeemadminProjectsIndexRoute = AzeemadminProjectsIndexRouteImport.update({
   path: '/projects/',
   getParentRoute: () => AzeemadminRouteRoute,
 } as any)
+const AzeemadminProjectsIdRoute = AzeemadminProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => AzeemadminRouteRoute,
+} as any)
 const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
   id: '/api/public/media/$',
   path: '/api/public/media/$',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/azeemadmin/': typeof AzeemadminIndexRoute
   '/portfolio/': typeof PortfolioIndexRoute
+  '/azeemadmin/projects/$id': typeof AzeemadminProjectsIdRoute
   '/azeemadmin/projects/': typeof AzeemadminProjectsIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/azeemadmin': typeof AzeemadminIndexRoute
   '/portfolio': typeof PortfolioIndexRoute
+  '/azeemadmin/projects/$id': typeof AzeemadminProjectsIdRoute
   '/azeemadmin/projects': typeof AzeemadminProjectsIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/portfolio/$slug': typeof PortfolioSlugRoute
   '/azeemadmin/': typeof AzeemadminIndexRoute
   '/portfolio/': typeof PortfolioIndexRoute
+  '/azeemadmin/projects/$id': typeof AzeemadminProjectsIdRoute
   '/azeemadmin/projects/': typeof AzeemadminProjectsIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/portfolio/$slug'
     | '/azeemadmin/'
     | '/portfolio/'
+    | '/azeemadmin/projects/$id'
     | '/azeemadmin/projects/'
     | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/portfolio/$slug'
     | '/azeemadmin'
     | '/portfolio'
+    | '/azeemadmin/projects/$id'
     | '/azeemadmin/projects'
     | '/api/public/media/$'
   id:
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/portfolio/$slug'
     | '/azeemadmin/'
     | '/portfolio/'
+    | '/azeemadmin/projects/$id'
     | '/azeemadmin/projects/'
     | '/api/public/media/$'
   fileRoutesById: FileRoutesById
@@ -221,6 +233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AzeemadminProjectsIndexRouteImport
       parentRoute: typeof AzeemadminRouteRoute
     }
+    '/azeemadmin/projects/$id': {
+      id: '/azeemadmin/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/azeemadmin/projects/$id'
+      preLoaderRoute: typeof AzeemadminProjectsIdRouteImport
+      parentRoute: typeof AzeemadminRouteRoute
+    }
     '/api/public/media/$': {
       id: '/api/public/media/$'
       path: '/api/public/media/$'
@@ -233,11 +252,13 @@ declare module '@tanstack/react-router' {
 
 interface AzeemadminRouteRouteChildren {
   AzeemadminIndexRoute: typeof AzeemadminIndexRoute
+  AzeemadminProjectsIdRoute: typeof AzeemadminProjectsIdRoute
   AzeemadminProjectsIndexRoute: typeof AzeemadminProjectsIndexRoute
 }
 
 const AzeemadminRouteRouteChildren: AzeemadminRouteRouteChildren = {
   AzeemadminIndexRoute: AzeemadminIndexRoute,
+  AzeemadminProjectsIdRoute: AzeemadminProjectsIdRoute,
   AzeemadminProjectsIndexRoute: AzeemadminProjectsIndexRoute,
 }
 
