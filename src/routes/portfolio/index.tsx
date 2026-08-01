@@ -57,7 +57,7 @@ function Portfolio() {
         p.categories.some((c) => c.toLowerCase().includes(query));
       return inCat && inQ;
     });
-  }, [cat, q]);
+  }, [cat, q, projects]);
 
   return (
     <div className="min-h-dvh">
