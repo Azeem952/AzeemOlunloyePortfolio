@@ -47,15 +47,197 @@ export type Database = {
         }
         Relationships: []
       }
+      media_library: {
+        Row: {
+          content_type: string
+          created_at: string
+          filename: string
+          id: string
+          kind: string
+          path: string
+          size_bytes: number
+          url: string
+        }
+        Insert: {
+          content_type?: string
+          created_at?: string
+          filename: string
+          id?: string
+          kind?: string
+          path: string
+          size_bytes?: number
+          url: string
+        }
+        Update: {
+          content_type?: string
+          created_at?: string
+          filename?: string
+          id?: string
+          kind?: string
+          path?: string
+          size_bytes?: number
+          url?: string
+        }
+        Relationships: []
+      }
+      project_media: {
+        Row: {
+          caption: string
+          created_at: string
+          id: string
+          kind: string
+          project_id: string
+          sort_order: number
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          caption?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          project_id: string
+          sort_order?: number
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          project_id?: string
+          sort_order?: number
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_media_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          architecture: string[]
+          categories: string[]
+          category: string
+          client: string
+          cover_url: string | null
+          created_at: string
+          duration: string
+          featured: boolean
+          features: string[]
+          id: string
+          outcome: Json
+          overview: string
+          problem: string
+          published: boolean
+          role: string
+          slug: string
+          solution: string
+          sort_order: number
+          tagline: string
+          tags: string[]
+          title: string
+          tools: string[]
+          updated_at: string
+          video_url: string | null
+          workflow: Json
+          year: string
+        }
+        Insert: {
+          architecture?: string[]
+          categories?: string[]
+          category?: string
+          client?: string
+          cover_url?: string | null
+          created_at?: string
+          duration?: string
+          featured?: boolean
+          features?: string[]
+          id?: string
+          outcome?: Json
+          overview?: string
+          problem?: string
+          published?: boolean
+          role?: string
+          slug: string
+          solution?: string
+          sort_order?: number
+          tagline?: string
+          tags?: string[]
+          title: string
+          tools?: string[]
+          updated_at?: string
+          video_url?: string | null
+          workflow?: Json
+          year?: string
+        }
+        Update: {
+          architecture?: string[]
+          categories?: string[]
+          category?: string
+          client?: string
+          cover_url?: string | null
+          created_at?: string
+          duration?: string
+          featured?: boolean
+          features?: string[]
+          id?: string
+          outcome?: Json
+          overview?: string
+          problem?: string
+          published?: boolean
+          role?: string
+          slug?: string
+          solution?: string
+          sort_order?: number
+          tagline?: string
+          tags?: string[]
+          title?: string
+          tools?: string[]
+          updated_at?: string
+          video_url?: string | null
+          workflow?: Json
+          year?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: { Args: never; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -182,6 +364,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+    },
   },
 } as const
