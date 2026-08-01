@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AzeemadminRouteRouteImport } from './routes/azeemadmin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortfolioIndexRouteImport } from './routes/portfolio/index'
+import { Route as AzeemadminIndexRouteImport } from './routes/azeemadmin/index'
 import { Route as PortfolioSlugRouteImport } from './routes/portfolio/$slug'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
 
@@ -48,6 +49,11 @@ const PortfolioIndexRoute = PortfolioIndexRouteImport.update({
   path: '/portfolio/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AzeemadminIndexRoute = AzeemadminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AzeemadminRouteRoute,
+} as any)
 const PortfolioSlugRoute = PortfolioSlugRouteImport.update({
   id: '/portfolio/$slug',
   path: '/portfolio/$slug',
@@ -61,32 +67,34 @@ const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/azeemadmin': typeof AzeemadminRouteRoute
+  '/azeemadmin': typeof AzeemadminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/azeemadmin/': typeof AzeemadminIndexRoute
   '/portfolio/': typeof PortfolioIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/azeemadmin': typeof AzeemadminRouteRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/azeemadmin': typeof AzeemadminIndexRoute
   '/portfolio': typeof PortfolioIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/azeemadmin': typeof AzeemadminRouteRoute
+  '/azeemadmin': typeof AzeemadminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
+  '/azeemadmin/': typeof AzeemadminIndexRoute
   '/portfolio/': typeof PortfolioIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
@@ -99,16 +107,17 @@ export interface FileRouteTypes {
     | '/contact'
     | '/sitemap.xml'
     | '/portfolio/$slug'
+    | '/azeemadmin/'
     | '/portfolio/'
     | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/azeemadmin'
     | '/about'
     | '/contact'
     | '/sitemap.xml'
     | '/portfolio/$slug'
+    | '/azeemadmin'
     | '/portfolio'
     | '/api/public/media/$'
   id:
@@ -119,13 +128,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/sitemap.xml'
     | '/portfolio/$slug'
+    | '/azeemadmin/'
     | '/portfolio/'
     | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AzeemadminRouteRoute: typeof AzeemadminRouteRoute
+  AzeemadminRouteRoute: typeof AzeemadminRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -178,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortfolioIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/azeemadmin/': {
+      id: '/azeemadmin/'
+      path: '/'
+      fullPath: '/azeemadmin/'
+      preLoaderRoute: typeof AzeemadminIndexRouteImport
+      parentRoute: typeof AzeemadminRouteRoute
+    }
     '/portfolio/$slug': {
       id: '/portfolio/$slug'
       path: '/portfolio/$slug'
@@ -195,9 +212,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AzeemadminRouteRouteChildren {
+  AzeemadminIndexRoute: typeof AzeemadminIndexRoute
+}
+
+const AzeemadminRouteRouteChildren: AzeemadminRouteRouteChildren = {
+  AzeemadminIndexRoute: AzeemadminIndexRoute,
+}
+
+const AzeemadminRouteRouteWithChildren = AzeemadminRouteRoute._addFileChildren(
+  AzeemadminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AzeemadminRouteRoute: AzeemadminRouteRoute,
+  AzeemadminRouteRoute: AzeemadminRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
