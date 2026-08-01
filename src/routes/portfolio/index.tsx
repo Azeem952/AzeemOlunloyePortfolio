@@ -2,7 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { categories, projects } from "@/data/projects";
+import { categories } from "@/data/projects";
+import { listPublicProjects } from "@/lib/content.functions";
+import type { CmsProject } from "@/lib/cms-types";
 
 export const Route = createFileRoute("/portfolio/")({
   head: () => ({
@@ -21,18 +23,27 @@ export const Route = createFileRoute("/portfolio/")({
       },
     ],
   }),
+  loader: () => listPublicProjects(),
+  errorComponent: () => (
+    <div className="container-page py-32 text-center">
+      <p className="text-muted-foreground">Portfolio could not be loaded. Please refresh.</p>
+    </div>
+  ),
   component: Portfolio,
 });
 
 function Portfolio() {
+  const projects = Route.useLoaderData() as CmsProject[];
   const [cat, setCat] = useState("All");
   const [q, setQ] = useState("");
 
   const activeCats = useMemo(() => {
     const s = new Set<string>(["All"]);
     projects.forEach((p) => p.categories.forEach((c) => s.add(c)));
-    return categories.filter((c) => s.has(c));
-  }, []);
+    const known = categories.filter((c) => s.has(c));
+    const extra = [...s].filter((c) => !categories.includes(c));
+    return [...known, ...extra];
+  }, [projects]);
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
