@@ -131,11 +131,31 @@ export const submitContact = createServerFn({ method: "POST" })
       console.error("contact email dispatch failed", err);
     }
 
-
-    await supabaseAdmin
-      .from("contact_submissions")
-      .update({ email_status: emailed ? "sent" : "stored_only" })
-      .eq("id", row.id);
+    // 3) Host-agnostic fallback: POST to a webhook (e.g. an n8n flow that
+    //    emails you). Set CONTACT_WEBHOOK_URL wherever the app is deployed.
+    try {
+      const hook = process.env.CONTACT_WEBHOOK_URL;
+      if (!emailed && hook) {
+        const res = await fetch(hook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            to: NOTIFY_TO,
+            subject,
+            name: data.name,
+            email: data.email,
+            message: data.message,
+            submittedAt,
+            id: row.id,
+          }),
+        });
+        emailed = res.ok;
+        if (!res.ok) console.error(`contact webhook failed [${res.status}]`);
+      }
+    } catch (err) {
+      console.error("contact webhook dispatch failed", err);
+    }
 
     return { ok: true as const, id: row.id, emailed, submittedAt };
   });
+
