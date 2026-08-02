@@ -2,11 +2,12 @@ import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import type { CmsProject } from "./cms-types";
 import { toClientProject } from "./cms-map";
+import { supabaseEnv } from "./supabase-env";
 
 /** Publishable-key client for public reads (RLS applies as anon). */
 export function publicClient() {
-  const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
-  return createClient<Database>(process.env["SUPABASE_URL"]!, key, {
+  const { url, key } = supabaseEnv();
+  return createClient<Database>(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: {
       fetch: (input, init) => {
@@ -20,6 +21,7 @@ export function publicClient() {
     },
   });
 }
+
 
 export const toProject = toClientProject;
 
