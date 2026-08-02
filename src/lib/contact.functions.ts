@@ -17,9 +17,12 @@ export const submitContact = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const submittedAt = new Date().toISOString();
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // Publishable-key client + anon insert policy: works on every host,
+    // no service-role secret required.
+    const { publicClient } = await import("./cms.server");
+    const db = publicClient();
 
-    const { data: row, error } = await supabaseAdmin
+    const { data: row, error } = await db
       .from("contact_submissions")
       .insert({
         name: data.name,
@@ -35,6 +38,7 @@ export const submitContact = createServerFn({ method: "POST" })
       console.error("contact insert failed", error);
       throw new Error("Your message could not be saved. Please try WhatsApp or email.");
     }
+
 
     const subject = data.subject
       ? `Portfolio enquiry — ${data.subject}`
