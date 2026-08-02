@@ -22,22 +22,24 @@ export const submitContact = createServerFn({ method: "POST" })
     const { publicClient } = await import("./cms.server");
     const db = publicClient();
 
-    const { data: row, error } = await db
-      .from("contact_submissions")
-      .insert({
-        name: data.name,
-        email: data.email,
-        subject: data.subject || null,
-        message: data.message,
-        source: "contact-page",
-      })
-      .select("id")
-      .single();
+    // The id is generated here: anonymous visitors may insert but never read
+    // submissions back, so `.select()` after insert is not permitted.
+    const row = { id: crypto.randomUUID() };
+
+    const { error } = await db.from("contact_submissions").insert({
+      id: row.id,
+      name: data.name,
+      email: data.email,
+      subject: data.subject || null,
+      message: data.message,
+      source: "contact-page",
+    });
 
     if (error) {
       console.error("contact insert failed", error);
       throw new Error("Your message could not be saved. Please try WhatsApp or email.");
     }
+
 
 
     const subject = data.subject
