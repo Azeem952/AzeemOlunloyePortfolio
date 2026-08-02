@@ -1,0 +1,1 @@
+DELETE FROM public.contact_submissions WHERE email IN ('qa@example.com','c@e.com','test@example.com');
