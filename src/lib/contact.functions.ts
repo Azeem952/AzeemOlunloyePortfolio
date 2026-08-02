@@ -37,8 +37,9 @@ export const submitContact = createServerFn({ method: "POST" })
 
     if (error) {
       console.error("contact insert failed", error);
-      throw new Error("Your message could not be saved. Please try WhatsApp or email.");
+      throw new Error(`DEBUG insert: ${error.message} | ${error.code} | ${error.details}`);
     }
+
 
 
 
