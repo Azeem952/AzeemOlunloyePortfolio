@@ -12,12 +12,15 @@ export const Route = createFileRoute("/api/public/media/$")({
           return new Response("Not found", { status: 404 });
         }
 
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { data, error } = await supabaseAdmin.storage.from("media").download(path);
+        // Publishable-key client (anon read policy on the `media` bucket) so
+        // this works on any host without a service-role secret.
+        const { publicClient } = await import("@/lib/cms.server");
+        const { data, error } = await publicClient().storage.from("media").download(path);
 
         if (error || !data) {
           return new Response("Not found", { status: 404 });
         }
+
 
         const body = await data.arrayBuffer();
         const total = body.byteLength;
