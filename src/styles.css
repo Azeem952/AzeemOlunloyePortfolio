@@ -109,13 +109,30 @@
 
 @utility container-page {
   width: 100%;
-  max-width: 1240px;
+  max-width: 1280px;
   margin-inline: auto;
   padding-inline: 1.25rem;
 }
 @media (min-width: 768px) {
   .container-page { padding-inline: 2rem; }
 }
+
+@utility section-y {
+  padding-block: 72px;
+}
+@media (min-width: 768px) {
+  .section-y { padding-block: 120px; }
+}
+
+@utility hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+@utility bg-gradient-ink {
+  background-image: var(--gradient-ink);
+}
+
+@utility shadow-green { box-shadow: var(--shadow-green); }
 
 @utility text-gradient {
   background-image: var(--gradient-accent);
@@ -130,8 +147,7 @@
 @utility shadow-card { box-shadow: var(--shadow-card); }
 @utility shadow-lift { box-shadow: var(--shadow-lift); }
 
-@utility grid-bg {
-  background-image:
+
     linear-gradient(to right, var(--color-hairline) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-hairline) 1px, transparent 1px);
   background-size: 56px 56px;
