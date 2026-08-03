@@ -2,6 +2,8 @@
 // (/api/public/media/*) so URLs resolve on any host, including Vercel.
 export const media = {
   portrait: "/api/public/media/portrait.jpg",
+  portraitHero: "/api/public/media/portrait-hero.png",
+
 
   crmWebhook: "/api/public/media/crm-webhook.png",
   crmContacts: "/api/public/media/crm-contacts.png",
