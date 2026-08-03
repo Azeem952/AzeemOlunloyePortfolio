@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --color-background: var(--background);
@@ -31,41 +31,44 @@
   --color-popover-foreground: var(--foreground);
   --color-secondary: var(--subtle);
   --color-secondary-foreground: var(--foreground);
-  --color-destructive: oklch(0.55 0.2 27);
-  --color-destructive-foreground: oklch(0.99 0 0);
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
   --color-input: var(--border);
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
 }
 
 :root {
-  --background: oklch(0.995 0.002 250);
-  --foreground: oklch(0.19 0.03 258);
-  --surface: oklch(1 0 0);
-  --muted: oklch(0.968 0.008 250);
-  --muted-foreground: oklch(0.48 0.02 258);
-  --subtle: oklch(0.945 0.012 250);
-  --border: oklch(0.9 0.012 255);
-  --hairline: oklch(0.9 0.012 255 / 0.7);
+  --background: #ffffff;
+  --foreground: #111111;
+  --surface: #ffffff;
+  --muted: #f7f8f9;
+  --muted-foreground: #5b5b5b;
+  --subtle: #f4f5f6;
+  --border: #ececec;
+  --hairline: #ececec;
 
-  --ink: oklch(0.18 0.035 258);
-  --ink-foreground: oklch(0.98 0.005 250);
+  --ink: #08131f;
+  --ink-foreground: #ffffff;
 
-  --accent: oklch(0.55 0.21 258);
-  --accent-foreground: oklch(0.99 0 0);
-  --accent-2: oklch(0.75 0.14 205);
+  --accent: #22c55e;
+  --accent-foreground: #ffffff;
+  --accent-2: #16a34a;
 
-  --ring: oklch(0.55 0.21 258);
+  --ring: #22c55e;
 
-  --gradient-accent: linear-gradient(120deg, var(--accent), var(--accent-2));
-  --shadow-card: 0 1px 2px oklch(0.2 0.04 258 / 0.04),
-    0 12px 32px -12px oklch(0.2 0.04 258 / 0.14);
-  --shadow-lift: 0 2px 6px oklch(0.2 0.04 258 / 0.06),
-    0 28px 60px -20px oklch(0.35 0.14 258 / 0.28);
+  --gradient-accent: linear-gradient(120deg, #22c55e, #16a34a);
+  --gradient-ink: linear-gradient(135deg, #08131f 0%, #0e1d2f 100%);
+  --shadow-card: 0 1px 2px rgba(17, 17, 17, 0.04),
+    0 12px 32px -16px rgba(17, 17, 17, 0.12);
+  --shadow-lift: 0 2px 6px rgba(17, 17, 17, 0.05),
+    0 24px 50px -22px rgba(17, 17, 17, 0.22);
+  --shadow-green: 0 10px 30px rgba(34, 197, 94, 0.2);
 }
+
 
 @layer base {
   * {
