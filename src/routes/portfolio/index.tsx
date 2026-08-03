@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { Reveal } from "@/components/reveal";
+import { CtaBand, Eyebrow, StatBlock, TechLogo } from "@/components/ui-kit";
 import { categories } from "@/data/projects";
 import { listPublicProjects } from "@/lib/content.functions";
 import type { CmsProject } from "@/lib/cms-types";
@@ -9,13 +11,13 @@ import type { CmsProject } from "@/lib/cms-types";
 export const Route = createFileRoute("/portfolio/")({
   head: () => ({
     meta: [
-      { title: "Portfolio — Azeem Olunloye" },
+      { title: "Work — AI Automation Case Studies | Azeem Olunloye" },
       {
         name: "description",
         content:
-          "Selected AI automation projects — CRM sequences, agentic bookers, and document intake systems shipped to production.",
+          "Selected AI automation projects — CRM sequences, agentic bookers, OCR intake and lead generation systems shipped to production.",
       },
-      { property: "og:title", content: "Portfolio — Azeem Olunloye" },
+      { property: "og:title", content: "Work — Azeem Olunloye" },
       {
         property: "og:description",
         content:
@@ -63,27 +65,40 @@ function Portfolio() {
     <div className="min-h-dvh">
       <Nav />
       <main>
-        <section className="container-page pt-16 pb-12 md:pt-28">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Portfolio · {projects.length} projects
-          </p>
-          <h1 className="mt-4 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-8xl">
-            Systems shipped.<br />
-            <span className="text-muted-foreground">Not slideware.</span>
-          </h1>
+        <section className="container-page pt-14 pb-10 text-center md:pt-24">
+          <Reveal>
+            <Eyebrow>Selected work</Eyebrow>
+            <h1 className="mx-auto mt-6 max-w-4xl font-display text-[40px] font-extrabold leading-[1.06] tracking-[-0.02em] text-balance md:text-[64px] md:leading-[72px]">
+              Automation systems shipped to production
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-[18px] leading-[1.7] text-muted-foreground">
+              Real builds with real screenshots, workflows and demo recordings —
+              each one running for a business, not a portfolio.
+            </p>
+          </Reveal>
         </section>
 
-        <section className="container-page hairline-t hairline-b sticky top-16 z-30 flex flex-col gap-4 bg-background/85 py-4 backdrop-blur-md md:flex-row md:items-center md:justify-between">
+        <section className="container-page pb-4">
+          <Reveal>
+            <div className="grid gap-8 rounded-2xl border bg-muted px-8 py-10 sm:grid-cols-3">
+              <StatBlock value={`${projects.length}`} label="Case studies" />
+              <StatBlock value="20+" label="Tools integrated" />
+              <StatBlock value="2+" label="Years shipping" />
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="container-page sticky top-[72px] z-30 flex flex-col gap-4 bg-background/90 py-5 backdrop-blur-md md:top-[88px] md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2">
             {activeCats.map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => setCat(c)}
-                className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${
+                className={`rounded-xl border px-4 py-2 text-sm font-bold transition-colors ${
                   cat === c
-                    ? "border-foreground bg-foreground text-background"
-                    : "hover:bg-subtle"
+                    ? "border-accent bg-accent text-accent-foreground shadow-green"
+                    : "hover:border-foreground"
                 }`}
               >
                 {c}
@@ -97,70 +112,93 @@ function Portfolio() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search projects, tools…"
-              className="h-9 w-full rounded-full border bg-transparent px-4 pr-9 text-sm outline-none focus:border-foreground"
+              className="h-11 w-full rounded-xl border bg-background px-4 pr-9 text-sm outline-none focus:border-accent"
             />
             <span aria-hidden className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">⌕</span>
           </label>
         </section>
 
-        <section className="container-page py-16 md:py-20">
+        <section className="container-page pb-20 pt-8 md:pb-28">
           {filtered.length === 0 ? (
             <p className="py-24 text-center text-muted-foreground">
               No projects match that filter.
             </p>
           ) : (
-            <div className="grid gap-16 md:gap-24">
-              {filtered.map((p, i) => {
-                const alt = i % 2 === 1;
-                return (
+            <div className="grid gap-8 md:grid-cols-2">
+              {filtered.map((p, i) => (
+                <Reveal key={p.slug} delay={(i % 2) * 70}>
                   <Link
-                    key={p.slug}
                     to="/portfolio/$slug"
                     params={{ slug: p.slug }}
-                    className="group grid gap-8 md:grid-cols-12 md:items-center"
+                    className="card-lift group flex h-full flex-col overflow-hidden rounded-2xl border bg-surface"
                   >
-                    <div
-                      className={`overflow-hidden rounded-lg bg-subtle md:col-span-8 ${
-                        alt ? "md:order-2 md:col-start-5" : ""
-                      }`}
-                    >
-                      <img
-                        src={p.gallery[0]?.src ?? p.cover}
-                        alt={p.title}
-                        loading="lazy"
-                        className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                      />
+                    <div className="relative aspect-[16/10] overflow-hidden bg-subtle">
+                      {p.video ? (
+                        <video
+                          src={p.video}
+                          muted
+                          loop
+                          playsInline
+                          preload="metadata"
+                          poster={p.gallery[0]?.src ?? p.cover}
+                          onMouseEnter={(e) => void e.currentTarget.play()}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.pause();
+                            e.currentTarget.currentTime = 0;
+                          }}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          src={p.gallery[0]?.src ?? p.cover}
+                          alt={p.title}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                        />
+                      )}
+                      {p.video && (
+                        <span className="pointer-events-none absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-ink/85 px-3 py-1.5 text-xs font-bold text-ink-foreground">
+                          ▶ Demo video
+                        </span>
+                      )}
                     </div>
-                    <div className={`md:col-span-4 ${alt ? "md:order-1" : ""}`}>
-                      <p className="font-mono text-xs text-muted-foreground">
-                        {String(i + 1).padStart(2, "0")} · {p.category}
-                      </p>
-                      <h2 className="mt-3 font-display text-3xl leading-tight md:text-4xl">
-                        {p.title}
-                      </h2>
-                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                        {p.tagline}
-                      </p>
-                      <div className="mt-5 flex flex-wrap gap-1.5">
-                        {p.tools.slice(0, 4).map((t) => (
+                    <div className="flex flex-1 flex-col p-7">
+                      <div className="flex flex-wrap gap-2">
+                        {p.categories.slice(0, 2).map((c) => (
                           <span
-                            key={t}
-                            className="rounded-full border px-2.5 py-1 text-xs text-muted-foreground"
+                            key={c}
+                            className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent-2"
                           >
-                            {t}
+                            {c}
                           </span>
                         ))}
                       </div>
-                      <span className="mt-6 inline-block text-sm underline underline-offset-4 transition-transform group-hover:translate-x-1">
+                      <h2 className="mt-4 font-display text-2xl font-extrabold tracking-tight">
+                        {p.title}
+                      </h2>
+                      <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                        {p.tagline}
+                      </p>
+                      <div className="mt-6 flex flex-wrap gap-4">
+                        {p.tools.slice(0, 5).map((t) => (
+                          <TechLogo key={t} name={t} size={22} showName={false} />
+                        ))}
+                      </div>
+                      <span className="mt-auto pt-7 text-[15px] font-bold text-accent transition-transform duration-300 group-hover:translate-x-1">
                         Read case study →
                       </span>
                     </div>
                   </Link>
-                );
-              })}
+                </Reveal>
+              ))}
             </div>
           )}
         </section>
+
+        <CtaBand
+          title="Your workflow could be the next case study"
+          body="Send a one-paragraph brief and I'll tell you how I'd automate it."
+        />
       </main>
       <Footer />
     </div>
