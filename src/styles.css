@@ -147,7 +147,8 @@
 @utility shadow-card { box-shadow: var(--shadow-card); }
 @utility shadow-lift { box-shadow: var(--shadow-lift); }
 
-
+@utility grid-bg {
+  background-image:
     linear-gradient(to right, var(--color-hairline) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-hairline) 1px, transparent 1px);
   background-size: 56px 56px;
