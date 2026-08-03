@@ -1,176 +1,193 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { Reveal } from "@/components/reveal";
+import {
+  CtaBand,
+  Eyebrow,
+  HexPortrait,
+  StatBlock,
+  TechLogo,
+} from "@/components/ui-kit";
+import { media } from "@/data/media";
+import { stack } from "@/data/services";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Azeem Olunloye" },
+      { title: "About — Azeem Olunloye, AI Automation Engineer" },
       {
         name: "description",
         content:
-          "Two years in, focused on shipping AI automation systems that businesses actually rely on. Here's how I work and what I care about.",
+          "The journey, skills and tools behind 2+ years of building AI agents, CRM automations and document pipelines that run in production.",
       },
       { property: "og:title", content: "About — Azeem Olunloye" },
       {
         property: "og:description",
         content:
-          "Two years in, focused on shipping AI automation systems that businesses actually rely on.",
+          "From manual operations to autonomous systems — how I build AI automation that businesses actually keep running.",
       },
     ],
   }),
   component: About,
 });
 
+const timeline = [
+  {
+    year: "2023",
+    title: "First automations",
+    detail:
+      "Started replacing spreadsheet-and-copy-paste operations with scripted workflows, learning where automation breaks in the real world.",
+  },
+  {
+    year: "2024",
+    title: "Going all-in on n8n and LLMs",
+    detail:
+      "Moved from scripts to orchestrated workflows: webhooks, retries, and LLM steps for classification, extraction and drafting.",
+  },
+  {
+    year: "2025",
+    title: "Production AI agents",
+    detail:
+      "Shipped WhatsApp and web agents that qualify, book and file — with reply detection, confidence checks and human handoff.",
+  },
+  {
+    year: "2026",
+    title: "End-to-end automation systems",
+    detail:
+      "Full systems for CRM, document intake, lead generation and reporting — designed, built, documented and handed over.",
+  },
+];
+
+const skills = [
+  { name: "Workflow orchestration", level: "n8n, Make, Zapier" },
+  { name: "LLM engineering", level: "Prompting, JSON schemas, evaluation" },
+  { name: "API & webhook integration", level: "REST, auth, retries, queues" },
+  { name: "CRM systems", level: "HubSpot, Salesforce, Airtable" },
+  { name: "Data & OCR pipelines", level: "Vision models, validation, filing" },
+  { name: "Conversational agents", level: "WhatsApp, Telegram, web chat" },
+];
+
 function About() {
   return (
     <div className="min-h-dvh">
       <Nav />
       <main>
-        <section className="container-page pt-16 pb-16 md:pt-28">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">About</p>
-          <h1 className="mt-4 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-8xl">
-            Engineering the boring<br />
-            <span className="text-muted-foreground">out of good businesses.</span>
-          </h1>
+        <section className="container-page grid items-center gap-14 pt-14 pb-16 md:grid-cols-[1.1fr_0.9fr] md:pt-24 md:pb-24">
+          <div>
+            <Reveal>
+              <Eyebrow>About me</Eyebrow>
+              <h1 className="mt-6 font-display text-[40px] font-extrabold leading-[1.06] tracking-[-0.02em] text-balance md:text-[64px] md:leading-[72px]">
+                I turn manual operations into systems that run themselves
+              </h1>
+              <p className="mt-6 max-w-xl text-[18px] leading-[1.7] text-muted-foreground">
+                I'm Azeem Olunloye, an AI Automation Engineer. For 2+ years I've
+                been building the unglamorous infrastructure behind growing
+                teams: the follow-ups that always go out, the receipts that file
+                themselves, the enquiries answered at 2am.
+              </p>
+              <p className="mt-4 max-w-xl text-[18px] leading-[1.7] text-muted-foreground">
+                My work sits between operations and engineering — mapping how a
+                business actually runs, then rebuilding the repetitive parts as
+                dependable automation with monitoring and clear handover.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal delay={120}>
+            <HexPortrait
+              src={media.portraitHero}
+              alt="Portrait of Azeem Olunloye"
+            />
+          </Reveal>
         </section>
 
-        <section className="container-page grid gap-16 pb-24 md:grid-cols-[2fr_1fr] md:pb-32">
-          <div className="space-y-6 text-lg leading-relaxed text-foreground/90">
-            <p>
-              I'm Azeem Olunloye — an AI automation engineer with two years
-              designing and shipping production systems that quietly replace
-              repetitive human work.
-            </p>
-            <p className="text-muted-foreground">
-              My path into automation started with a simple frustration:
-              watching operators, sales teams and back-office staff spend hours
-              a day on work that had no business being manual. Every "just this
-              one spreadsheet" was really a workflow waiting to be built.
-            </p>
-            <p className="text-muted-foreground">
-              I moved from tinkering with Zapier and Make into serious n8n
-              engineering, then folded in LLMs — first as summarisers, then as
-              agents with real tools and guardrails. Today I build end-to-end:
-              triggers, integrations, prompts, validators, retries, dashboards,
-              and the runbook that keeps it alive at 3am.
-            </p>
-            <p className="text-muted-foreground">
-              The systems I care about share a shape. They're observable.
-              They fail loudly. They stop when they should. They're kind to the
-              humans on the other end. And they hold up under the awkward
-              edge cases nobody wrote a ticket for.
-            </p>
-            <p>
-              If your business is drowning in a workflow that could belong to
-              software — I'd like to talk.
-            </p>
+        <section className="hairline-t hairline-b bg-muted">
+          <div className="container-page py-14">
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+              <StatBlock value="2+" label="Years of experience" />
+              <StatBlock value="15+" label="Automations in production" />
+              <StatBlock value="20+" label="Platforms integrated" />
+              <StatBlock value="100%" label="Remote, working globally" />
+            </div>
           </div>
+        </section>
 
-          <aside className="space-y-8 md:sticky md:top-24 md:self-start">
-            <div className="hairline-b pb-6">
-              <p className="text-xs uppercase tracking-widest text-muted-foreground">Focus</p>
-              <p className="mt-2">AI Automation Engineering</p>
-            </div>
-            <div className="hairline-b pb-6">
-              <p className="text-xs uppercase tracking-widest text-muted-foreground">Experience</p>
-              <p className="mt-2">2+ years shipping production workflows</p>
-            </div>
-            <div className="hairline-b pb-6">
-              <p className="text-xs uppercase tracking-widest text-muted-foreground">Working with</p>
-              <p className="mt-2">Startups, SMBs, agencies, operations teams</p>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-widest text-muted-foreground">Elsewhere</p>
-              <ul className="mt-2 space-y-1">
-                <li>
-                  <a
-                    href="https://www.linkedin.com/in/azeem-olunloye-42177141b"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline underline-offset-4"
-                  >
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://wa.me/2348138602053"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline underline-offset-4"
-                  >
-                    WhatsApp
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </aside>
+        <section className="container-page section-y">
+          <Reveal>
+            <Eyebrow>My journey</Eyebrow>
+            <h2 className="mt-6 max-w-3xl font-display text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] text-balance md:text-[44px]">
+              From scripts to autonomous systems
+            </h2>
+          </Reveal>
+          <div className="mt-12 grid gap-0 md:grid-cols-2">
+            {timeline.map((t, i) => (
+              <Reveal key={t.year} delay={i * 70}>
+                <div className="relative h-full border-l pl-8 pb-10">
+                  <span className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-background bg-accent" />
+                  <p className="text-sm font-extrabold text-accent">{t.year}</p>
+                  <h3 className="mt-2 font-display text-xl font-extrabold tracking-tight">
+                    {t.title}
+                  </h3>
+                  <p className="mt-3 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+                    {t.detail}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </section>
 
         <section className="hairline-t bg-muted">
-          <div className="container-page py-24 md:py-32">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">Principles</p>
-            <h2 className="mt-3 max-w-3xl font-display text-4xl leading-tight md:text-6xl">
-              How I build.
-            </h2>
-            <div className="mt-16 grid gap-px bg-border md:grid-cols-3">
-              {[
-                {
-                  t: "Reliability before cleverness",
-                  d: "A modest workflow that runs forever beats a brilliant one that flakes on Tuesdays.",
-                },
-                {
-                  t: "Humans in the loop, on purpose",
-                  d: "Automation should escalate, not hide. Every system I ship knows when to ping a person.",
-                },
-                {
-                  t: "Observable by default",
-                  d: "Logs, retries and clear failure modes. If it breaks, you'll know before your customer does.",
-                },
-                {
-                  t: "Kind interfaces",
-                  d: "Whether the user is a customer on WhatsApp or a sales rep in HubSpot — the interaction should feel considered.",
-                },
-                {
-                  t: "Cost-aware AI",
-                  d: "Right model for the job. Not every step needs a frontier model; most steps don't need one at all.",
-                },
-                {
-                  t: "Ship, then harden",
-                  d: "Get value flowing in week one; spend the rest of the engagement making it bulletproof.",
-                },
-              ].map((p) => (
-                <div key={p.t} className="bg-background p-8">
-                  <p className="text-lg font-medium">{p.t}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
-                </div>
+          <div className="container-page section-y">
+            <Reveal>
+              <Eyebrow>Skills</Eyebrow>
+              <h2 className="mt-6 max-w-3xl font-display text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] text-balance md:text-[44px]">
+                What I'm good at
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {skills.map((s, i) => (
+                <Reveal key={s.name} delay={i * 60}>
+                  <div className="card-lift h-full rounded-2xl border bg-surface p-7">
+                    <h3 className="font-display text-lg font-extrabold tracking-tight">
+                      {s.name}
+                    </h3>
+                    <p className="mt-2 text-[15px] text-muted-foreground">
+                      {s.level}
+                    </p>
+                  </div>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="container-page py-24 md:py-32">
-          <div className="grid gap-8 md:grid-cols-[2fr_1fr] md:items-end">
-            <h2 className="font-display text-4xl leading-tight text-balance md:text-6xl">
-              The best briefs start<br />with a real problem.
-            </h2>
-            <div className="flex flex-col gap-3">
-              <Link
-                to="/contact"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-foreground px-6 text-sm font-medium text-background"
-              >
-                Tell me yours
-              </Link>
-              <Link
-                to="/portfolio"
-                className="inline-flex h-12 items-center justify-center rounded-full border px-6 text-sm font-medium"
-              >
-                See the work
-              </Link>
+        <section className="container-page section-y">
+          <Reveal>
+            <div className="text-center">
+              <Eyebrow>Tools I use</Eyebrow>
+              <h2 className="mx-auto mt-6 max-w-2xl font-display text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] text-balance md:text-[44px]">
+                The stack behind the systems
+              </h2>
             </div>
-          </div>
+            <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+              {stack.map((t) => (
+                <div
+                  key={t}
+                  className="flex flex-col items-center gap-3 rounded-2xl border bg-surface px-4 py-6 text-center"
+                >
+                  <TechLogo name={t} size={32} showName={false} />
+                  <span className="text-sm font-semibold">{t}</span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </section>
+
+        <CtaBand
+          title="Let's build something that runs without you"
+          body="If a process in your business happens the same way every week, it probably shouldn't need a person."
+        />
       </main>
       <Footer />
     </div>

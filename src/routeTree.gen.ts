@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AzeemadminRouteRouteImport } from './routes/azeemadmin/route'
@@ -25,6 +26,11 @@ import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/med
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/azeemadmin': typeof AzeemadminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/azeemadmin/media': typeof AzeemadminMediaRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/azeemadmin/media': typeof AzeemadminMediaRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/azeemadmin': typeof AzeemadminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/azeemadmin/media': typeof AzeemadminMediaRoute
   '/portfolio/$slug': typeof PortfolioSlugRoute
@@ -132,6 +141,7 @@ export interface FileRouteTypes {
     | '/azeemadmin'
     | '/about'
     | '/contact'
+    | '/services'
     | '/sitemap.xml'
     | '/azeemadmin/media'
     | '/portfolio/$slug'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/services'
     | '/sitemap.xml'
     | '/azeemadmin/media'
     | '/portfolio/$slug'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '/azeemadmin'
     | '/about'
     | '/contact'
+    | '/services'
     | '/sitemap.xml'
     | '/azeemadmin/media'
     | '/portfolio/$slug'
@@ -174,6 +186,7 @@ export interface RootRouteChildren {
   AzeemadminRouteRoute: typeof AzeemadminRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   PortfolioSlugRoute: typeof PortfolioSlugRoute
   PortfolioIndexRoute: typeof PortfolioIndexRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -292,6 +312,7 @@ const rootRouteChildren: RootRouteChildren = {
   AzeemadminRouteRoute: AzeemadminRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   PortfolioSlugRoute: PortfolioSlugRoute,
   PortfolioIndexRoute: PortfolioIndexRoute,

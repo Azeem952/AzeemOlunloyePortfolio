@@ -2,9 +2,19 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
-import { Counter } from "@/components/counter";
-import { technologies } from "@/data/projects";
+import {
+  CtaBand,
+  Eyebrow,
+  GhostLink,
+  HexPortrait,
+  PrimaryLink,
+  StatBlock,
+  TechLogo,
+} from "@/components/ui-kit";
 import { media } from "@/data/media";
+import { services, stack } from "@/data/services";
+import { listPublicProjects } from "@/lib/content.functions";
+import type { CmsProject } from "@/lib/cms-types";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -13,348 +23,195 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Azeem Olunloye designs and ships production AI automation systems — AI agents, CRM sequences, voice ops and integrations that quietly do the work.",
+          "I build AI agents, CRM sequences and workflow automations that remove manual work. 2+ years shipping production automation systems for growing teams.",
       },
       { property: "og:title", content: "Azeem Olunloye — AI Automation Engineer" },
       {
         property: "og:description",
         content:
-          "Azeem Olunloye designs and ships production AI automation systems — AI agents, CRM sequences, voice ops and integrations that quietly do the work.",
+          "AI agents, CRM automation and integrations that quietly do the work. See the systems I've shipped.",
       },
     ],
   }),
-  component: Home,
+  loader: () => listPublicProjects(),
+  errorComponent: () => <HomeShell projects={[]} />,
+  component: () => <HomeShell projects={Route.useLoaderData() as CmsProject[]} />,
 });
 
-const services = [
-  {
-    n: "01",
-    t: "AI Agents",
-    d: "Agents with memory, tools and guardrails that complete real tasks — booking, triage, intake — instead of chatting about them.",
-  },
-  {
-    n: "02",
-    t: "CRM & Lifecycle Automation",
-    d: "HubSpot pipelines and follow-up sequences that personalise every touch and stop the moment a lead replies.",
-  },
-  {
-    n: "03",
-    t: "Document & Voice Intake",
-    d: "Vision OCR and voice agents that turn photos, PDFs and phone calls into validated, structured records.",
-  },
-  {
-    n: "04",
-    t: "Systems Integration",
-    d: "n8n, webhooks and REST glued together with retries, dedupe and audit logs so it survives the 3am edge case.",
-  },
-];
+function HomeShell({ projects }: { projects: CmsProject[] }) {
+  const featured = projects.slice(0, 4);
 
-const process = [
-  ["Discover", "One call. I map the current workflow, the failure points, and the value of removing them."],
-  ["Design", "A tight architecture doc — triggers, tools, models, guardrails, cost profile."],
-  ["Build", "I ship end-to-end. Real integrations, real data, no demos-only vaporware."],
-  ["Handover", "Docs, dashboards, and the how-to-run-it-forever runbook."],
-];
-
-function Home() {
   return (
     <div className="min-h-dvh">
       <Nav />
       <main>
-        {/* ── Hero ─────────────────────────────────────────────── */}
-        <section className="relative overflow-hidden">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 grid-bg opacity-[0.55]"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full opacity-20 blur-3xl bg-gradient-accent"
-          />
-
-          <div className="container-page relative grid gap-14 pt-14 pb-20 md:grid-cols-[1.15fr_0.85fr] md:items-center md:gap-16 md:pt-24 md:pb-28">
-            <div>
-              <p className="reveal inline-flex items-center gap-2.5 rounded-full border bg-surface/70 px-3.5 py-1.5 text-xs font-medium tracking-wide text-muted-foreground backdrop-blur">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-                </span>
-                Open for new projects — remote, worldwide
-              </p>
-
-              <h1 className="reveal mt-7 font-display text-[2.75rem] leading-[1.02] tracking-tight text-balance sm:text-6xl lg:text-7xl">
-                I build AI systems that{" "}
-                <span className="text-gradient">run the work</span> nobody
-                should still be doing by hand.
+        {/* Hero */}
+        <section className="container-page grid items-center gap-14 pt-14 pb-16 md:grid-cols-[1.15fr_0.85fr] md:pt-24 md:pb-28">
+          <div>
+            <Reveal>
+              <Eyebrow>Available for new projects</Eyebrow>
+            </Reveal>
+            <Reveal delay={80}>
+              <h1 className="mt-6 font-display text-[40px] font-extrabold leading-[1.06] tracking-[-0.02em] text-balance sm:text-[52px] md:text-[64px] md:leading-[72px]">
+                I build AI automations that do the work your team keeps redoing.
               </h1>
-
-              <p className="reveal mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
-                I'm Azeem Olunloye — an AI Automation Engineer. For two years
-                I've shipped production workflow systems for CRM follow-up,
-                document intake, voice operations and inbox triage. Reliable,
-                observable, and built to keep running after I hand them over.
+            </Reveal>
+            <Reveal delay={140}>
+              <p className="mt-6 max-w-xl text-[18px] leading-[1.7] text-muted-foreground">
+                AI Automation Engineer with 2+ years designing agents, CRM
+                sequences, document pipelines and integrations that run in
+                production — reliably, and without supervision.
               </p>
-
-              <div className="reveal mt-9 flex flex-wrap gap-3">
-                <Link
-                  to="/portfolio"
-                  className="group inline-flex h-12 items-center gap-2 rounded-full bg-ink px-7 text-sm font-semibold text-ink-foreground transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift"
-                >
-                  Explore my work
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                  </span>
-                </Link>
-                <Link
-                  to="/contact"
-                  className="inline-flex h-12 items-center rounded-full border bg-surface px-7 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:text-accent"
-                >
-                  Start a project
-                </Link>
+            </Reveal>
+            <Reveal delay={200}>
+              <div className="mt-9 flex flex-wrap gap-4">
+                <PrimaryLink to="/contact">Start a project →</PrimaryLink>
+                <GhostLink to="/portfolio">View my work</GhostLink>
               </div>
-
-              <dl className="reveal mt-12 grid max-w-lg grid-cols-3 gap-6 border-t pt-7">
-                {[
-                  { v: 2, suffix: "+ yrs", l: "Building automation" },
-                  { v: 15, suffix: "+", l: "Workflows in production" },
-                  { v: 24, suffix: "/7", l: "Systems always on" },
-                ].map((s) => (
-                  <div key={s.l}>
-                    <dt className="font-display text-3xl tracking-tight md:text-4xl">
-                      <Counter value={s.v} suffix={s.suffix} />
-                    </dt>
-                    <dd className="mt-1.5 text-xs leading-snug text-muted-foreground">
-                      {s.l}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
-            {/* Portrait — framed, layered composition */}
-            <div className="reveal relative mx-auto w-full max-w-sm md:max-w-none">
-              <div
-                aria-hidden
-                className="absolute -inset-3 rounded-[28px] bg-gradient-accent opacity-15 blur-2xl"
-              />
-              <div className="relative overflow-hidden rounded-[24px] border bg-subtle shadow-lift">
-                <img
-                  src={media.portrait}
-                  alt="Portrait of Azeem Olunloye, AI Automation Engineer"
-                  width={976}
-                  height={1020}
-                  fetchPriority="high"
-                  className="aspect-[4/5] w-full object-cover object-top"
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink/80 to-transparent"
-                />
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <p className="font-display text-lg text-ink-foreground">
-                    Azeem Olunloye
-                  </p>
-                  <p className="text-xs text-ink-foreground/70">
-                    AI Automation Engineer · Lagos, working globally
-                  </p>
-                </div>
+            </Reveal>
+            <Reveal delay={260}>
+              <div className="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t pt-8">
+                <StatBlock value="2+" label="Years building automations" />
+                <StatBlock value="15+" label="Workflows in production" />
+                <StatBlock value="20+" label="Tools integrated" />
               </div>
-
-              <div className="float-soft absolute -left-4 bottom-16 hidden rounded-xl border bg-surface/90 px-4 py-3 shadow-card backdrop-blur md:block">
-                <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  Live workflows
-                </p>
-                <p className="mt-0.5 font-display text-xl">
-                  <Counter value={15} suffix="+" />
-                </p>
-              </div>
-            </div>
+            </Reveal>
           </div>
+          <Reveal delay={120}>
+            <HexPortrait
+              src={media.portraitHero}
+              alt="Azeem Olunloye, AI Automation Engineer"
+            />
+          </Reveal>
         </section>
 
-        {/* ── Trusted technologies ─────────────────────────────── */}
-        <section className="hairline-t overflow-hidden bg-muted/60" aria-label="Technologies">
-          <div className="container-page pt-12 pb-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              The stack I ship with
+        {/* Trusted tools */}
+        <section className="hairline-t hairline-b bg-muted">
+          <div className="container-page py-12">
+            <p className="text-center text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">
+              Platforms I build on every week
             </p>
-          </div>
-          <div className="relative border-y bg-surface">
-            <div className="flex w-max marquee py-5">
-              {[...technologies, ...technologies].map((t, i) => (
-                <span
-                  key={i}
-                  className="mx-6 whitespace-nowrap font-display text-2xl text-muted-foreground md:text-4xl"
-                >
-                  {t}
-                  <span className="mx-5 text-accent">·</span>
-                </span>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+              {stack.slice(0, 10).map((t) => (
+                <TechLogo key={t} name={t} size={26} className="opacity-90" />
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── What I build ─────────────────────────────────────── */}
-        <section className="container-page py-24 md:py-32">
-          <div className="grid gap-12 md:grid-cols-[0.9fr_1.6fr]">
-            <Reveal>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                What I build
-              </p>
-              <h2 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight md:text-5xl">
-                Four disciplines,
-                <br />
-                one operating system.
-              </h2>
-              <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">
-                Every engagement ends the same way: a workflow that used to need
-                a person now runs itself, with a log you can audit.
-              </p>
-            </Reveal>
-
-            <div className="grid gap-5 sm:grid-cols-2">
-              {services.map((s, i) => (
-                <Reveal key={s.n} delay={i * 90}>
-                  <article className="card-lift group h-full rounded-2xl border bg-surface p-7 shadow-card">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs text-accent">{s.n}</span>
-                      <span
-                        aria-hidden
-                        className="h-8 w-8 rounded-lg bg-gradient-accent opacity-15 transition-opacity duration-500 group-hover:opacity-40"
-                      />
-                    </div>
-                    <h3 className="mt-6 font-display text-xl tracking-tight">{s.t}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
-                      {s.d}
-                    </p>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Process ──────────────────────────────────────────── */}
-        <section className="hairline-t bg-muted">
-          <div className="container-page py-24 md:py-32">
-            <Reveal>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                How I work
-              </p>
-              <h2 className="mt-3 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight text-balance md:text-6xl">
-                A short, honest engagement — no theatre.
-              </h2>
-            </Reveal>
-            <ol className="mt-14 grid gap-5 md:grid-cols-4">
-              {process.map(([t, d], i) => (
-                <Reveal as="li" key={t} delay={i * 90}>
-                  <div className="card-lift h-full rounded-2xl border bg-surface p-7 shadow-card">
-                    <p className="font-mono text-xs text-accent">0{i + 1}</p>
-                    <p className="mt-5 font-display text-lg tracking-tight">{t}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {d}
-                    </p>
-                  </div>
-                </Reveal>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        {/* ── Business impact ──────────────────────────────────── */}
-        <section className="hairline-t">
-          <div className="container-page py-24 md:py-32">
-            <Reveal>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Business impact
-              </p>
-              <h2 className="mt-3 max-w-2xl font-display text-4xl leading-[1.05] tracking-tight text-balance md:text-5xl">
-                The numbers clients actually feel.
-              </h2>
-            </Reveal>
-            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                { v: 100, suffix: "%", l: "of new leads receive a personalised follow-up" },
-                { v: 60, prefix: "<", suffix: "s", l: "from receipt photo to filed, structured row" },
-                { v: 2, suffix: " hrs", l: "of daily inbox triage removed per office" },
-                { v: 0, l: "missed calls during kitchen service hours" },
-              ].map((m, i) => (
-                <Reveal key={m.l} delay={i * 80}>
-                  <div className="h-full rounded-2xl border bg-surface p-7 shadow-card">
-                    <p className="font-display text-4xl tracking-tight md:text-5xl">
-                      <Counter value={m.v} prefix={m.prefix} suffix={m.suffix} />
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      {m.l}
-                    </p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Portfolio CTA ────────────────────────────────────── */}
-        <section className="container-page pb-24 md:pb-32">
+        {/* Services */}
+        <section className="container-page section-y">
           <Reveal>
-            <div className="relative overflow-hidden rounded-[28px] bg-ink px-8 py-16 text-ink-foreground md:px-16 md:py-24">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-gradient-accent opacity-30 blur-3xl"
-              />
-              <div className="relative max-w-2xl">
-                <p className="text-xs uppercase tracking-[0.2em] text-ink-foreground/60">
-                  Case studies
-                </p>
-                <h2 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight text-balance md:text-6xl">
-                  Systems built end-to-end — and still running.
-                </h2>
-                <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-foreground/70">
-                  Workflow diagrams, live screenshots and video walkthroughs for
-                  every build — including the reasoning behind each guardrail.
-                </p>
-                <Link
-                  to="/portfolio"
-                  className="group mt-9 inline-flex h-13 items-center gap-2 rounded-full bg-ink-foreground px-8 py-3.5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5"
-                >
-                  View portfolio
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                  </span>
-                </Link>
+            <Eyebrow>What I do</Eyebrow>
+            <h2 className="mt-6 max-w-3xl font-display text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] text-balance md:text-[44px]">
+              Automation solutions for modern businesses
+            </h2>
+            <p className="mt-5 max-w-2xl text-[18px] leading-[1.7] text-muted-foreground">
+              Every engagement starts with the workflow, not the tool. Then I
+              pick the stack that makes it dependable.
+            </p>
+          </Reveal>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((s, i) => (
+              <Reveal key={s.slug} delay={i * 60}>
+                <article className="card-lift h-full rounded-2xl border bg-surface p-7">
+                  <TechLogo name={s.brand} size={36} showName={false} />
+                  <h3 className="mt-5 font-display text-xl font-extrabold tracking-tight">
+                    {s.name}
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                    {s.summary}
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    {s.tools.map((t) => (
+                      <TechLogo key={t} name={t} size={20} showName={false} />
+                    ))}
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <GhostLink to="/services">Explore all services →</GhostLink>
+          </div>
+        </section>
+
+        {/* Featured work */}
+        {featured.length > 0 && (
+          <section className="hairline-t bg-muted">
+            <div className="container-page section-y">
+              <Reveal>
+                <div className="flex flex-wrap items-end justify-between gap-6">
+                  <div>
+                    <Eyebrow>Selected work</Eyebrow>
+                    <h2 className="mt-6 max-w-2xl font-display text-3xl font-extrabold leading-[1.1] tracking-[-0.02em] text-balance md:text-[44px]">
+                      Systems shipped, not slideware
+                    </h2>
+                  </div>
+                  <Link
+                    to="/portfolio"
+                    className="text-[15px] font-bold text-accent hover:underline"
+                  >
+                    See all projects →
+                  </Link>
+                </div>
+              </Reveal>
+
+              <div className="mt-12 grid gap-8 md:grid-cols-2">
+                {featured.map((p, i) => (
+                  <Reveal key={p.slug} delay={i * 70}>
+                    <Link
+                      to="/portfolio/$slug"
+                      params={{ slug: p.slug }}
+                      className="card-lift group block h-full overflow-hidden rounded-2xl border bg-surface"
+                    >
+                      <div className="aspect-[16/10] overflow-hidden bg-subtle">
+                        <img
+                          src={p.gallery[0]?.src ?? p.cover}
+                          alt={p.title}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                        />
+                      </div>
+                      <div className="p-7">
+                        <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent-2">
+                          {p.category}
+                        </span>
+                        <h3 className="mt-4 font-display text-xl font-extrabold tracking-tight">
+                          {p.title}
+                        </h3>
+                        <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+                          {p.tagline}
+                        </p>
+                        <div className="mt-6 flex flex-wrap gap-3">
+                          {p.tools.slice(0, 4).map((t) => (
+                            <TechLogo key={t} name={t} size={20} showName={false} />
+                          ))}
+                        </div>
+                      </div>
+                    </Link>
+                  </Reveal>
+                ))}
               </div>
+            </div>
+          </section>
+        )}
+
+        {/* Impact */}
+        <section className="container-page section-y">
+          <Reveal>
+            <div className="grid gap-10 rounded-2xl border bg-surface px-8 py-12 sm:grid-cols-2 lg:grid-cols-4 md:px-14">
+              <StatBlock value="100%" label="Of new leads followed up" />
+              <StatBlock value="<60s" label="Receipt to filed record" />
+              <StatBlock value="24/7" label="Agents answering enquiries" />
+              <StatBlock value="0" label="Manual sends per week" />
             </div>
           </Reveal>
         </section>
 
-        {/* ── Contact CTA ──────────────────────────────────────── */}
-        <section className="hairline-t">
-          <div className="container-page grid gap-8 py-20 md:grid-cols-[1.6fr_1fr] md:items-end md:py-28">
-            <Reveal>
-              <h2 className="font-display text-4xl leading-[1.02] tracking-tight text-balance md:text-7xl">
-                Let's remove
-                <br />
-                the busywork.
-              </h2>
-            </Reveal>
-            <Reveal delay={120} className="flex flex-col gap-3">
-              <Link
-                to="/contact"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-ink px-6 text-sm font-semibold text-ink-foreground transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift"
-              >
-                Start a project
-              </Link>
-              <a
-                href="https://wa.me/2348138602053?text=Hi%20Azeem%2C%20I%27d%20like%20to%20talk%20about%20automation."
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex h-12 items-center justify-center rounded-full border px-6 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:text-accent"
-              >
-                Message on WhatsApp
-              </a>
-            </Reveal>
-          </div>
-        </section>
+        <CtaBand />
       </main>
       <Footer />
     </div>

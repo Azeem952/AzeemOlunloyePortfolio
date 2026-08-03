@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
+import { Eyebrow, HexPortrait } from "@/components/ui-kit";
+import { media } from "@/data/media";
 import { submitContact } from "@/lib/contact.functions";
 
 export const Route = createFileRoute("/contact")({
@@ -26,6 +28,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 const EMAIL = "azeemolunloye@gmail.com";
+const PHONE = "+234 813 860 2053";
 const WHATSAPP =
   "https://wa.me/2348138602053?text=Hi%20Azeem%2C%20I%27d%20like%20to%20talk%20about%20automation.";
 const LINKEDIN =
@@ -81,36 +84,43 @@ function Contact() {
     <div className="min-h-dvh">
       <Nav />
       <main>
-        <section className="relative overflow-hidden">
-          <div aria-hidden className="pointer-events-none absolute inset-0 grid-bg opacity-50" />
-          <div className="container-page relative pt-16 pb-12 md:pt-24">
-            <p className="reveal inline-flex items-center gap-2.5 rounded-full border bg-surface/70 px-3.5 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
-              Open for new projects — remote, worldwide
-            </p>
-            <h1 className="reveal mt-6 max-w-3xl font-display text-[2.75rem] leading-[1.02] tracking-tight text-balance sm:text-6xl md:text-7xl">
-              Let's talk about <span className="text-gradient">what to automate.</span>
-            </h1>
-            <p className="reveal mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
-              The best briefs are one paragraph long: the workflow that's costing
-              you time, what you've already tried, and what "done" would look
-              like. I read everything and reply within one working day.
-            </p>
+        <section className="container-page grid items-center gap-14 pt-14 pb-16 md:grid-cols-[1.1fr_0.9fr] md:pt-24 md:pb-20">
+          <div>
+            <Reveal>
+              <Eyebrow>Available for new projects</Eyebrow>
+              <h1 className="mt-6 font-display text-[40px] font-extrabold leading-[1.06] tracking-[-0.02em] text-balance md:text-[64px] md:leading-[72px]">
+                Let's talk about what to automate
+              </h1>
+              <p className="mt-6 max-w-xl text-[18px] leading-[1.7] text-muted-foreground">
+                The best briefs are one paragraph: the workflow that's costing
+                you time, what you've already tried, and what "done" looks like.
+                I read everything and reply within one working day.
+              </p>
+              <div className="mt-9 grid gap-3 sm:grid-cols-2">
+                <InfoCard label="Email" value={EMAIL} href={`mailto:${EMAIL}`} />
+                <InfoCard label="WhatsApp" value={PHONE} href={WHATSAPP} external />
+                <InfoCard label="LinkedIn" value="Azeem Olunloye" href={LINKEDIN} external />
+                <InfoCard label="Location" value="Remote — worldwide" />
+              </div>
+            </Reveal>
           </div>
+          <Reveal delay={120}>
+            <HexPortrait src={media.portraitHero} alt="Azeem Olunloye" />
+          </Reveal>
         </section>
 
-        <section className="container-page grid gap-12 pb-24 md:grid-cols-[1.35fr_1fr] md:gap-16 md:pb-32">
+        <section className="container-page grid gap-8 pb-20 md:grid-cols-[1.4fr_1fr] md:pb-28">
           <Reveal>
             <form
               onSubmit={onSubmit}
               noValidate
               aria-describedby="form-status"
-              className="rounded-2xl border bg-surface p-6 shadow-card md:p-9"
+              className="rounded-2xl border bg-surface p-7 shadow-card md:p-10"
             >
-              <div className="grid gap-6 sm:grid-cols-2">
+              <h2 className="font-display text-2xl font-extrabold tracking-tight">
+                Send a brief
+              </h2>
+              <div className="mt-7 grid gap-6 sm:grid-cols-2">
                 <Field
                   label="Name"
                   id="name"
@@ -139,15 +149,12 @@ function Contact() {
               </div>
 
               <div className="mt-6">
-                <label
-                  htmlFor="message"
-                  className="mb-2 block text-xs uppercase tracking-widest text-muted-foreground"
-                >
+                <label htmlFor="message" className="mb-2 block text-sm font-bold">
                   Message
                 </label>
                 <textarea
                   id="message"
-                  rows={6}
+                  rows={7}
                   maxLength={4000}
                   value={form.message}
                   onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
@@ -167,17 +174,15 @@ function Contact() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="group inline-flex h-12 items-center gap-2 rounded-full bg-ink px-7 text-sm font-semibold text-ink-foreground transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift disabled:translate-y-0 disabled:opacity-60"
+                  className="group inline-flex h-14 items-center gap-2 rounded-xl bg-accent px-7 text-[15px] font-bold text-accent-foreground shadow-green transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-2 disabled:translate-y-0 disabled:opacity-60"
                 >
                   {status === "sending" ? "Sending…" : "Send message"}
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">
-                    →
-                  </span>
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </button>
 
                 <p id="form-status" role="status" aria-live="polite" className="text-sm">
                   {status === "sent" && (
-                    <span className="text-accent">
+                    <span className="font-semibold text-accent-2">
                       Thank you — your message is in. I'll reply within one working day.
                     </span>
                   )}
@@ -190,49 +195,78 @@ function Contact() {
           </Reveal>
 
           <Reveal delay={120}>
-            <aside className="space-y-8">
-              <div className="rounded-2xl border bg-surface p-6 shadow-card">
-                <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                  Prefer to chat?
-                </p>
+            <aside className="space-y-6">
+              <div className="rounded-2xl border bg-surface p-7">
+                <p className="text-sm font-extrabold">Other ways to reach me</p>
                 <ul className="mt-4 space-y-1">
-                  <ContactLink
-                    href={WHATSAPP}
-                    external
-                    label="WhatsApp"
-                    value="+234 813 860 2053"
-                  />
-                  <ContactLink
-                    href={LINKEDIN}
-                    external
-                    label="LinkedIn"
-                    value="Azeem Olunloye"
-                  />
+                  <ContactLink href={WHATSAPP} external label="WhatsApp" value={PHONE} />
+                  <ContactLink href={LINKEDIN} external label="LinkedIn" value="Azeem Olunloye" />
                   <ContactLink href={`mailto:${EMAIL}`} label="Email" value={EMAIL} last />
                 </ul>
               </div>
 
-              <div className="rounded-2xl border bg-muted p-6">
-                <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground">
+              <div className="rounded-2xl border bg-muted p-7">
+                <p className="flex items-center gap-2 text-sm font-extrabold">
                   <span className="inline-block h-2 w-2 rounded-full bg-accent" />
                   Availability
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
                   Always open to new automation projects — no waitlist, no cap.
                   Typical engagements run one to four weeks from brief to handover.
                 </p>
               </div>
 
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                If the workflow is worth automating, I'll say so — and if it
-                isn't, I'll tell you that too, before you spend anything.
-              </p>
+              <div className="bg-gradient-ink rounded-2xl p-7">
+                <p className="text-sm font-extrabold text-ink-foreground">
+                  Good fits for me
+                </p>
+                <ul className="mt-4 space-y-3 text-[15px] text-ink-foreground/75">
+                  {[
+                    "Repetitive multi-tool processes",
+                    "Lead follow-up and CRM hygiene",
+                    "Document and receipt intake",
+                    "Customer enquiries answered 24/7",
+                  ].map((f) => (
+                    <li key={f} className="flex gap-3">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </aside>
           </Reveal>
         </section>
       </main>
       <Footer />
     </div>
+  );
+}
+
+function InfoCard({
+  label,
+  value,
+  href,
+  external,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+  external?: boolean;
+}) {
+  const inner = (
+    <div className="rounded-xl border bg-surface px-5 py-4 transition-colors hover:border-accent">
+      <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
+        {label}
+      </p>
+      <p className="mt-1.5 truncate text-[15px] font-semibold">{value}</p>
+    </div>
+  );
+  if (!href) return inner;
+  return (
+    <a href={href} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
+      {inner}
+    </a>
   );
 }
 
@@ -259,14 +293,12 @@ function ContactLink({
         }`}
       >
         <span className="min-w-0">
-          <span className="block text-xs uppercase tracking-widest text-muted-foreground">
+          <span className="block text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
             {label}
           </span>
-          <span className="mt-1 block truncate text-base">{value}</span>
+          <span className="mt-1 block truncate text-[15px] font-semibold">{value}</span>
         </span>
-        <span className="text-sm transition-transform duration-300 group-hover:translate-x-1">
-          →
-        </span>
+        <span className="text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
       </a>
     </li>
   );
@@ -291,10 +323,7 @@ function Field({
 }) {
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="mb-2 block text-xs uppercase tracking-widest text-muted-foreground"
-      >
+      <label htmlFor={id} className="mb-2 block text-sm font-bold">
         {label}
       </label>
       <input
@@ -305,7 +334,7 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         aria-invalid={!!error}
         aria-errormessage={error ? `${id}-error` : undefined}
-        className="w-full rounded-xl border bg-background px-4 py-3 text-base outline-none transition-colors focus:border-accent"
+        className="h-14 w-full rounded-xl border bg-background px-4 text-base outline-none transition-colors focus:border-accent"
       />
       {error && (
         <p id={`${id}-error`} className="mt-2 text-xs text-destructive">
