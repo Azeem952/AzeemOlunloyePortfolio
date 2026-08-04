@@ -87,6 +87,7 @@ function HomeShell({ projects }: { projects: CmsProject[] }) {
           </div>
           <Reveal delay={120}>
             <HexPortrait
+              priority
               src={media.portraitHero}
               alt="Azeem Olunloye, AI Automation Engineer"
             />
