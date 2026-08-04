@@ -32,6 +32,14 @@ export const Route = createFileRoute("/")({
           "AI agents, CRM automation and integrations that quietly do the work. See the systems I've shipped.",
       },
     ],
+    links: [
+      {
+        rel: "preload",
+        as: "image",
+        href: media.portraitHero,
+        fetchpriority: "high",
+      },
+    ],
   }),
   loader: () => listPublicProjects(),
   errorComponent: () => <HomeShell projects={[]} />,

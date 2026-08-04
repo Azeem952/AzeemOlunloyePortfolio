@@ -119,7 +119,7 @@ export const submitContact = createServerFn({ method: "POST" })
     try {
       const lovableKey = process.env.LOVABLE_API_KEY;
       const gmailKey = process.env.GOOGLE_MAIL_API_KEY;
-      if (lovableKey && gmailKey) {
+      if (!notified && lovableKey && gmailKey) {
         const raw = [
           `To: ${NOTIFY_TO}`,
           `Reply-To: ${data.email}`,
@@ -163,7 +163,7 @@ export const submitContact = createServerFn({ method: "POST" })
     try {
       const apiKey = process.env.LOVABLE_API_KEY;
       const senderDomain = process.env.LOVABLE_EMAIL_DOMAIN;
-      if (!emailed && apiKey && senderDomain) {
+      if (!notified && !emailed && apiKey && senderDomain) {
         const { sendLovableEmail } = await import("@lovable.dev/email-js");
 
         const result = await sendLovableEmail(
@@ -191,7 +191,7 @@ export const submitContact = createServerFn({ method: "POST" })
     //    emails you). Set CONTACT_WEBHOOK_URL wherever the app is deployed.
     try {
       const hook = process.env.CONTACT_WEBHOOK_URL;
-      if (!emailed && hook) {
+      if (!notified && !emailed && hook) {
         const res = await fetch(hook, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
