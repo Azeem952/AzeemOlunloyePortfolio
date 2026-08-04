@@ -158,10 +158,12 @@ export function HexPortrait({
   src,
   alt,
   className,
+  priority = false,
 }: {
   src: string;
   alt: string;
   className?: string;
+  priority?: boolean;
 }) {
   return (
     <div className={cn("relative mx-auto w-full max-w-[420px]", className)}>
@@ -173,6 +175,11 @@ export function HexPortrait({
         <img
           src={src}
           alt={alt}
+          width={420}
+          height={454}
+          decoding="async"
+          loading={priority ? "eager" : "lazy"}
+          {...(priority ? { fetchPriority: "high" as const } : {})}
           className="h-full w-full object-cover object-top"
         />
       </div>

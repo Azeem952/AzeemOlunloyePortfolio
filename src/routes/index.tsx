@@ -32,6 +32,14 @@ export const Route = createFileRoute("/")({
           "AI agents, CRM automation and integrations that quietly do the work. See the systems I've shipped.",
       },
     ],
+    links: [
+      {
+        rel: "preload",
+        as: "image",
+        href: media.portraitHero,
+        fetchpriority: "high",
+      },
+    ],
   }),
   loader: () => listPublicProjects(),
   errorComponent: () => <HomeShell projects={[]} />,
@@ -79,6 +87,7 @@ function HomeShell({ projects }: { projects: CmsProject[] }) {
           </div>
           <Reveal delay={120}>
             <HexPortrait
+              priority
               src={media.portraitHero}
               alt="Azeem Olunloye, AI Automation Engineer"
             />

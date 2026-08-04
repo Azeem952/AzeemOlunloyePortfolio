@@ -62,12 +62,64 @@ export const submitContact = createServerFn({ method: "POST" })
     const body = lines.join("\n");
 
     let emailed = false;
+    let notified = false;
+
+    // 0) Primary: Telegram bot notification (instant, no domain setup).
+    try {
+      const token = process.env["TELEGRAM_BOT_TOKEN"];
+      const chatId = process.env["TELEGRAM_CHAT_ID"] || "1238144142";
+      if (token) {
+        const esc = (v: string) =>
+          v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const text = [
+          "━━━━━━━━━━━━━━━",
+          "📩 <b>NEW WEBSITE CONTACT</b>",
+          "",
+          `<b>Name:</b> ${esc(data.name)}`,
+          `<b>Email:</b> ${esc(data.email)}`,
+          `<b>Subject:</b> ${esc(data.subject || "(none)")}`,
+          "",
+          `<b>Message:</b>\n${esc(data.message)}`,
+          "",
+          `<b>Submitted:</b> ${submittedAt}`,
+          "<b>Source:</b> craft-studio-suite-73.lovable.app",
+          "━━━━━━━━━━━━━━━",
+        ].join("\n");
+
+        for (let attempt = 0; attempt < 2 && !notified; attempt++) {
+          const res = await fetch(
+            `https://api.telegram.org/bot${token}/sendMessage`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text,
+                parse_mode: "HTML",
+                disable_web_page_preview: true,
+              }),
+            },
+          );
+          const payload = (await res.json().catch(() => null)) as
+            | { ok?: boolean; description?: string }
+            | null;
+          if (res.ok && payload?.ok) notified = true;
+          else
+            console.error(
+              `telegram send failed [${res.status}]: ${payload?.description ?? "unknown"}`,
+            );
+        }
+      }
+    } catch (err) {
+      console.error("telegram dispatch failed", err);
+    }
+
 
     // 1) Preferred: Gmail connector (sends straight to the inbox, no domain setup needed).
     try {
       const lovableKey = process.env.LOVABLE_API_KEY;
       const gmailKey = process.env.GOOGLE_MAIL_API_KEY;
-      if (lovableKey && gmailKey) {
+      if (!notified && lovableKey && gmailKey) {
         const raw = [
           `To: ${NOTIFY_TO}`,
           `Reply-To: ${data.email}`,
@@ -111,7 +163,7 @@ export const submitContact = createServerFn({ method: "POST" })
     try {
       const apiKey = process.env.LOVABLE_API_KEY;
       const senderDomain = process.env.LOVABLE_EMAIL_DOMAIN;
-      if (!emailed && apiKey && senderDomain) {
+      if (!notified && !emailed && apiKey && senderDomain) {
         const { sendLovableEmail } = await import("@lovable.dev/email-js");
 
         const result = await sendLovableEmail(
@@ -139,7 +191,7 @@ export const submitContact = createServerFn({ method: "POST" })
     //    emails you). Set CONTACT_WEBHOOK_URL wherever the app is deployed.
     try {
       const hook = process.env.CONTACT_WEBHOOK_URL;
-      if (!emailed && hook) {
+      if (!notified && !emailed && hook) {
         const res = await fetch(hook, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -160,6 +212,12 @@ export const submitContact = createServerFn({ method: "POST" })
       console.error("contact webhook dispatch failed", err);
     }
 
-    return { ok: true as const, id: row.id, emailed, submittedAt };
+    if (!notified && !emailed) {
+      throw new Error(
+        "Your message was saved but could not be delivered. Please reach me on WhatsApp or by email.",
+      );
+    }
+
+    return { ok: true as const, id: row.id, emailed, notified, submittedAt };
   });
 

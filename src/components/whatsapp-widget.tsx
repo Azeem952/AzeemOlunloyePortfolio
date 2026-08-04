@@ -14,7 +14,7 @@ export function WhatsAppWidget() {
 
   return (
     <div
-      className={`fixed bottom-5 left-5 z-50 flex flex-col items-start gap-3 transition-all duration-500 md:bottom-8 md:left-8 ${
+      className={`fixed bottom-6 right-5 z-50 flex flex-col items-end gap-3 transition-all duration-500 md:bottom-10 md:right-8 ${
         shown ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
       }`}
     >

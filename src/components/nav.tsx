@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
+export const RESUME_URL = "/api/public/media/azeem-olunloye-resume.pdf";
+
 const links = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
@@ -60,14 +62,15 @@ export function Nav() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <button
-            type="button"
-            disabled
-            title="Resume coming soon"
-            className="inline-flex h-11 cursor-not-allowed items-center rounded-xl border px-5 text-sm font-bold text-muted-foreground"
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
+            download="Azeem-Olunloye-Resume.pdf"
+            className="inline-flex h-11 items-center rounded-xl border px-5 text-sm font-bold text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
           >
             Resume
-          </button>
+          </a>
           <Link
             to="/contact"
             className="inline-flex h-11 items-center rounded-xl bg-accent px-5 text-sm font-bold text-accent-foreground shadow-green transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-2"
@@ -107,6 +110,16 @@ export function Nav() {
                 {l.label}
               </Link>
             ))}
+            <a
+              href={RESUME_URL}
+              target="_blank"
+              rel="noreferrer"
+              download="Azeem-Olunloye-Resume.pdf"
+              onClick={() => setOpen(false)}
+              className="py-3 text-lg font-bold tracking-tight"
+            >
+              Resume
+            </a>
             <Link
               to="/contact"
               onClick={() => setOpen(false)}
