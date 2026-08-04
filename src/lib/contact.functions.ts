@@ -212,6 +212,12 @@ export const submitContact = createServerFn({ method: "POST" })
       console.error("contact webhook dispatch failed", err);
     }
 
-    return { ok: true as const, id: row.id, emailed, submittedAt };
+    if (!notified && !emailed) {
+      throw new Error(
+        "Your message was saved but could not be delivered. Please reach me on WhatsApp or by email.",
+      );
+    }
+
+    return { ok: true as const, id: row.id, emailed, notified, submittedAt };
   });
 
