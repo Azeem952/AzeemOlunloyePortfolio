@@ -102,6 +102,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
 
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Azeem Olunloye",
+          jobTitle: "AI Automation Engineer",
+          url: "https://craft-studio-suite-73.lovable.app",
+          email: "mailto:azeemolunloye@gmail.com",
+          sameAs: [
+            "https://www.linkedin.com/in/azeem-olunloye-42177141b",
+          ],
+          knowsAbout: [
+            "AI agents",
+            "Workflow automation",
+            "CRM automation",
+            "n8n",
+            "System integration",
+          ],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
