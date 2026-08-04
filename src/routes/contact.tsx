@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
+import { toast } from "sonner";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
@@ -47,7 +48,8 @@ function Contact() {
     const errs: Record<string, string> = {};
     if (form.name.trim().length < 2) errs.name = "Please tell me your name.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
-      errs.email = "A working email helps me reply.";
+      errs.email = "Please enter a valid email address.";
+    if (form.subject.trim().length < 2) errs.subject = "Please add a subject.";
     if (form.message.trim().length < 10)
       errs.message = "A little more context, please (10 characters minimum).";
     if (form.message.trim().length > 4000) errs.message = "That's a little too long.";
@@ -71,13 +73,14 @@ function Contact() {
       });
       setStatus("sent");
       setForm({ name: "", email: "", subject: "", message: "" });
-    } catch (err) {
-      console.error(err);
+      setErrors({});
+      toast.success("Message sent successfully.");
+    } catch {
       setStatus("error");
-      setServerError(
-        "Something went wrong sending your message. Please try WhatsApp or email me directly.",
-      );
+      setServerError("Unable to send message. Please try again later.");
+      toast.error("Unable to send message. Please try again later.");
     }
+
   };
 
   return (
@@ -141,12 +144,14 @@ function Contact() {
               </div>
               <div className="mt-6">
                 <Field
-                  label="Subject (optional)"
+                  label="Subject"
                   id="subject"
                   value={form.subject}
                   onChange={(v) => setForm((f) => ({ ...f, subject: v }))}
+                  error={errors.subject}
                 />
               </div>
+
 
               <div className="mt-6">
                 <label htmlFor="message" className="mb-2 block text-sm font-bold">
@@ -176,18 +181,19 @@ function Contact() {
                   disabled={status === "sending"}
                   className="group inline-flex h-14 items-center gap-2 rounded-xl bg-accent px-7 text-[15px] font-bold text-accent-foreground shadow-green transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-2 disabled:translate-y-0 disabled:opacity-60"
                 >
-                  {status === "sending" ? "Sending…" : "Send message"}
+                  {status === "sending" ? "Sending..." : "Send message"}
                   <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </button>
 
                 <p id="form-status" role="status" aria-live="polite" className="text-sm">
                   {status === "sent" && (
                     <span className="font-semibold text-accent-2">
-                      Thank you — your message is in. I'll reply within one working day.
+                      Message sent successfully.
                     </span>
                   )}
                   {status === "error" && (
                     <span className="text-destructive">{serverError}</span>
+
                   )}
                 </p>
               </div>
