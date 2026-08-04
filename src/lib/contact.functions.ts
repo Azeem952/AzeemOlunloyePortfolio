@@ -62,6 +62,58 @@ export const submitContact = createServerFn({ method: "POST" })
     const body = lines.join("\n");
 
     let emailed = false;
+    let notified = false;
+
+    // 0) Primary: Telegram bot notification (instant, no domain setup).
+    try {
+      const token = process.env["TELEGRAM_BOT_TOKEN"];
+      const chatId = process.env["TELEGRAM_CHAT_ID"] || "1238144142";
+      if (token) {
+        const esc = (v: string) =>
+          v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const text = [
+          "━━━━━━━━━━━━━━━",
+          "📩 <b>NEW WEBSITE CONTACT</b>",
+          "",
+          `<b>Name:</b> ${esc(data.name)}`,
+          `<b>Email:</b> ${esc(data.email)}`,
+          `<b>Subject:</b> ${esc(data.subject || "(none)")}`,
+          "",
+          `<b>Message:</b>\n${esc(data.message)}`,
+          "",
+          `<b>Submitted:</b> ${submittedAt}`,
+          "<b>Source:</b> craft-studio-suite-73.lovable.app",
+          "━━━━━━━━━━━━━━━",
+        ].join("\n");
+
+        for (let attempt = 0; attempt < 2 && !notified; attempt++) {
+          const res = await fetch(
+            `https://api.telegram.org/bot${token}/sendMessage`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text,
+                parse_mode: "HTML",
+                disable_web_page_preview: true,
+              }),
+            },
+          );
+          const payload = (await res.json().catch(() => null)) as
+            | { ok?: boolean; description?: string }
+            | null;
+          if (res.ok && payload?.ok) notified = true;
+          else
+            console.error(
+              `telegram send failed [${res.status}]: ${payload?.description ?? "unknown"}`,
+            );
+        }
+      }
+    } catch (err) {
+      console.error("telegram dispatch failed", err);
+    }
+
 
     // 1) Preferred: Gmail connector (sends straight to the inbox, no domain setup needed).
     try {
