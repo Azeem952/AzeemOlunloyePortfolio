@@ -134,6 +134,8 @@ function Services() {
           </div>
         </section>
 
+        <FaqSection />
+
         <CtaBand
           title="Not sure which one you need?"
           body="Describe the process that keeps eating your week. I'll tell you whether it's worth automating — before you spend anything."
