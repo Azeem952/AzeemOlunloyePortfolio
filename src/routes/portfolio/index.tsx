@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
-import { CtaBand, Eyebrow, StatBlock, TechLogo } from "@/components/ui-kit";
+import { CtaBand, CtaPill, Eyebrow, TechLogo } from "@/components/ui-kit";
 import { categories } from "@/data/projects";
 import { listPublicProjects } from "@/lib/content.functions";
 import type { CmsProject } from "@/lib/cms-types";
