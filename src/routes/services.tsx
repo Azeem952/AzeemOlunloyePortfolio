@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
+import { FaqSection } from "@/components/faq-section";
 import {
   CtaBand,
   Eyebrow,
