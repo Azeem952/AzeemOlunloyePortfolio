@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { CmsProject, ProjectInput } from "./cms-types";
 import { toClientProject } from "./cms-map";
+import { watermarkImage } from "./watermark";
 
 export const ADMIN_EMAIL = "azeemolunloye@gmail.com";
 
