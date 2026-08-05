@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { CmsProject, ProjectInput } from "./cms-types";
 import { toClientProject } from "./cms-map";
+import { watermarkImage } from "./watermark";
 
 export const ADMIN_EMAIL = "azeemolunloye@gmail.com";
 
@@ -24,11 +25,13 @@ const MAX_BYTES = 200 * 1024 * 1024;
 const ALLOWED = /^(image\/(png|jpe?g|gif|webp|avif|svg\+xml)|video\/(mp4|webm|quicktime)|application\/pdf|application\/json|text\/plain)$/;
 
 /** Uploads a file to Cloud storage and records it in the media library. */
-export async function uploadFile(file: File) {
-  if (file.size > MAX_BYTES) throw new Error(`${file.name} is larger than 200 MB.`);
-  if (file.type && !ALLOWED.test(file.type)) {
-    throw new Error(`${file.name}: unsupported file type (${file.type}).`);
+export async function uploadFile(original: File) {
+  if (original.size > MAX_BYTES) throw new Error(`${original.name} is larger than 200 MB.`);
+  if (original.type && !ALLOWED.test(original.type)) {
+    throw new Error(`${original.name}: unsupported file type (${original.type}).`);
   }
+  // Every uploaded image gets the official logo watermarked bottom-right.
+  const file = await watermarkImage(original);
   const path = safeName(file.name);
   const { error } = await supabase.storage
     .from("media")

@@ -101,6 +101,21 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 const btnBase =
   "inline-flex h-14 items-center justify-center gap-2 rounded-xl px-7 text-[15px] font-bold transition-all duration-300";
 
+/** Default primary CTA: large green pill with lift + press states. */
+export const ctaPill =
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-[26px] py-[14px] text-[15px] font-semibold text-accent-foreground shadow-green transition-all duration-[250ms] ease-out hover:-translate-y-0.5 hover:bg-accent-2 hover:shadow-lift focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent active:translate-y-0 active:scale-[0.98]";
+
+export function CtaPill({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <span className={cn(ctaPill, className)}>{children}</span>;
+}
+
+
 export function PrimaryLink({
   to,
   href,

@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
-import { CtaBand, Eyebrow, StatBlock, TechLogo } from "@/components/ui-kit";
+import { CtaBand, CtaPill, Eyebrow, TechLogo } from "@/components/ui-kit";
 import { categories } from "@/data/projects";
 import { listPublicProjects } from "@/lib/content.functions";
 import type { CmsProject } from "@/lib/cms-types";
@@ -65,7 +65,7 @@ function Portfolio() {
     <div className="min-h-dvh">
       <Nav />
       <main>
-        <section className="container-page pt-14 pb-10 text-center md:pt-24">
+        <section className="container-page pt-14 pb-8 text-center md:pt-24 md:pb-12">
           <Reveal>
             <Eyebrow>Selected work</Eyebrow>
             <h1 className="mx-auto mt-6 max-w-4xl font-display text-[40px] font-extrabold leading-[1.06] tracking-[-0.02em] text-balance md:text-[64px] md:leading-[72px]">
@@ -78,15 +78,7 @@ function Portfolio() {
           </Reveal>
         </section>
 
-        <section className="container-page pb-4">
-          <Reveal>
-            <div className="grid gap-8 rounded-2xl border bg-muted px-8 py-10 sm:grid-cols-3">
-              <StatBlock value={`${projects.length}`} label="Case studies" />
-              <StatBlock value="20+" label="Tools integrated" />
-              <StatBlock value="2+" label="Years shipping" />
-            </div>
-          </Reveal>
-        </section>
+
 
         <section className="container-page sticky top-[72px] z-30 flex flex-col gap-4 bg-background/90 py-5 backdrop-blur-md md:top-[88px] md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap gap-2">
@@ -184,9 +176,10 @@ function Portfolio() {
                           <TechLogo key={t} name={t} size={22} showName={false} />
                         ))}
                       </div>
-                      <span className="mt-auto pt-7 text-[15px] font-bold text-accent transition-transform duration-300 group-hover:translate-x-1">
-                        Read case study →
+                      <span className="mt-auto pt-7">
+                        <CtaPill>Read case study →</CtaPill>
                       </span>
+
                     </div>
                   </Link>
                 </Reveal>

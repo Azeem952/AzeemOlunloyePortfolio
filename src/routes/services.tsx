@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
+import { FaqSection } from "@/components/faq-section";
 import {
   CtaBand,
   Eyebrow,
@@ -133,6 +134,8 @@ function Services() {
             <GhostLink to="/portfolio">See real builds</GhostLink>
           </div>
         </section>
+
+        <FaqSection />
 
         <CtaBand
           title="Not sure which one you need?"
