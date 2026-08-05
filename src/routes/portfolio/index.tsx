@@ -184,9 +184,10 @@ function Portfolio() {
                           <TechLogo key={t} name={t} size={22} showName={false} />
                         ))}
                       </div>
-                      <span className="mt-auto pt-7 text-[15px] font-bold text-accent transition-transform duration-300 group-hover:translate-x-1">
-                        Read case study →
+                      <span className="mt-auto pt-7">
+                        <CtaPill>Read case study →</CtaPill>
                       </span>
+
                     </div>
                   </Link>
                 </Reveal>
