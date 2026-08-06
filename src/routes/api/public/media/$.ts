@@ -15,11 +15,25 @@ export const Route = createFileRoute("/api/public/media/$")({
         // Publishable-key client (anon read policy on the `media` bucket) so
         // this works on any host without a service-role secret.
         const { publicClient } = await import("@/lib/cms.server");
-        const { data, error } = await publicClient().storage.from("media").download(path);
+        const client = publicClient();
 
-        if (error || !data) {
-          return new Response("Not found", { status: 404 });
+        // Fast path: hand the browser a short-lived direct storage URL so the
+        // file streams from storage (range requests, CDN caching) instead of
+        // being buffered through this worker.
+        const signed = await client.storage
+          .from("media")
+          .createSignedUrl(path, 60 * 60 * 24);
+        if (signed.data?.signedUrl) {
+          return new Response(null, {
+            status: 302,
+            headers: {
+              location: signed.data.signedUrl,
+              "cache-control": "public, max-age=3600",
+            },
+          });
         }
+
+        const { data, error } = await client.storage.from("media").download(path);
 
 
         const body = await data.arrayBuffer();
