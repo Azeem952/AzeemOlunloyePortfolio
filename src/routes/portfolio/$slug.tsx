@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { getPublicProject, listPublicProjects } from "@/lib/content.functions";
+import { projectsQuery } from "@/lib/content-queries";
 import type { CmsProject } from "@/lib/cms-types";
 
 type LoaderData = { project: CmsProject; related: CmsProject[] };
@@ -20,11 +20,11 @@ export const Route = createFileRoute("/portfolio/$slug")({
       ],
     };
   },
-  loader: async ({ params }): Promise<LoaderData> => {
-    const [project, all] = await Promise.all([
-      getPublicProject({ data: params.slug }),
-      listPublicProjects(),
-    ]);
+  // Reuses the single cached portfolio request, so opening a case study from
+  // the Work page (or after a hover prefetch) needs no extra network call.
+  loader: async ({ context, params }): Promise<LoaderData> => {
+    const all = (await context.queryClient.ensureQueryData(projectsQuery)) as CmsProject[];
+    const project = all.find((x) => x.slug === params.slug);
     if (!project) throw notFound();
     return { project, related: all.filter((x) => x.slug !== project.slug).slice(0, 2) };
   },
