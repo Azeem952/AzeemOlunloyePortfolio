@@ -36,7 +36,7 @@ export const Route = createFileRoute("/portfolio/")({
 });
 
 function Portfolio() {
-  const projects = Route.useLoaderData() as CmsProject[];
+  const { data: projects } = useSuspenseQuery(projectsQuery) as { data: CmsProject[] };
   const [cat, setCat] = useState("All");
   const [q, setQ] = useState("");
 
