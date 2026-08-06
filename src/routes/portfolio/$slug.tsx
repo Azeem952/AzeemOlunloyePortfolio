@@ -105,7 +105,8 @@ function ProjectPage() {
                   src={p.video}
                   controls
                   playsInline
-                  preload="metadata"
+                  preload="none"
+                  poster={p.gallery[0]?.src ?? p.cover}
                   className="aspect-video w-full bg-ink"
                 >
                   Your browser does not support embedded video.
