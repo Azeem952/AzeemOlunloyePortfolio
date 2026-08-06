@@ -34,6 +34,10 @@ export const Route = createFileRoute("/api/public/media/$")({
         }
 
         const { data, error } = await client.storage.from("media").download(path);
+        if (error || !data) {
+          return new Response("Not found", { status: 404 });
+        }
+
 
 
         const body = await data.arrayBuffer();
