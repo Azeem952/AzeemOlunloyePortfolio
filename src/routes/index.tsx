@@ -13,7 +13,7 @@ import {
 } from "@/components/ui-kit";
 import { media } from "@/data/media";
 import { services, stack } from "@/data/services";
-import { listPublicProjects } from "@/lib/content.functions";
+import { projectsQuery } from "@/lib/content-queries";
 import type { CmsProject } from "@/lib/cms-types";
 
 export const Route = createFileRoute("/")({
@@ -37,11 +37,11 @@ export const Route = createFileRoute("/")({
         rel: "preload",
         as: "image",
         href: media.portraitHero,
-        fetchpriority: "high",
+        fetchPriority: "high",
       },
     ],
   }),
-  loader: () => listPublicProjects(),
+  loader: ({ context }) => context.queryClient.ensureQueryData(projectsQuery),
   errorComponent: () => <HomeShell projects={[]} />,
   component: () => <HomeShell projects={Route.useLoaderData() as CmsProject[]} />,
 });
