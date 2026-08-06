@@ -5,7 +5,8 @@ import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { CtaBand, CtaPill, Eyebrow, TechLogo } from "@/components/ui-kit";
 import { categories } from "@/data/projects";
-import { listPublicProjects } from "@/lib/content.functions";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { projectsQuery } from "@/lib/content-queries";
 import type { CmsProject } from "@/lib/cms-types";
 
 export const Route = createFileRoute("/portfolio/")({
@@ -25,7 +26,7 @@ export const Route = createFileRoute("/portfolio/")({
       },
     ],
   }),
-  loader: () => listPublicProjects(),
+  loader: ({ context }) => context.queryClient.ensureQueryData(projectsQuery),
   errorComponent: () => (
     <div className="container-page py-32 text-center">
       <p className="text-muted-foreground">Portfolio could not be loaded. Please refresh.</p>
