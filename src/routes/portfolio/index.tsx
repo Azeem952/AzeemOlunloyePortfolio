@@ -132,7 +132,7 @@ function Portfolio() {
                           muted
                           loop
                           playsInline
-                          preload="metadata"
+                          preload="none"
                           poster={p.gallery[0]?.src ?? p.cover}
                           onMouseEnter={(e) => void e.currentTarget.play()}
                           onMouseLeave={(e) => {
@@ -145,7 +145,11 @@ function Portfolio() {
                         <img
                           src={p.gallery[0]?.src ?? p.cover}
                           alt={p.title}
-                          loading="lazy"
+                          width={800}
+                          height={500}
+                          decoding="async"
+                          loading={i < 2 ? "eager" : "lazy"}
+                          fetchPriority={i < 2 ? "high" : "auto"}
                           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                         />
                       )}
