@@ -10,16 +10,23 @@ export function RouteLoader() {
     select: (s) => s.status === "pending" || s.isLoading,
   });
   const [visible, setVisible] = useState(false);
+  const [slow, setSlow] = useState(false);
   const shownAt = useRef(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const slowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (timer.current) clearTimeout(timer.current);
+    if (slowTimer.current) clearTimeout(slowTimer.current);
     if (isPending) {
       shownAt.current = Date.now();
       setVisible(true);
-      return;
+      slowTimer.current = setTimeout(() => setSlow(true), 2000);
+      return () => {
+        if (slowTimer.current) clearTimeout(slowTimer.current);
+      };
     }
+    setSlow(false);
     if (!visible) return;
     const elapsed = Date.now() - shownAt.current;
     const wait = Math.max(0, 300 - elapsed);
@@ -38,7 +45,14 @@ export function RouteLoader() {
       aria-label="Loading page"
       className="route-loader fixed inset-0 z-[100] grid place-items-center"
     >
-      <span className="route-loader-ring" />
+      <div className="flex flex-col items-center gap-4">
+        <span className="route-loader-ring" />
+        {slow && (
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Preparing case study…
+          </p>
+        )}
+      </div>
       <span className="sr-only">Loading…</span>
     </div>
   );
