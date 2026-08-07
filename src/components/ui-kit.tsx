@@ -68,7 +68,7 @@ export function TechLogo({
 }) {
   const src = brandIcon(name);
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
+    <span className={cn("logo-chip inline-flex items-center gap-2.5", className)}>
       {src ? (
         <img
           src={src}
@@ -237,7 +237,9 @@ export function CtaBand({
           {body}
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-4">
-          <PrimaryLink to="/contact">Start a project →</PrimaryLink>
+          <PrimaryLink to="/contact">
+            Start a project <span className="cta-arrow">→</span>
+          </PrimaryLink>
           <Link
             to="/portfolio"
             className={cn(

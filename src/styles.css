@@ -230,6 +230,13 @@
   backdrop-filter: blur(8px);
   animation: route-loader-in 150ms ease both;
 }
+@keyframes route-loader-logo {
+  0%, 100% { opacity: 0.75; transform: scale(0.97); }
+  50% { opacity: 1; transform: scale(1); }
+}
+.route-loader-logo {
+  animation: route-loader-logo 1.4s ease-in-out infinite;
+}
 .route-loader-ring {
   width: 34px;
   height: 34px;
@@ -247,4 +254,169 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Motion system — timings: click 120ms · hover 200ms · cards 250ms
+   · page 300ms · reveal 500ms. Only transform/opacity animate.
+   ───────────────────────────────────────────────────────────── */
+
+@layer base {
+  button,
+  a[href],
+  [role="button"],
+  summary {
+    cursor: pointer;
+    transition:
+      scale 120ms ease,
+      translate 200ms ease,
+      opacity 200ms ease,
+      color 200ms ease,
+      background-color 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease;
+  }
+  button:not(:disabled):active,
+  a[href]:active,
+  [role="button"]:active {
+    scale: 0.97;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  /* Primary CTA arrow nudge */
+  a:hover > .cta-arrow,
+  button:hover > .cta-arrow {
+    translate: 4px 0;
+  }
+  .cta-arrow {
+    display: inline-block;
+    transition: translate 200ms ease;
+  }
+  footer a[href]:hover {
+    translate: 0 -2px;
+  }
+}
+
+/* Page transition */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    scale: 0.99;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+    filter: blur(0);
+  }
+}
+.page-transition {
+  animation: page-enter 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Scroll progress */
+.scroll-progress {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 60;
+  height: 2px;
+  transform-origin: left center;
+  background: var(--gradient-accent);
+  will-change: transform;
+}
+
+/* Logo chips */
+.logo-chip img {
+  opacity: 0.92;
+  transition:
+    scale 200ms ease,
+    opacity 200ms ease;
+}
+.logo-chip:hover img {
+  opacity: 1;
+  scale: 1.05;
+}
+
+/* Media hover (case study thumbnails) */
+.media-zoom img,
+.media-zoom video {
+  transition: scale 250ms ease;
+}
+.group:hover .media-zoom img,
+.media-zoom:hover img {
+  scale: 1.02;
+}
+
+/* Shimmer placeholder for loading images */
+@keyframes shimmer-sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--muted);
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(17, 17, 17, 0.05),
+    transparent
+  );
+  animation: shimmer-sweep 1.4s ease-in-out infinite;
+}
+
+/* Success checkmark */
+@keyframes check-pop {
+  0% { scale: 0; opacity: 0; }
+  60% { scale: 1.2; opacity: 1; }
+  100% { scale: 1; opacity: 1; }
+}
+.check-pop {
+  animation: check-pop 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* WhatsApp single pulse, every ~9s */
+@keyframes wa-pulse {
+  0%, 88%, 100% { transform: scale(1); opacity: 0; }
+  92% { transform: scale(1); opacity: 0.35; }
+  99% { transform: scale(1.7); opacity: 0; }
+}
+.wa-pulse {
+  animation: wa-pulse 9s ease-out infinite;
+}
+
+/* Animated active nav underline */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 200ms ease;
+}
+.nav-link:hover::after,
+.nav-link[data-status="active"]::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Mobile menu */
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.99); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.menu-in {
+  animation: menu-in 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }

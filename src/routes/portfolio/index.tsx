@@ -150,7 +150,7 @@ function Portfolio() {
                           decoding="async"
                           loading={i < 2 ? "eager" : "lazy"}
                           fetchPriority={i < 2 ? "high" : "auto"}
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                          className="h-full w-full object-cover transition-transform duration-[250ms] ease-out group-hover:scale-[1.02]"
                         />
                       )}
                       {p.video && (
@@ -158,6 +158,10 @@ function Portfolio() {
                           ▶ Demo video
                         </span>
                       )}
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-ink opacity-0 transition-opacity duration-[250ms] group-hover:opacity-10"
+                      />
                     </div>
                     <div className="flex flex-1 flex-col p-7">
                       <div className="flex flex-wrap gap-2">

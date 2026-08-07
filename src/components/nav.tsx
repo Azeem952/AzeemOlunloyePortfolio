@@ -24,11 +24,17 @@ export function Nav() {
 
   return (
     <header
-      className={`sticky top-0 z-50 bg-background transition-shadow duration-300 ${
-        scrolled ? "hairline-b shadow-card" : "hairline-b"
+      className={`sticky top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-200 ${
+        scrolled
+          ? "hairline-b bg-background/85 shadow-card backdrop-blur-xl"
+          : "hairline-b bg-background"
       }`}
     >
-      <div className="container-page grid h-[72px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 md:h-[88px] md:grid-cols-[auto_1fr_auto]">
+      <div
+        className={`container-page grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 transition-[height] duration-200 md:grid-cols-[auto_1fr_auto] ${
+          scrolled ? "h-[68px] md:h-[76px]" : "h-[72px] md:h-[88px]"
+        }`}
+      >
         <Link to="/" className="flex min-w-0 items-center gap-3">
           <img
             src="/favicon.png"
@@ -52,7 +58,7 @@ export function Nav() {
             <Link
               key={l.to}
               to={l.to}
-              className="text-[15px] font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              className="nav-link relative text-[15px] font-semibold text-muted-foreground transition-colors hover:text-foreground"
               activeProps={{ className: "text-foreground" }}
               activeOptions={{ exact: l.to === "/" }}
             >
@@ -98,7 +104,7 @@ export function Nav() {
       </div>
 
       {open && (
-        <div className="hairline-t bg-background md:hidden">
+        <div className="menu-in hairline-t bg-background md:hidden">
           <nav className="container-page flex flex-col py-4">
             {links.map((l) => (
               <Link
