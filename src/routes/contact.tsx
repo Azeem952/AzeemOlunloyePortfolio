@@ -165,11 +165,11 @@ function Contact() {
                   onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                   aria-invalid={!!errors.message}
                   aria-errormessage={errors.message ? "message-error" : undefined}
-                  className="w-full resize-none rounded-xl border bg-background px-4 py-3 text-base outline-none transition-colors focus:border-accent"
+                  className="w-full resize-none rounded-xl border bg-background px-4 py-3 text-base outline-none transition-[border-color,box-shadow] duration-200 placeholder:opacity-70 placeholder:transition-opacity focus:border-accent focus:shadow-green focus:placeholder:opacity-40"
                   placeholder="What are you trying to automate?"
                 />
                 {errors.message && (
-                  <p id="message-error" className="mt-2 text-xs text-destructive">
+                  <p id="message-error" className="animate-fade-in mt-2 text-xs text-destructive">
                     {errors.message}
                   </p>
                 )}
@@ -181,13 +181,36 @@ function Contact() {
                   disabled={status === "sending"}
                   className="group inline-flex h-14 items-center gap-2 rounded-xl bg-accent px-7 text-[15px] font-bold text-accent-foreground shadow-green transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-2 disabled:translate-y-0 disabled:opacity-60"
                 >
-                  {status === "sending" ? "Sending..." : "Send message"}
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  {status === "sending" ? (
+                    <>
+                      Sending...
+                      <span
+                        aria-hidden
+                        className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                      />
+                    </>
+                  ) : status === "sent" ? (
+                    <>
+                      Sent
+                      <span aria-hidden className="check-pop inline-block">✓</span>
+                    </>
+                  ) : (
+                    <>
+                      Send message
+                      <span className="cta-arrow">→</span>
+                    </>
+                  )}
                 </button>
 
                 <p id="form-status" role="status" aria-live="polite" className="text-sm">
                   {status === "sent" && (
-                    <span className="font-semibold text-accent-2">
+                    <span className="animate-fade-in inline-flex items-center gap-2 font-semibold text-accent-2">
+                      <span
+                        aria-hidden
+                        className="check-pop grid h-5 w-5 place-items-center rounded-full bg-accent text-[11px] text-accent-foreground"
+                      >
+                        ✓
+                      </span>
                       Message sent successfully.
                     </span>
                   )}
@@ -340,10 +363,10 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         aria-invalid={!!error}
         aria-errormessage={error ? `${id}-error` : undefined}
-        className="h-14 w-full rounded-xl border bg-background px-4 text-base outline-none transition-colors focus:border-accent"
+        className="h-14 w-full rounded-xl border bg-background px-4 text-base outline-none transition-[border-color,box-shadow] duration-200 placeholder:opacity-70 placeholder:transition-opacity focus:border-accent focus:shadow-green focus:placeholder:opacity-40"
       />
       {error && (
-        <p id={`${id}-error`} className="mt-2 text-xs text-destructive">
+        <p id={`${id}-error`} className="animate-fade-in mt-2 text-xs text-destructive">
           {error}
         </p>
       )}
