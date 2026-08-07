@@ -158,6 +158,10 @@ function Portfolio() {
                           ▶ Demo video
                         </span>
                       )}
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-ink opacity-0 transition-opacity duration-[250ms] group-hover:opacity-10"
+                      />
                     </div>
                     <div className="flex flex-1 flex-col p-7">
                       <div className="flex flex-wrap gap-2">
