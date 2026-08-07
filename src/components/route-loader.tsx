@@ -46,12 +46,17 @@ export function RouteLoader() {
       className="route-loader fixed inset-0 z-[100] grid place-items-center"
     >
       <div className="flex flex-col items-center gap-4">
+        <img
+          src="/favicon.png"
+          alt=""
+          width={44}
+          height={44}
+          className="route-loader-logo h-11 w-11 rounded-xl object-contain"
+        />
         <span className="route-loader-ring" />
-        {slow && (
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Preparing case study…
-          </p>
-        )}
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          {slow ? "Preparing case study…" : "Loading"}
+        </p>
       </div>
       <span className="sr-only">Loading…</span>
     </div>
