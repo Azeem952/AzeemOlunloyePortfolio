@@ -230,6 +230,13 @@
   backdrop-filter: blur(8px);
   animation: route-loader-in 150ms ease both;
 }
+@keyframes route-loader-logo {
+  0%, 100% { opacity: 0.75; transform: scale(0.97); }
+  50% { opacity: 1; transform: scale(1); }
+}
+.route-loader-logo {
+  animation: route-loader-logo 1.4s ease-in-out infinite;
+}
 .route-loader-ring {
   width: 34px;
   height: 34px;

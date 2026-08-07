@@ -19,7 +19,7 @@ export function WhatsAppWidget() {
       }`}
     >
       {open && (
-        <div className="w-64 rounded-2xl border bg-surface p-4 shadow-lift">
+        <div className="menu-in w-64 rounded-2xl border bg-surface p-4 shadow-lift">
           <p className="font-display text-sm tracking-tight">Chat with Azeem</p>
           <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
             Tell me what you'd like automated — I usually reply the same day.
@@ -40,11 +40,11 @@ export function WhatsAppWidget() {
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? "Close WhatsApp chat" : "Chat on WhatsApp"}
         aria-expanded={open}
-        className="group relative grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lift transition-transform duration-300 hover:scale-105"
+        className="group relative grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lift transition-[scale,box-shadow] duration-200 hover:scale-[1.08] hover:shadow-lift"
       >
         <span
           aria-hidden
-          className="absolute inset-0 animate-ping rounded-full bg-[#25D366] opacity-25"
+          className="wa-pulse absolute inset-0 rounded-full bg-[#25D366]"
         />
         {open ? (
           <span className="relative text-xl leading-none">✕</span>
