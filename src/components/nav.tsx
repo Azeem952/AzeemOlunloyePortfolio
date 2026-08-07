@@ -104,7 +104,7 @@ export function Nav() {
       </div>
 
       {open && (
-        <div className="hairline-t bg-background md:hidden">
+        <div className="menu-in hairline-t bg-background md:hidden">
           <nav className="container-page flex flex-col py-4">
             {links.map((l) => (
               <Link
