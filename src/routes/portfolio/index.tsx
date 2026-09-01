@@ -4,7 +4,6 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { CtaBand, CtaPill, Eyebrow, TechLogo } from "@/components/ui-kit";
-import { categories } from "@/data/projects";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { projectsQuery } from "@/lib/content-queries";
 import type { CmsProject } from "@/lib/cms-types";
