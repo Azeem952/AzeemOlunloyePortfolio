@@ -46,6 +46,24 @@ function Overview() {
         </p>
       </header>
 
+      {status === "loading" && (
+        <p className="text-sm text-muted-foreground">Loading dashboard…</p>
+      )}
+      {status === "error" && (
+        <div className="rounded-2xl border bg-background p-5">
+          <p className="text-sm text-muted-foreground">
+            Unable to load projects. Please try again.
+          </p>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="mt-3 inline-flex h-9 items-center rounded-full border px-4 text-sm font-semibold hover:border-foreground"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c) => (
           <div key={c.label} className="rounded-2xl border bg-background p-5">
