@@ -35,22 +35,41 @@ export const Route = createFileRoute("/portfolio/")({
   component: Portfolio,
 });
 
+/**
+ * Compact niche filters. Each niche groups the raw project categories so the
+ * work page shows a short, meaningful row instead of a wall of pills.
+ */
+const NICHES: { label: string; match: string[] }[] = [
+  { label: "AI Agents", match: ["AI Agents", "AI Chatbots", "AI"] },
+  { label: "Voice AI", match: ["Voice AI"] },
+  {
+    label: "CRM & Sales",
+    match: ["CRM Automation", "CRM Integration", "Lead Generation", "Customer Service", "Customer Support"],
+  },
+  {
+    label: "Workflow Automation",
+    match: ["Workflow Automation", "Workflow Engineering", "Automation", "n8n"],
+  },
+  { label: "Integrations", match: ["Integrations"] },
+  { label: "Data & OCR", match: ["OCR", "Data", "Data & OCR", "Document Processing"] },
+];
+
 function Portfolio() {
   const { data: projects } = useSuspenseQuery(projectsQuery) as { data: CmsProject[] };
   const [cat, setCat] = useState("All");
   const [q, setQ] = useState("");
 
   const activeCats = useMemo(() => {
-    const s = new Set<string>(["All"]);
-    projects.forEach((p) => p.categories.forEach((c) => s.add(c)));
-    const known = categories.filter((c) => s.has(c));
-    const extra = [...s].filter((c) => !categories.includes(c));
-    return [...known, ...extra];
+    const present = new Set<string>();
+    projects.forEach((p) => p.categories.forEach((c) => present.add(c)));
+    const niches = NICHES.filter((n) => n.match.some((m) => present.has(m))).map((n) => n.label);
+    return ["All", ...niches];
   }, [projects]);
 
   const filtered = useMemo(() => {
+    const niche = NICHES.find((n) => n.label === cat);
     return projects.filter((p) => {
-      const inCat = cat === "All" || p.categories.includes(cat);
+      const inCat = cat === "All" || (niche ? p.categories.some((c) => niche.match.includes(c)) : true);
       const query = q.trim().toLowerCase();
       const inQ =
         !query ||
