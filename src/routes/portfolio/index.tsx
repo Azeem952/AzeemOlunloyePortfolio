@@ -141,7 +141,7 @@ function Portfolio() {
               No projects match that filter.
             </p>
           ) : (
-            <div className="grid gap-8 md:grid-cols-2">
+            <div key={cat + "|" + q} className="filter-fade grid gap-8 md:grid-cols-2">
               {filtered.map((p, i) => (
                 <Reveal key={p.slug} delay={(i % 2) * 70}>
                   <Link
