@@ -9,6 +9,7 @@ export const Route = createFileRoute("/azeemadmin/")({
 function Overview() {
   const [stats, setStats] = useState({ total: 0, published: 0, drafts: 0, media: 0 });
   const [recent, setRecent] = useState<{ id: string; title: string; published: boolean }[]>([]);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     (async () => {
