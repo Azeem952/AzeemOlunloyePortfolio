@@ -159,6 +159,26 @@ function SignIn({ signedInAs }: { signedInAs: string | null }) {
         >
           {busy ? "Opening Google…" : "Continue with Google"}
         </button>
+        <form onSubmit={signInWithPassword} className="mt-6 border-t pt-6">
+          <label className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+            Owner password
+          </label>
+          <input
+            type="password"
+            value={password}
+            autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            className="mt-2 h-11 w-full rounded-xl border bg-background px-4 text-sm outline-none focus:border-accent"
+          />
+          <button
+            type="submit"
+            disabled={busy || password.length < 6}
+            className="mt-3 inline-flex h-11 w-full items-center justify-center rounded-full border px-6 text-sm font-semibold transition-colors hover:border-foreground disabled:opacity-50"
+          >
+            {busy ? "Signing in…" : "Sign in with password"}
+          </button>
+        </form>
         {signedInAs && (
           <button
             type="button"
