@@ -138,7 +138,7 @@ function Portfolio() {
         <section className="container-page pb-20 pt-8 md:pb-28">
           {filtered.length === 0 ? (
             <p className="py-24 text-center text-muted-foreground">
-              No projects match that filter.
+              No projects found.
             </p>
           ) : (
             <div key={cat + "|" + q} className="filter-fade grid gap-8 md:grid-cols-2">
