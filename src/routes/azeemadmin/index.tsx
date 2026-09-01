@@ -9,6 +9,7 @@ export const Route = createFileRoute("/azeemadmin/")({
 function Overview() {
   const [stats, setStats] = useState({ total: 0, published: 0, drafts: 0, media: 0 });
   const [recent, setRecent] = useState<{ id: string; title: string; published: boolean }[]>([]);
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
 
   useEffect(() => {
     (async () => {
@@ -25,7 +26,8 @@ function Overview() {
           .slice(0, 5)
           .map((p) => ({ id: p.id, title: p.title, published: p.published })),
       );
-    })().catch(() => undefined);
+      setStatus("ready");
+    })().catch(() => setStatus("error"));
   }, []);
 
   const cards = [
@@ -43,6 +45,24 @@ function Overview() {
           Manage everything on the public site without touching code.
         </p>
       </header>
+
+      {status === "loading" && (
+        <p className="text-sm text-muted-foreground">Loading dashboard…</p>
+      )}
+      {status === "error" && (
+        <div className="rounded-2xl border bg-background p-5">
+          <p className="text-sm text-muted-foreground">
+            Unable to load projects. Please try again.
+          </p>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="mt-3 inline-flex h-9 items-center rounded-full border px-4 text-sm font-semibold hover:border-foreground"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c) => (

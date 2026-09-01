@@ -4,7 +4,6 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Reveal } from "@/components/reveal";
 import { CtaBand, CtaPill, Eyebrow, TechLogo } from "@/components/ui-kit";
-import { categories } from "@/data/projects";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { projectsQuery } from "@/lib/content-queries";
 import type { CmsProject } from "@/lib/cms-types";
@@ -35,22 +34,41 @@ export const Route = createFileRoute("/portfolio/")({
   component: Portfolio,
 });
 
+/**
+ * Compact niche filters. Each niche groups the raw project categories so the
+ * work page shows a short, meaningful row instead of a wall of pills.
+ */
+const NICHES: { label: string; match: string[] }[] = [
+  { label: "AI Agents", match: ["AI Agents", "AI Chatbots", "AI"] },
+  { label: "Voice AI", match: ["Voice AI"] },
+  {
+    label: "CRM & Sales",
+    match: ["CRM Automation", "CRM Integration", "Lead Generation", "Customer Service", "Customer Support"],
+  },
+  {
+    label: "Workflow Automation",
+    match: ["Workflow Automation", "Workflow Engineering", "Automation", "n8n"],
+  },
+  { label: "Integrations", match: ["Integrations"] },
+  { label: "Data & OCR", match: ["OCR", "Data", "Data & OCR", "Document Processing"] },
+];
+
 function Portfolio() {
   const { data: projects } = useSuspenseQuery(projectsQuery) as { data: CmsProject[] };
   const [cat, setCat] = useState("All");
   const [q, setQ] = useState("");
 
   const activeCats = useMemo(() => {
-    const s = new Set<string>(["All"]);
-    projects.forEach((p) => p.categories.forEach((c) => s.add(c)));
-    const known = categories.filter((c) => s.has(c));
-    const extra = [...s].filter((c) => !categories.includes(c));
-    return [...known, ...extra];
+    const present = new Set<string>();
+    projects.forEach((p) => p.categories.forEach((c) => present.add(c)));
+    const niches = NICHES.filter((n) => n.match.some((m) => present.has(m))).map((n) => n.label);
+    return ["All", ...niches];
   }, [projects]);
 
   const filtered = useMemo(() => {
+    const niche = NICHES.find((n) => n.label === cat);
     return projects.filter((p) => {
-      const inCat = cat === "All" || p.categories.includes(cat);
+      const inCat = cat === "All" || (niche ? p.categories.some((c) => niche.match.includes(c)) : true);
       const query = q.trim().toLowerCase();
       const inQ =
         !query ||
@@ -81,43 +99,49 @@ function Portfolio() {
 
 
 
-        <section className="container-page sticky top-[72px] z-30 flex flex-col gap-4 bg-background/90 py-5 backdrop-blur-md md:top-[88px] md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap gap-2">
+        <section className="container-page sticky top-[72px] z-30 flex flex-col gap-2.5 bg-background/90 py-3 backdrop-blur-md md:top-[88px] md:flex-row md:items-center md:justify-between md:gap-4 md:py-4">
+          <div
+            role="tablist"
+            aria-label="Filter projects by niche"
+            className="filter-row -mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-0.5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
+          >
             {activeCats.map((c) => (
               <button
                 key={c}
                 type="button"
+                role="tab"
+                aria-selected={cat === c}
                 onClick={() => setCat(c)}
-                className={`rounded-xl border px-4 py-2 text-sm font-bold transition-colors ${
+                className={`shrink-0 snap-start whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
                   cat === c
-                    ? "border-accent bg-accent text-accent-foreground shadow-green"
-                    : "hover:border-foreground"
+                    ? "border-accent bg-accent text-accent-foreground"
+                    : "text-muted-foreground hover:border-foreground hover:text-foreground"
                 }`}
               >
                 {c}
               </button>
             ))}
           </div>
-          <label className="relative block w-full md:w-64">
+          <label className="relative block w-full md:w-60 md:shrink-0">
             <span className="sr-only">Search projects</span>
             <input
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search projects, tools…"
-              className="h-11 w-full rounded-xl border bg-background px-4 pr-9 text-sm outline-none focus:border-accent"
+              className="h-10 w-full rounded-full border bg-background px-4 pr-9 text-sm outline-none focus:border-accent"
             />
-            <span aria-hidden className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">⌕</span>
+            <span aria-hidden className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground">⌕</span>
           </label>
         </section>
 
         <section className="container-page pb-20 pt-8 md:pb-28">
           {filtered.length === 0 ? (
             <p className="py-24 text-center text-muted-foreground">
-              No projects match that filter.
+              No projects found.
             </p>
           ) : (
-            <div className="grid gap-8 md:grid-cols-2">
+            <div key={cat + "|" + q} className="filter-fade grid gap-8 md:grid-cols-2">
               {filtered.map((p, i) => (
                 <Reveal key={p.slug} delay={(i % 2) * 70}>
                   <Link
