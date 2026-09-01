@@ -98,6 +98,7 @@ function AdminLayout() {
 
 function SignIn({ signedInAs }: { signedInAs: string | null }) {
   const [busy, setBusy] = useState(false);
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(
     signedInAs ? "That account is not authorised for this dashboard." : null,
   );
@@ -105,16 +106,36 @@ function SignIn({ signedInAs }: { signedInAs: string | null }) {
   const signIn = async () => {
     setBusy(true);
     setError(null);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin + "/azeemadmin",
-      extraParams: { prompt: "select_account" },
-    });
-    if (result.error) {
-      setError("Sign-in failed. Please try again.");
-      setBusy(false);
-      return;
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin + "/azeemadmin",
+        extraParams: { prompt: "select_account" },
+      });
+      if (result.error) {
+        setError(
+          "Google sign-in is unavailable on this domain. Use the owner email and password below.",
+        );
+        setBusy(false);
+        return;
+      }
+      if (result.redirected) return;
+    } catch {
+      setError(
+        "Google sign-in is unavailable on this domain. Use the owner email and password below.",
+      );
     }
-    if (result.redirected) return;
+    setBusy(false);
+  };
+
+  const signInWithPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    const { error: err } = await supabase.auth.signInWithPassword({
+      email: ADMIN_EMAIL,
+      password,
+    });
+    if (err) setError(err.message);
     setBusy(false);
   };
 
