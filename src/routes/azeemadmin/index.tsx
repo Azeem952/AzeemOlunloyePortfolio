@@ -26,7 +26,8 @@ function Overview() {
           .slice(0, 5)
           .map((p) => ({ id: p.id, title: p.title, published: p.published })),
       );
-    })().catch(() => undefined);
+      setStatus("ready");
+    })().catch(() => setStatus("error"));
   }, []);
 
   const cards = [
