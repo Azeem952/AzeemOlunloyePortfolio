@@ -100,33 +100,39 @@ function Portfolio() {
 
 
 
-        <section className="container-page sticky top-[72px] z-30 flex flex-col gap-4 bg-background/90 py-5 backdrop-blur-md md:top-[88px] md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap gap-2">
+        <section className="container-page sticky top-[72px] z-30 flex flex-col gap-2.5 bg-background/90 py-3 backdrop-blur-md md:top-[88px] md:flex-row md:items-center md:justify-between md:gap-4 md:py-4">
+          <div
+            role="tablist"
+            aria-label="Filter projects by niche"
+            className="filter-row -mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-0.5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
+          >
             {activeCats.map((c) => (
               <button
                 key={c}
                 type="button"
+                role="tab"
+                aria-selected={cat === c}
                 onClick={() => setCat(c)}
-                className={`rounded-xl border px-4 py-2 text-sm font-bold transition-colors ${
+                className={`shrink-0 snap-start whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
                   cat === c
-                    ? "border-accent bg-accent text-accent-foreground shadow-green"
-                    : "hover:border-foreground"
+                    ? "border-accent bg-accent text-accent-foreground"
+                    : "text-muted-foreground hover:border-foreground hover:text-foreground"
                 }`}
               >
                 {c}
               </button>
             ))}
           </div>
-          <label className="relative block w-full md:w-64">
+          <label className="relative block w-full md:w-60 md:shrink-0">
             <span className="sr-only">Search projects</span>
             <input
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search projects, tools…"
-              className="h-11 w-full rounded-xl border bg-background px-4 pr-9 text-sm outline-none focus:border-accent"
+              className="h-10 w-full rounded-full border bg-background px-4 pr-9 text-sm outline-none focus:border-accent"
             />
-            <span aria-hidden className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">⌕</span>
+            <span aria-hidden className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground">⌕</span>
           </label>
         </section>
 
