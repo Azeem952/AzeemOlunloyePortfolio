@@ -63,7 +63,7 @@ function FAQTabs({
           onClick={() => setSelected(key)}
           aria-pressed={selected === key}
           className={cn(
-            "relative overflow-hidden whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors duration-200",
+            "relative shrink-0 overflow-hidden whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors duration-200",
             selected === key
               ? "border-accent text-accent-foreground"
               : "border-border bg-background/60 text-muted-foreground backdrop-blur hover:text-foreground",
