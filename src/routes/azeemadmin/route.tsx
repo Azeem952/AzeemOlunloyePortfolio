@@ -103,6 +103,17 @@ function SignIn({ signedInAs }: { signedInAs: string | null }) {
     signedInAs ? "That account is not authorised for this dashboard." : null,
   );
 
+  const nativeGoogle = async () => {
+    const { error: err } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin + "/azeemadmin",
+        queryParams: { prompt: "select_account" },
+      },
+    });
+    if (err) throw err;
+  };
+
   const signIn = async () => {
     setBusy(true);
     setError(null);
@@ -111,18 +122,18 @@ function SignIn({ signedInAs }: { signedInAs: string | null }) {
         redirect_uri: window.location.origin + "/azeemadmin",
         extraParams: { prompt: "select_account" },
       });
+      if (result.redirected) return;
       if (result.error) {
-        setError(
-          "Google sign-in is unavailable on this domain. Use the owner email and password below.",
-        );
-        setBusy(false);
+        await nativeGoogle();
         return;
       }
-      if (result.redirected) return;
     } catch {
-      setError(
-        "Google sign-in is unavailable on this domain. Use the owner email and password below.",
-      );
+      try {
+        await nativeGoogle();
+        return;
+      } catch {
+        setError("Google sign-in failed on this domain. Use the owner password below.");
+      }
     }
     setBusy(false);
   };
@@ -135,9 +146,16 @@ function SignIn({ signedInAs }: { signedInAs: string | null }) {
       email: ADMIN_EMAIL,
       password,
     });
-    if (err) setError(err.message);
+    if (err) {
+      setError(
+        /email logins are disabled/i.test(err.message)
+          ? "Password sign-in is switched off for this project. Turn on the Email sign-in method in Cloud → Users → Auth Settings, then try again."
+          : err.message,
+      );
+    }
     setBusy(false);
   };
+
 
   return (
     <div className="grid min-h-dvh place-items-center bg-muted px-5">
