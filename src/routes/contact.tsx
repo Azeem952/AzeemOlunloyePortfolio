@@ -43,12 +43,12 @@ function Contact() {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (form.name.trim().length < 2) errs.name = "Please enter your name.";
+    if (!form.name.trim()) errs.name = "Please enter your name.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
       errs.email = "Please enter a valid email address.";
-    if (form.subject.trim().length < 2) errs.subject = "Please add a brief topic or subject.";
-    if (form.message.trim().length < 10)
-      errs.message = "Please provide at least 10 characters of context.";
+    if (!form.subject.trim()) errs.subject = "Please add a subject.";
+    if (!form.message.trim())
+      errs.message = "Please provide your message.";
     if (form.message.trim().length > 4000) errs.message = "Message exceeds maximum length.";
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -66,12 +66,13 @@ function Contact() {
           email: form.email.trim(),
           subject: form.subject.trim(),
           message: form.message.trim(),
+          source: "Contact Page Form",
         },
       });
       setStatus("sent");
       setForm({ name: "", email: "", subject: "", message: "" });
       setErrors({});
-      toast.success("Message delivered successfully.");
+      toast.success("Message delivered successfully to Telegram.");
     } catch {
       setStatus("error");
       setServerError("Unable to send message right now. Please message directly on WhatsApp or Email.");

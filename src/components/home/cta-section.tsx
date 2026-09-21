@@ -1,16 +1,43 @@
-import { ArrowUpRight, CheckCircle2, Mail } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Mail, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { submitContact } from "@/lib/contact.functions";
+import { toast } from "sonner";
 
 export function CtaSection() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const send = useServerFn(submitContact);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await send({
+        data: {
+          email: cleanEmail,
+          name: "Project Lead",
+          subject: "Homepage Project Discussion Inquiry",
+          message: `User submitted email: ${cleanEmail} via Homepage CTA banner to discuss a project.`,
+          source: "Homepage CTA Banner",
+        },
+      });
       setSent(true);
-      setTimeout(() => setSent(false), 5000);
       setEmail("");
+      toast.success("Inquiry delivered to Telegram! Azeem will reach out shortly.");
+      setTimeout(() => setSent(false), 8000);
+    } catch (err) {
+      console.error("CTA submission failed:", err);
+      toast.error("Unable to deliver message to Telegram. Please contact directly on WhatsApp or Email.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -32,23 +59,34 @@ export function CtaSection() {
           <input
             type="email"
             required
+            disabled={loading}
             placeholder="Enter Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-transparent text-sm sm:text-base text-[#101828] placeholder:text-gray-400 focus:outline-none"
+            className="w-full bg-transparent text-sm sm:text-base text-[#101828] placeholder:text-gray-400 focus:outline-none disabled:opacity-50"
           />
           <button
             type="submit"
-            className="inline-flex items-center gap-1.5 rounded-full bg-[#5B8CFF] px-6 py-3 text-xs sm:text-sm font-bold text-white shadow-md transition-all duration-300 hover:bg-[#3E6EE0] hover:scale-105 shrink-0"
+            disabled={loading}
+            className="inline-flex items-center gap-1.5 rounded-full bg-[#5B8CFF] px-6 py-3 text-xs sm:text-sm font-bold text-white shadow-md transition-all duration-300 hover:bg-[#3E6EE0] hover:scale-105 shrink-0 disabled:opacity-70 disabled:hover:scale-100"
           >
-            <span>Send</span>
-            <ArrowUpRight className="h-4 w-4" />
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span>Sending...</span>
+              </>
+            ) : (
+              <>
+                <span>Send</span>
+                <ArrowUpRight className="h-4 w-4" />
+              </>
+            )}
           </button>
         </form>
 
         {sent && (
-          <p className="mt-3 text-sm font-semibold text-green-600">
-            Thank you! Azeem will reach out to schedule our discovery call.
+          <p className="mt-3 text-sm font-semibold text-green-600 animate-fade-in">
+            Thank you! Azeem received your notification on Telegram and will reach out shortly.
           </p>
         )}
 

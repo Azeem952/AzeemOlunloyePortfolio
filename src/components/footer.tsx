@@ -1,6 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Mail, Send } from "lucide-react";
+import { ArrowUpRight, Mail, Send, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { submitContact } from "@/lib/contact.functions";
+import { toast } from "sonner";
 
 export const EMAIL = "azeemolunloye@gmail.com";
 export const PHONE = "+234 813 860 2053";
@@ -11,13 +14,37 @@ export const GITHUB = "https://github.com/Azeem952";
 export function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const send = useServerFn(submitContact);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newsletterEmail.trim()) {
+    const cleanEmail = newsletterEmail.trim();
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await send({
+        data: {
+          email: cleanEmail,
+          name: "Footer Contact",
+          subject: "Footer Automation Inquiry",
+          message: `User submitted email: ${cleanEmail} via footer get-in-touch form.`,
+          source: "Footer ('Get in touch')",
+        },
+      });
       setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 4000);
       setNewsletterEmail("");
+      toast.success("Inquiry sent to Telegram! Azeem will reach out shortly.");
+      setTimeout(() => setSubscribed(false), 8000);
+    } catch (err) {
+      console.error("Footer lead delivery failed:", err);
+      toast.error("Unable to deliver message right now. Please reach out via WhatsApp or Email.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -143,17 +170,23 @@ export function Footer() {
               <input
                 type="email"
                 required
+                disabled={loading}
                 placeholder="Enter Email Address"
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
-                className="w-full rounded-full border border-white/15 bg-white/5 py-2.5 pl-4 pr-12 text-sm text-white placeholder:text-white/40 focus:border-[#5B8CFF] focus:outline-none"
+                className="w-full rounded-full border border-white/15 bg-white/5 py-2.5 pl-4 pr-12 text-sm text-white placeholder:text-white/40 focus:border-[#5B8CFF] focus:outline-none disabled:opacity-50"
               />
               <button
                 type="submit"
+                disabled={loading}
                 aria-label="Submit email"
-                className="absolute right-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#5B8CFF] text-white hover:bg-[#3E6EE0] transition-colors"
+                className="absolute right-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#5B8CFF] text-white hover:bg-[#3E6EE0] transition-colors disabled:opacity-60"
               >
-                <Send className="h-3.5 w-3.5" />
+                {loading ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Send className="h-3.5 w-3.5" />
+                )}
               </button>
             </form>
             {subscribed && (
