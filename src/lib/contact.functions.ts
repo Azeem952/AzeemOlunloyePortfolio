@@ -83,15 +83,18 @@ export const submitContact = createServerFn({ method: "POST" })
     // 2) Archive the submission (best effort — never blocks delivery).
     try {
       const { publicClient } = await import("./cms.server");
-      const { error } = await publicClient().from("contact_submissions").insert({
-        id: crypto.randomUUID(),
-        name: data.name,
-        email: data.email,
-        subject: data.subject,
-        message: data.message,
-        source: "contact-page",
-      });
-      if (error) console.error("contact insert failed", error);
+      const client = publicClient();
+      if (client) {
+        const { error } = await client.from("contact_submissions").insert({
+          id: crypto.randomUUID(),
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+          source: "contact-page",
+        });
+        if (error) console.error("contact insert failed", error);
+      }
     } catch (err) {
       console.error("contact archive failed", err);
     }

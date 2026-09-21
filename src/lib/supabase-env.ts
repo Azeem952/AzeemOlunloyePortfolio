@@ -1,10 +1,6 @@
 /**
- * Resolves Supabase connection settings for server-side code on ANY host.
- *
- * Resolves Supabase credentials from runtime env vars (set by the host) or
- * build-time VITE_* values (inlined by Vite). The VITE_* values are inlined
- * into the bundle at build time, so they are always present. Falling back to
- * them means no public page depends on host-specific runtime secrets.
+ * Resolves Supabase connection settings if configured in environment.
+ * Returns null if Supabase is not configured, allowing the app to run standalone.
  */
 export function supabaseEnv() {
   const env = (typeof process !== "undefined" ? process.env : {}) as Record<
@@ -16,9 +12,7 @@ export function supabaseEnv() {
     env["SUPABASE_PUBLISHABLE_KEY"] || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
   if (!url || !key) {
-    throw new Error(
-      "Supabase URL/publishable key unavailable. Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in the deployment environment.",
-    );
+    return null;
   }
   return { url, key };
 }

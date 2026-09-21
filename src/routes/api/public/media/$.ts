@@ -16,6 +16,9 @@ export const Route = createFileRoute("/api/public/media/$")({
         // this works on any host without a service-role secret.
         const { publicClient } = await import("@/lib/cms.server");
         const client = publicClient();
+        if (!client) {
+          return new Response("Not found", { status: 404 });
+        }
 
         // Fast path: hand the browser a short-lived direct storage URL so the
         // file streams from storage (range requests, CDN caching) instead of
