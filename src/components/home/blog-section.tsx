@@ -32,19 +32,19 @@ const posts = [
 export function BlogSection() {
   return (
     <section className="container-page py-16 sm:py-24">
-      {/* Top Header Row with Title and See All Orange Button */}
+      {/* Top Header Row with Title and See All Button */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
         <div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-[1.15]">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#101828] leading-[1.15]">
             From my
             <br />
-            <span className="text-[#FF5E1E]">blog post</span>
+            <span className="text-[#5B8CFF]">blog post</span>
           </h2>
         </div>
 
         <Link
           to="/services"
-          className="inline-flex items-center gap-1.5 rounded-full bg-[#FF5E1E] px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.35)] transition-all hover:bg-[#E54D12] hover:scale-105 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 rounded-full bg-[#5B8CFF] px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-[0_4px_16px_rgba(91,140,255,0.35)] transition-all hover:bg-[#3E6EE0] hover:scale-105 self-start sm:self-auto"
         >
           <span>See All</span>
           <ArrowUpRight className="h-4 w-4" />
@@ -70,14 +70,14 @@ export function BlogSection() {
                 />
                 
                 {/* Circular Arrow Action Button */}
-                <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#121214] border border-white/10 text-white shadow-md transition-all duration-300 group-hover:bg-[#FF5E1E] group-hover:scale-110">
+                <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#0B1220] border border-white/10 text-white shadow-md transition-all duration-300 group-hover:bg-[#5B8CFF] group-hover:scale-110">
                   <ArrowUpRight className="h-4 w-4" />
                 </div>
               </div>
 
               {/* Tag & Metadata */}
               <div className="mt-5 flex items-center gap-3 text-xs font-semibold">
-                <span className="rounded-full bg-[#FF5E1E]/10 px-3 py-1 text-[#FF5E1E]">
+                <span className="rounded-full bg-[#5B8CFF]/10 px-3 py-1 text-[#5B8CFF]">
                   {post.category}
                 </span>
                 <span className="text-gray-400">·</span>
@@ -87,7 +87,7 @@ export function BlogSection() {
               </div>
 
               {/* Title */}
-              <h3 className="font-display text-lg sm:text-xl font-bold tracking-tight text-gray-900 mt-3 group-hover:text-[#FF5E1E] transition-colors leading-snug">
+              <h3 className="font-display text-lg sm:text-xl font-bold tracking-tight text-gray-900 mt-3 group-hover:text-[#5B8CFF] transition-colors leading-snug">
                 {post.title}
               </h3>
             </div>

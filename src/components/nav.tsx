@@ -19,18 +19,21 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-50 flex w-full justify-center px-4 pt-4 sm:pt-6 transition-all duration-300">
       <div
-        className={`flex w-full max-w-4xl items-center justify-between rounded-full border border-white/15 bg-[#141416]/95 px-3 py-2 text-white shadow-2xl backdrop-blur-xl transition-all duration-300 ${
-          scrolled ? "scale-[0.98] bg-[#141416]/98 shadow-black/40" : ""
+        className={`flex w-full max-w-4xl items-center justify-between rounded-full border border-white/20 bg-[#0B1220]/82 px-3.5 py-2.5 text-white shadow-2xl backdrop-blur-2xl transition-all duration-300 ${
+          scrolled ? "scale-[0.98] bg-[#0B1220]/94 border-white/25 shadow-black/60" : ""
         }`}
+        style={{
+          boxShadow: "0 14px 40px -6px rgba(0, 0, 0, 0.45), 0 2px 10px rgba(0, 0, 0, 0.2), inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.26), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4)",
+        }}
       >
         {/* Left Links */}
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-1.5">
           <Link
             to="/"
             className={`rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-200 ${
               currentPath === "/"
-                ? "bg-[#FF5E1E] text-white shadow-[0_2px_12px_rgba(255,94,30,0.4)]"
-                : "text-white/70 hover:text-white"
+                ? "bg-[#5B8CFF] text-white shadow-[0_2px_14px_rgba(91,140,255,0.45)]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
             }`}
           >
             Home
@@ -39,8 +42,8 @@ export function Nav() {
             to="/about"
             className={`hidden sm:inline-flex rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold transition-colors ${
               currentPath === "/about"
-                ? "bg-white/15 text-white"
-                : "text-white/70 hover:text-white"
+                ? "bg-[#5B8CFF] text-white shadow-[0_2px_14px_rgba(91,140,255,0.45)]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
             }`}
           >
             About
@@ -49,8 +52,8 @@ export function Nav() {
             to="/services"
             className={`hidden sm:inline-flex rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold transition-colors ${
               currentPath === "/services"
-                ? "bg-white/15 text-white"
-                : "text-white/70 hover:text-white"
+                ? "bg-[#5B8CFF] text-white shadow-[0_2px_14px_rgba(91,140,255,0.45)]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
             }`}
           >
             Service
@@ -59,7 +62,7 @@ export function Nav() {
 
         {/* Center Logo */}
         <Link to="/" className="flex items-center gap-2 px-2 hover:opacity-90 transition-opacity">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FF5E1E] text-white font-black text-sm shadow-[0_0_14px_rgba(255,94,30,0.5)]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#5B8CFF] text-white font-black text-sm shadow-[0_0_16px_rgba(91,140,255,0.5)]">
             <span className="translate-y-[-0.5px]">✦</span>
           </div>
           <span className="font-display font-extrabold tracking-tight text-sm sm:text-base text-white">
@@ -74,7 +77,7 @@ export function Nav() {
             target="_blank"
             rel="noreferrer"
             download="Azeem-Olunloye-Resume.pdf"
-            className="rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold text-white/70 hover:text-white transition-colors"
+            className="rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold text-white/70 hover:text-white hover:bg-white/5 transition-colors"
           >
             Resume
           </a>
@@ -82,18 +85,18 @@ export function Nav() {
             to="/portfolio"
             className={`rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold transition-colors ${
               currentPath.startsWith("/portfolio")
-                ? "bg-white/15 text-white"
-                : "text-white/70 hover:text-white"
+                ? "bg-[#5B8CFF] text-white shadow-[0_2px_14px_rgba(91,140,255,0.45)]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
             }`}
           >
             Project
           </Link>
           <Link
             to="/contact"
-            className={`rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-colors ${
+            className={`rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-all ${
               currentPath === "/contact"
-                ? "bg-[#FF5E1E] text-white shadow-[0_2px_12px_rgba(255,94,30,0.4)]"
-                : "bg-white/10 text-white hover:bg-white/20"
+                ? "bg-[#5B8CFF] text-white shadow-[0_2px_14px_rgba(91,140,255,0.45)]"
+                : "bg-white/10 text-white hover:bg-white/20 border border-white/10"
             }`}
           >
             Contact
@@ -104,7 +107,7 @@ export function Nav() {
         <div className="flex sm:hidden items-center gap-2">
           <Link
             to="/contact"
-            className="rounded-full bg-[#FF5E1E] px-3 py-1.5 text-xs font-semibold text-white"
+            className="rounded-full bg-[#5B8CFF] px-3 py-1.5 text-xs font-semibold text-white shadow-sm"
           >
             Contact
           </Link>
@@ -131,15 +134,15 @@ export function Nav() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown with Liquid Glass */}
       {open && (
-        <div className="absolute top-16 left-4 right-4 z-50 rounded-3xl border border-white/15 bg-[#141416]/98 p-5 text-white shadow-2xl backdrop-blur-xl sm:hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute top-16 left-4 right-4 z-50 rounded-3xl border border-white/15 bg-[#0B1220]/95 p-5 text-white shadow-2xl backdrop-blur-2xl sm:hidden animate-in fade-in zoom-in-95 duration-200">
           <nav className="flex flex-col gap-2">
             <Link
               to="/"
               onClick={() => setOpen(false)}
               className={`rounded-xl px-4 py-2.5 text-sm font-bold ${
-                currentPath === "/" ? "bg-[#FF5E1E] text-white" : "text-white/80 hover:bg-white/10"
+                currentPath === "/" ? "bg-[#5B8CFF] text-white" : "text-white/80 hover:bg-white/10"
               }`}
             >
               Home
@@ -148,7 +151,7 @@ export function Nav() {
               to="/about"
               onClick={() => setOpen(false)}
               className={`rounded-xl px-4 py-2.5 text-sm font-bold ${
-                currentPath === "/about" ? "bg-[#FF5E1E] text-white" : "text-white/80 hover:bg-white/10"
+                currentPath === "/about" ? "bg-[#5B8CFF] text-white" : "text-white/80 hover:bg-white/10"
               }`}
             >
               About
@@ -157,7 +160,7 @@ export function Nav() {
               to="/services"
               onClick={() => setOpen(false)}
               className={`rounded-xl px-4 py-2.5 text-sm font-bold ${
-                currentPath === "/services" ? "bg-[#FF5E1E] text-white" : "text-white/80 hover:bg-white/10"
+                currentPath === "/services" ? "bg-[#5B8CFF] text-white" : "text-white/80 hover:bg-white/10"
               }`}
             >
               Services
@@ -166,7 +169,7 @@ export function Nav() {
               to="/portfolio"
               onClick={() => setOpen(false)}
               className={`rounded-xl px-4 py-2.5 text-sm font-bold ${
-                currentPath.startsWith("/portfolio") ? "bg-[#FF5E1E] text-white" : "text-white/80 hover:bg-white/10"
+                currentPath.startsWith("/portfolio") ? "bg-[#5B8CFF] text-white" : "text-white/80 hover:bg-white/10"
               }`}
             >
               Projects
@@ -184,7 +187,7 @@ export function Nav() {
             <Link
               to="/contact"
               onClick={() => setOpen(false)}
-              className="mt-2 inline-flex h-11 items-center justify-center rounded-xl bg-[#FF5E1E] font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.4)]"
+              className="mt-2 inline-flex h-11 items-center justify-center rounded-xl bg-[#5B8CFF] font-bold text-white shadow-[0_4px_16px_rgba(91,140,255,0.4)]"
             >
               Let's talk
             </Link>

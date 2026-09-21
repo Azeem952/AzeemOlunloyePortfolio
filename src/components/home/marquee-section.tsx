@@ -14,14 +14,14 @@ export function MarqueeSection() {
   const doubled = [...items, ...items];
 
   return (
-    <div className="w-full bg-[#FF5E1E] text-white py-4 overflow-hidden select-none my-10 sm:my-16">
+    <div className="w-full bg-[#0B1220] border-y border-white/10 text-white py-4 overflow-hidden select-none my-10 sm:my-16">
       <div className="marquee flex items-center whitespace-nowrap">
         {doubled.map((item, idx) => (
           <span key={idx} className="inline-flex items-center gap-6 px-6">
-            <span className="text-sm sm:text-base font-extrabold tracking-wider uppercase">
+            <span className="text-sm sm:text-base font-extrabold tracking-wider uppercase text-white/90">
               {item}
             </span>
-            <span className="text-white/70 font-black text-lg">✦</span>
+            <span className="text-[#5B8CFF] font-black text-lg">✦</span>
           </span>
         ))}
       </div>

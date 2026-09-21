@@ -91,7 +91,7 @@ const lifecycleSteps = [
 
 function About() {
   return (
-    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#5B8CFF] selection:text-white">
       <Nav />
 
       <main className="overflow-hidden">
@@ -100,13 +100,13 @@ function About() {
           <div className="flex justify-center mb-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-gray-300/80 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-sm">
               <span>Engineering Background</span>
-              <Sparkles className="h-3.5 w-3.5 text-[#FF5E1E]" />
+              <Sparkles className="h-3.5 w-3.5 text-[#5B8CFF]" />
             </div>
           </div>
 
           <div className="text-center max-w-3xl mx-auto px-4">
             <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.12]">
-              I build systems that <span className="text-[#FF5E1E]">run themselves</span> so teams can focus on growth.
+              I build systems that <span className="text-[#5B8CFF]">run themselves</span> so teams can focus on growth.
             </h1>
             <p className="mt-6 text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
               I'm Azeem Olunloye, an AI Automation Engineer. Over the last 2+ years, I have architected 
@@ -119,8 +119,8 @@ function About() {
             {/* Visual Portrait with Warm Arch Frame */}
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
               <div className="relative w-[280px] sm:w-[320px] md:w-[350px] h-[350px] sm:h-[400px] md:h-[430px] flex items-end justify-center">
-                <div className="absolute inset-x-4 bottom-0 top-10 rounded-t-[140px] sm:rounded-t-[170px] bg-[#FCAE80] opacity-95 shadow-inner" />
-                <div className="absolute -inset-3 bottom-0 rounded-t-[155px] sm:rounded-t-[185px] border-2 border-dashed border-[#FF5E1E]/25 pointer-events-none" />
+                <div className="absolute inset-x-4 bottom-0 top-10 rounded-t-[140px] sm:rounded-t-[170px] bg-gradient-to-t from-[#8EA9FF]/30 to-[#DCE6FF] opacity-95 shadow-inner" />
+                <div className="absolute -inset-3 bottom-0 rounded-t-[155px] sm:rounded-t-[185px] border-2 border-dashed border-[#5B8CFF]/30 pointer-events-none" />
                 
                 <div className="relative z-10 w-full h-full flex items-end justify-center overflow-hidden rounded-b-2xl">
                   <img
@@ -152,15 +152,15 @@ function About() {
               </p>
               <div className="pt-3 flex flex-wrap gap-4 text-xs sm:text-sm font-semibold text-gray-800">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-[#FF5E1E]" />
+                  <CheckCircle2 className="h-4 w-4 text-[#5B8CFF]" />
                   <span>2+ Years in Live Production</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-[#FF5E1E]" />
+                  <CheckCircle2 className="h-4 w-4 text-[#5B8CFF]" />
                   <span>15+ Production Workflows</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-[#FF5E1E]" />
+                  <CheckCircle2 className="h-4 w-4 text-[#5B8CFF]" />
                   <span>20+ Enterprise Tools Integrated</span>
                 </div>
               </div>
@@ -170,12 +170,12 @@ function About() {
 
         {/* Engineering Principles (Dark Rounded Container matching Services/Testimonials) */}
         <section className="container-page py-8">
-          <div className="relative rounded-[32px] sm:rounded-[44px] bg-[#121214] text-white p-7 sm:p-10 md:p-14 overflow-hidden border border-white/10 shadow-2xl">
-            <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-[#FF5E1E]/15 blur-[100px]" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-[#FFA066]/10 blur-[120px]" />
+          <div className="relative rounded-[32px] sm:rounded-[44px] bg-[#0B1220] text-white p-7 sm:p-10 md:p-14 overflow-hidden border border-white/10 shadow-2xl">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-[#5B8CFF]/15 blur-[100px]" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-[#8EA9FF]/10 blur-[120px]" />
 
             <div className="relative z-10 max-w-2xl mb-12">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#FF5E1E]">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#5B8CFF]">
                 How I Think About Automations
               </span>
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 text-white">
@@ -191,9 +191,9 @@ function About() {
               {principles.map((p, i) => (
                 <div
                   key={p.title}
-                  className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 sm:p-7 backdrop-blur-sm transition-all hover:bg-white/[0.08] hover:border-[#FF5E1E]/40"
+                  className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 sm:p-7 backdrop-blur-sm transition-all hover:bg-white/[0.08] hover:border-[#5B8CFF]/40"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FF5E1E] text-white mb-4 shadow-[0_2px_12px_rgba(255,94,30,0.4)]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#5B8CFF] text-white mb-4 shadow-[0_2px_12px_rgba(91,140,255,0.4)]">
                     <p.icon className="h-5 w-5" />
                   </div>
                   <h3 className="font-display text-lg font-bold text-white tracking-tight">
@@ -212,7 +212,7 @@ function About() {
         <section className="container-page py-16 sm:py-24">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
-              Technical <span className="text-[#FF5E1E]">Capabilities</span> & Stack
+              Technical <span className="text-[#5B8CFF]">Capabilities</span> & Stack
             </h2>
             <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed">
               Proven toolsets applied in actual client systems, chosen for reliability and long-term maintainability.
@@ -232,7 +232,7 @@ function About() {
                   <ul className="mt-4 space-y-2.5">
                     {cap.items.map((item) => (
                       <li key={item} className="flex items-center gap-2 text-xs sm:text-sm font-medium text-gray-700">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#FF5E1E]" />
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#5B8CFF]" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -247,7 +247,7 @@ function About() {
         <section className="container-page py-8 mb-16">
           <div className="rounded-[32px] sm:rounded-[40px] bg-[#F5F6F8] border border-gray-200/80 p-7 sm:p-12">
             <div className="max-w-2xl mb-12">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#FF5E1E]">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#5B8CFF]">
                 Execution Roadmap
               </span>
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 mt-1">
@@ -262,7 +262,7 @@ function About() {
               {lifecycleSteps.map((step) => (
                 <div key={step.step} className="bg-white rounded-2xl p-6 border border-gray-200/70 shadow-sm flex flex-col justify-between">
                   <div>
-                    <span className="font-display text-2xl font-black text-[#FF5E1E]">
+                    <span className="font-display text-2xl font-black text-[#5B8CFF]">
                       {step.step}
                     </span>
                     <h3 className="font-display text-base font-bold text-gray-900 mt-2 tracking-tight">
@@ -282,7 +282,7 @@ function About() {
         <section className="container-page py-12 text-center">
           <div className="max-w-xl mx-auto">
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
-              Have a process ready for <span className="text-[#FF5E1E]">automation</span>?
+              Have a process ready for <span className="text-[#5B8CFF]">automation</span>?
             </h2>
             <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed">
               Let's talk through your manual bottlenecks. I'll outline whether and how it should be automated before any commitment.
@@ -290,7 +290,7 @@ function About() {
             <div className="mt-8 flex items-center justify-center gap-4">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#FF5E1E] px-7 py-3 text-sm font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.35)] transition-all hover:bg-[#E54D12] hover:scale-105"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#5B8CFF] px-7 py-3 text-sm font-bold text-white shadow-[0_4px_16px_rgba(91,140,255,0.35)] transition-all hover:bg-[#4A7DEF] hover:scale-105"
               >
                 <span>Discuss Your Project</span>
                 <ArrowUpRight className="h-4 w-4" />

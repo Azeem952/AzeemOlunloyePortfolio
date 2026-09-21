@@ -27,18 +27,18 @@ const outcomes = [
 export function TestimonialsSection() {
   return (
     <section className="container-page py-10 sm:py-16">
-      <div className="relative rounded-[32px] sm:rounded-[40px] md:rounded-[48px] bg-[#121214] text-white p-7 sm:p-10 md:p-14 overflow-hidden border border-white/10 shadow-2xl">
+      <div className="relative rounded-[32px] sm:rounded-[40px] md:rounded-[48px] bg-[#0B1220] text-white p-7 sm:p-10 md:p-14 overflow-hidden border border-white/15 shadow-2xl">
         
-        {/* Subtle warm orange/amber fluid ambient backdrop */}
-        <div className="pointer-events-none absolute -top-32 left-1/3 h-96 w-96 rounded-full bg-[#FF5E1E]/12 blur-[110px]" />
-        <div className="pointer-events-none absolute -bottom-32 right-1/4 h-96 w-96 rounded-full bg-[#FFA066]/10 blur-[120px]" />
+        {/* Subtle electric blue ambient backdrop */}
+        <div className="pointer-events-none absolute -top-32 left-1/3 h-96 w-96 rounded-full bg-[#5B8CFF]/15 blur-[120px]" />
+        <div className="pointer-events-none absolute -bottom-32 right-1/4 h-96 w-96 rounded-full bg-[#8EA9FF]/10 blur-[120px]" />
 
         {/* Centered Heading */}
         <div className="relative z-10 text-center max-w-2xl mx-auto mb-12">
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
             Testimonials That
             <br />
-            Spoke to <span className="text-[#FF5E1E]">My Results</span>
+            Spoke to <span className="text-[#5B8CFF]">My Results</span>
           </h2>
           <p className="text-sm sm:text-base text-white/65 mt-4 leading-relaxed">
             Verified client outcomes and measurable metrics delivered from production automation systems.
@@ -47,18 +47,18 @@ export function TestimonialsSection() {
 
         {/* 3 Outcome Testimonial Cards */}
         <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {outcomes.map((item, idx) => (
+          {outcomes.map((item) => (
             <div
               key={item.company}
-              className="relative flex flex-col justify-between rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-sm transition-all hover:bg-white/[0.07] hover:border-[#FF5E1E]/40"
+              className="relative flex flex-col justify-between rounded-2xl bg-[#172033]/85 border border-white/10 p-6 backdrop-blur-md transition-all hover:bg-[#1E2942] hover:border-[#5B8CFF]/40 shadow-lg"
             >
               {/* Top Quote Icon & Stars */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-serif text-3xl font-black text-[#FF5E1E] leading-none">
+                  <span className="font-serif text-3xl font-black text-[#5B8CFF] leading-none">
                     “
                   </span>
-                  <div className="flex items-center gap-1 text-[#FF5E1E]">
+                  <div className="flex items-center gap-1 text-[#5B8CFF]">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="h-3.5 w-3.5 fill-current" />
                     ))}
@@ -78,7 +78,7 @@ export function TestimonialsSection() {
                   </p>
                   <p className="text-[11px] text-white/50">{item.company}</p>
                 </div>
-                <span className="rounded-full bg-[#FF5E1E]/20 px-2.5 py-1 text-[11px] font-bold text-[#FF5E1E]">
+                <span className="rounded-full bg-[#5B8CFF]/20 px-2.5 py-1 text-[11px] font-bold text-[#5B8CFF]">
                   {item.metric}
                 </span>
               </div>

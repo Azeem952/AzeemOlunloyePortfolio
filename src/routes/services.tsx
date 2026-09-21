@@ -46,7 +46,7 @@ const serviceVisuals: Record<string, string> = {
 
 function Services() {
   return (
-    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#5B8CFF] selection:text-white">
       <Nav />
 
       <main className="overflow-hidden">
@@ -55,12 +55,12 @@ function Services() {
           <div className="flex justify-center mb-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-gray-300/80 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-sm">
               <span>Production Capabilities</span>
-              <Sparkles className="h-3.5 w-3.5 text-[#FF5E1E]" />
+              <Sparkles className="h-3.5 w-3.5 text-[#5B8CFF]" />
             </div>
           </div>
 
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.12] max-w-4xl mx-auto">
-            Engineering automations that <span className="text-[#FF5E1E]">eliminate repetitive operations</span>.
+            Engineering automations that <span className="text-[#5B8CFF]">eliminate repetitive operations</span>.
           </h1>
           <p className="mt-6 text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
             Every system is built with fault tolerance, retry logic, and documented architecture—so your business operations run smoothly around the clock.
@@ -84,10 +84,10 @@ function Services() {
                     {/* Content Column */}
                     <div className={`lg:col-span-6 ${isEven ? "order-2 lg:order-1" : "order-2"}`}>
                       <div className="flex items-center gap-2.5 mb-4">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FF5E1E] text-white shadow-sm">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#5B8CFF] text-white shadow-sm">
                           <Icon className="h-4 w-4" />
                         </div>
-                        <span className="text-xs font-bold uppercase tracking-wider text-[#FF5E1E]">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#5B8CFF]">
                           {service.brand} Ecosystem
                         </span>
                       </div>
@@ -105,7 +105,7 @@ function Services() {
                         </p>
                         {service.bullets.map((b) => (
                           <div key={b} className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700">
-                            <CheckCircle2 className="h-4 w-4 text-[#FF5E1E] shrink-0 mt-0.5" />
+                            <CheckCircle2 className="h-4 w-4 text-[#5B8CFF] shrink-0 mt-0.5" />
                             <span>{b}</span>
                           </div>
                         ))}
@@ -144,12 +144,12 @@ function Services() {
 
         {/* Delivery Process (Dark Container matching Reference) */}
         <section className="container-page py-8">
-          <div className="relative rounded-[32px] sm:rounded-[44px] bg-[#121214] text-white p-7 sm:p-10 md:p-14 overflow-hidden border border-white/10 shadow-2xl">
-            <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-[#FF5E1E]/15 blur-[100px]" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-[#FFA066]/10 blur-[120px]" />
+          <div className="relative rounded-[32px] sm:rounded-[44px] bg-[#0B1220] text-white p-7 sm:p-10 md:p-14 overflow-hidden border border-white/10 shadow-2xl">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-[#5B8CFF]/15 blur-[100px]" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-[#8EA9FF]/10 blur-[120px]" />
 
             <div className="relative z-10 max-w-2xl mb-12">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#FF5E1E]">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#5B8CFF]">
                 Execution Methodology
               </span>
               <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 text-white">
@@ -166,7 +166,7 @@ function Services() {
                   key={step.n}
                   className="rounded-2xl bg-white/[0.04] border border-white/10 p-6 backdrop-blur-sm"
                 >
-                  <span className="font-display text-3xl font-black text-[#FF5E1E]">
+                  <span className="font-display text-3xl font-black text-[#5B8CFF]">
                     {step.n}
                   </span>
                   <h3 className="font-display text-lg font-bold text-white mt-3 tracking-tight">
@@ -185,7 +185,7 @@ function Services() {
         <section className="container-page py-16 sm:py-24">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
-              Integrations & Supported <span className="text-[#FF5E1E]">Platforms</span>
+              Integrations & Supported <span className="text-[#5B8CFF]">Platforms</span>
             </h2>
             <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed">
               Software and platforms integrated across active client production systems.
@@ -208,7 +208,7 @@ function Services() {
         <section className="container-page py-12 text-center mb-8">
           <div className="max-w-xl mx-auto">
             <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
-              Ready to automate your <span className="text-[#FF5E1E]">bottlenecks</span>?
+              Ready to automate your <span className="text-[#5B8CFF]">bottlenecks</span>?
             </h2>
             <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed">
               Drop a quick brief of your manual process. I will reply within one business day with feasibility and initial scoping.
@@ -216,7 +216,7 @@ function Services() {
             <div className="mt-8 flex items-center justify-center gap-4">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#FF5E1E] px-7 py-3 text-sm font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.35)] transition-all hover:bg-[#E54D12] hover:scale-105"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#5B8CFF] px-7 py-3 text-sm font-bold text-white shadow-[0_4px_16px_rgba(91,140,255,0.35)] transition-all hover:bg-[#4A7DEF] hover:scale-105"
               >
                 <span>Book a Discovery Call</span>
                 <ArrowUpRight className="h-4 w-4" />

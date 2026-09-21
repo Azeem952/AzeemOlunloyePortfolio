@@ -59,19 +59,19 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
 
   return (
     <section className="container-page py-16 sm:py-24">
-      {/* Top Header Row with Title and See All Orange Button */}
+      {/* Top Header Row with Title and See All Button */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
         <div>
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-[1.15]">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#101828] leading-[1.15]">
             Lets have a look at
             <br />
-            my <span className="text-[#FF5E1E]">Portfolio</span>
+            my <span className="text-[#5B8CFF]">Portfolio</span>
           </h2>
         </div>
 
         <Link
           to="/portfolio"
-          className="inline-flex items-center gap-1.5 rounded-full bg-[#FF5E1E] px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.35)] transition-all hover:bg-[#E54D12] hover:scale-105 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 rounded-full bg-[#5B8CFF] px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-[0_4px_16px_rgba(91,140,255,0.35)] transition-all hover:bg-[#3E6EE0] hover:scale-105 self-start sm:self-auto"
         >
           <span>See All</span>
           <ArrowUpRight className="h-4 w-4" />
@@ -94,7 +94,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
                 className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-5">
-                <span className="inline-block rounded-full bg-[#FF5E1E] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+                <span className="inline-block rounded-full bg-[#5B8CFF] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
                   {item.category}
                 </span>
                 <p className="font-display text-lg font-bold text-white mt-1.5 drop-shadow">
@@ -106,9 +106,9 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
         ))}
       </div>
 
-      {/* Pagination Indicator (Orange Pill + Dots) */}
+      {/* Pagination Indicator (Electric Blue Pill + Dots) */}
       <div className="flex items-center justify-center gap-2 mt-8 mb-10">
-        <div className="h-2 w-7 rounded-full bg-[#FF5E1E]" />
+        <div className="h-2 w-7 rounded-full bg-[#5B8CFF]" />
         <div className="h-2 w-2 rounded-full bg-gray-300" />
         <div className="h-2 w-2 rounded-full bg-gray-300" />
       </div>
@@ -122,7 +122,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
             onClick={() => setSelectedCategory(cat)}
             className={`rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-all ${
               selectedCategory === cat
-                ? "bg-gray-900 text-white shadow-sm"
+                ? "bg-[#0B1220] text-white shadow-sm"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
@@ -131,16 +131,16 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
         ))}
       </div>
 
-      {/* Active Featured Project Detail with Orange Circular Arrow */}
+      {/* Active Featured Project Detail with Electric Blue Circular Arrow */}
       {activeProject && (
         <div className="max-w-2xl mx-auto text-center px-4">
           <Link
             to="/portfolio/$slug"
             params={{ slug: activeProject.slug }}
-            className="group inline-flex items-center gap-3 font-display text-xl sm:text-2xl font-extrabold text-gray-900 hover:text-[#FF5E1E] transition-colors"
+            className="group inline-flex items-center gap-3 font-display text-xl sm:text-2xl font-extrabold text-[#101828] hover:text-[#5B8CFF] transition-colors"
           >
             <span>{activeProject.title}</span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FF5E1E] text-white shadow-sm transition-transform duration-300 group-hover:scale-110">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#5B8CFF] text-white shadow-sm transition-transform duration-300 group-hover:scale-110">
               <ArrowUpRight className="h-4 w-4" />
             </div>
           </Link>

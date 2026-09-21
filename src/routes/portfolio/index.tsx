@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { projectsQuery } from "@/lib/content-queries";
 import type { CmsProject } from "@/lib/cms-types";
-import { ArrowUpRight, Sparkles, CheckCircle2, Search } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2, Sparkles, Terminal, Layers } from "lucide-react";
 
 export const Route = createFileRoute("/portfolio/")({
   head: () => ({
@@ -14,20 +14,20 @@ export const Route = createFileRoute("/portfolio/")({
       {
         name: "description",
         content:
-          "Selected AI automation systems, autonomous agents, and CRM pipelines shipped to production by Azeem Olunloye.",
+          "Horizontal showcase of production AI automation systems, autonomous agents, and CRM pipelines shipped by Azeem Olunloye.",
       },
       { property: "og:title", content: "Portfolio — Azeem Olunloye" },
       {
         property: "og:description",
         content:
-          "Real case studies with architecture workflows, outcome metrics, and production screenshots.",
+          "Interactive case studies with architectural workflows, outcome metrics, and production screenshots.",
       },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(projectsQuery),
   errorComponent: () => (
     <div className="container-page py-32 text-center">
-      <p className="text-gray-500">Portfolio could not be loaded. Please refresh.</p>
+      <p className="text-[#667085]">Portfolio could not be loaded. Please refresh.</p>
     </div>
   ),
   component: Portfolio,
@@ -38,189 +38,278 @@ const CATEGORIES = ["All", "AI Agents", "CRM Automation", "Workflow Automation",
 function Portfolio() {
   const { data: projects } = useSuspenseQuery(projectsQuery) as { data: CmsProject[] };
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState<"next" | "prev">("next");
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
-      const matchesCategory =
-        selectedCategory === "All" ||
+      if (selectedCategory === "All") return true;
+      return (
         p.category.toLowerCase().includes(selectedCategory.toLowerCase()) ||
-        p.categories?.some((c) => c.toLowerCase().includes(selectedCategory.toLowerCase()));
-
-      const q = searchQuery.trim().toLowerCase();
-      const matchesSearch =
-        !q ||
-        p.title.toLowerCase().includes(q) ||
-        p.tagline.toLowerCase().includes(q) ||
-        p.tools?.some((t) => t.toLowerCase().includes(q)) ||
-        p.overview?.toLowerCase().includes(q);
-
-      return matchesCategory && matchesSearch;
+        p.categories?.some((c) => c.toLowerCase().includes(selectedCategory.toLowerCase()))
+      );
     });
-  }, [projects, selectedCategory, searchQuery]);
+  }, [projects, selectedCategory]);
+
+  const activeIndex = Math.min(currentIndex, Math.max(0, filtered.length - 1));
+  const activeProject = filtered[activeIndex] || projects[0];
+
+  const handleNext = () => {
+    setDirection("next");
+    setCurrentIndex((prev) => (prev + 1) % filtered.length);
+  };
+
+  const handlePrev = () => {
+    setDirection("prev");
+    setCurrentIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [filtered.length]);
+
+  // Mobile Touch Swipe Handling
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+    
+    // Only trigger if horizontal swipe is dominant and exceeds threshold
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
+      if (deltaX < 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
 
   return (
-    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
+    <div className="min-h-dvh bg-white text-[#101828] selection:bg-[#5B8CFF] selection:text-white">
       <Nav />
 
       <main className="overflow-hidden">
         {/* Header Hero */}
-        <section className="container-page pt-10 sm:pt-16 pb-12 sm:pb-16 text-center">
+        <section className="container-page pt-10 sm:pt-16 pb-8 sm:pb-12 text-center">
           <div className="flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gray-300/80 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gray-200/80 bg-white/70 px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#101828] shadow-sm backdrop-blur-md">
               <span>Shipped Systems</span>
-              <Sparkles className="h-3.5 w-3.5 text-[#FF5E1E]" />
+              <Sparkles className="h-3.5 w-3.5 text-[#5B8CFF]" />
             </div>
           </div>
 
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.12] max-w-4xl mx-auto">
-            Production systems engineered for <span className="text-[#FF5E1E]">real business workflows</span>.
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#101828] leading-[1.12] max-w-4xl mx-auto">
+            Production systems engineered for <span className="text-[#5B8CFF]">real business workflows</span>.
           </h1>
-          <p className="mt-6 text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-            Every build here represents a live production automation deployed for a real operational need, 
-            complete with error guards and monitoring.
+          <p className="mt-5 text-base sm:text-lg text-[#667085] leading-relaxed max-w-2xl mx-auto">
+            Browse through active client builds below. Each case study documents the complete problem, 
+            architecture, and verified business outcomes.
           </p>
-        </section>
 
-        {/* Filters & Search Toolbar */}
-        <section className="container-page mb-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-200">
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center gap-2">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition-all duration-200 ${
-                    selectedCategory === cat
-                      ? "bg-[#141416] text-white shadow-sm"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Live Search Input */}
-            <div className="relative w-full md:w-72">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
-              <input
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search systems, tools…"
-                className="w-full rounded-full border border-gray-300 bg-white py-2 pl-10 pr-4 text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E]"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Project Case Studies Grid (Editorial 2-Column with High-Quality Imagery) */}
-        <section className="container-page pb-20 sm:pb-28">
-          {filtered.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-gray-300 p-16 text-center">
-              <p className="font-display text-lg font-bold text-gray-800">No projects match your filter</p>
-              <p className="text-sm text-gray-500 mt-1">Try selecting "All" or clearing your search term.</p>
+          {/* Category Filter Pills */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+            {CATEGORIES.map((cat) => (
               <button
+                key={cat}
                 type="button"
                 onClick={() => {
-                  setSelectedCategory("All");
-                  setSearchQuery("");
+                  setSelectedCategory(cat);
+                  setCurrentIndex(0);
                 }}
-                className="mt-4 inline-flex items-center rounded-full bg-[#141416] px-5 py-2 text-xs font-bold text-white"
+                className={`rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition-all duration-200 ${
+                  selectedCategory === cat
+                    ? "bg-[#0B1220] text-white shadow-md scale-105"
+                    : "bg-gray-100 text-[#667085] hover:bg-gray-200"
+                }`}
               >
-                Reset Filters
+                {cat}
               </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
-              {filtered.map((p) => {
-                const coverImage = p.gallery?.[0]?.src ?? p.cover;
+            ))}
+          </div>
+        </section>
 
-                return (
-                  <Link
-                    key={p.slug}
-                    to="/portfolio/$slug"
-                    params={{ slug: p.slug }}
-                    className="group flex flex-col justify-between rounded-[32px] border border-gray-200/90 bg-white p-4 sm:p-5 shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 overflow-hidden"
+        {/* Horizontal Showcase Experience */}
+        {filtered.length > 0 && activeProject && (
+          <section className="container-page pb-20 sm:pb-28">
+            <div 
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+              style={{ touchAction: "pan-y" }}
+              className="relative rounded-[36px] sm:rounded-[48px] border border-gray-200/90 bg-[#F5F7FB] p-6 sm:p-10 md:p-14 shadow-lg overflow-hidden"
+            >
+              {/* Subtle background glow */}
+              <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-[#5B8CFF]/10 blur-[100px]" />
+
+              {/* Showcase Grid: Left Media Reveal + Right Editorial Details */}
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                {/* Left Column: Project Media Mockup with Directional Smooth Animated Transition */}
+                <div className="lg:col-span-7">
+                  <div
+                    key={`${activeProject.slug}-${direction}`}
+                    className={`group relative aspect-[16/10] w-full overflow-hidden rounded-[28px] sm:rounded-[36px] bg-white border border-gray-200 shadow-xl transition-all duration-500 ${
+                      direction === "next" ? "animate-slide-in-right" : "animate-slide-in-left"
+                    }`}
                   >
-                    <div>
-                      {/* Visual Mockup Container */}
-                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[24px] bg-gray-100 border border-gray-100">
-                        <img
-                          src={coverImage}
-                          alt={p.title}
-                          className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="rounded-full bg-[#141416]/85 backdrop-blur-md px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white">
-                            {p.category}
-                          </span>
-                        </div>
-                        <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-gray-900 shadow-md transition-all duration-300 group-hover:bg-[#FF5E1E] group-hover:text-white group-hover:scale-110">
-                          <ArrowUpRight className="h-4 w-4" />
-                        </div>
-                      </div>
+                    <img
+                      src={activeProject.gallery?.[0]?.src ?? activeProject.cover}
+                      alt={activeProject.title}
+                      className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    />
 
-                      {/* Content details */}
-                      <div className="pt-6 px-2">
-                        <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-gray-900 group-hover:text-[#FF5E1E] transition-colors leading-snug">
-                          {p.title}
-                        </h2>
-                        <p className="mt-2.5 text-xs sm:text-sm text-gray-600 leading-relaxed line-clamp-2">
-                          {p.tagline}
-                        </p>
-
-                        {/* Measurable Outcome Pill if exists */}
-                        {p.outcome && p.outcome.length > 0 && (
-                          <div className="mt-4 inline-flex items-center gap-2 rounded-xl bg-orange-50 border border-orange-200/70 px-3 py-1.5 text-xs font-semibold text-[#FF5E1E]">
-                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-                            <span className="truncate">
-                              {p.outcome[0].metric} — {p.outcome[0].label || "Verified Metric"}
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                    {/* Category Overlay Tag with Liquid Glass styling */}
+                    <div className="absolute top-5 left-5">
+                      <span className="rounded-full glass-panel-dark px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-md">
+                        {activeProject.category}
+                      </span>
                     </div>
 
-                    {/* Footer Tools Bar */}
-                    <div className="mt-6 pt-4 px-2 border-t border-gray-100 flex flex-wrap items-center gap-1.5">
-                      {p.tools?.slice(0, 4).map((tool) => (
-                        <span
-                          key={tool}
-                          className="rounded-lg bg-gray-100 px-2.5 py-1 text-[11px] font-semibold text-gray-600"
-                        >
-                          {tool}
+                    {/* Verified Outcome Badge on bottom left with Liquid Glass styling */}
+                    {activeProject.outcome && activeProject.outcome[0] && (
+                      <div className="absolute bottom-5 left-5 right-5 sm:right-auto inline-flex items-center gap-2 rounded-2xl glass-panel px-4 py-2 border border-white/80 shadow-lg">
+                        <CheckCircle2 className="h-4 w-4 text-[#5B8CFF] shrink-0" />
+                        <span className="text-xs sm:text-sm font-bold text-[#101828]">
+                          {activeProject.outcome[0].metric} — {activeProject.outcome[0].label || "Target"}
                         </span>
-                      ))}
-                      {p.tools && p.tools.length > 4 && (
-                        <span className="text-[11px] text-gray-400 font-semibold pl-1">
-                          +{p.tools.length - 4} more
-                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right Column: Editorial Details + Case Study Actions */}
+                <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
+                  <div>
+                    {/* Year & Client Pill */}
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#667085] mb-3">
+                      <span>{activeProject.year || "Production System"}</span>
+                      {activeProject.client && (
+                        <>
+                          <span>·</span>
+                          <span>{activeProject.client}</span>
+                        </>
                       )}
                     </div>
-                  </Link>
-                );
-              })}
+
+                    <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#101828] leading-[1.18]">
+                      {activeProject.title}
+                    </h2>
+
+                    <p className="mt-4 text-sm sm:text-base text-[#667085] leading-relaxed">
+                      {activeProject.tagline}
+                    </p>
+
+                    {/* Technical tools used */}
+                    <div className="mt-6">
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-2">
+                        Technologies & APIs
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {activeProject.tools?.map((tool) => (
+                          <span
+                            key={tool}
+                            className="rounded-lg bg-white border border-gray-200 px-3 py-1 text-xs font-semibold text-[#101828] shadow-2xs"
+                          >
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Link & Navigation Arrows */}
+                  <div className="pt-6 border-t border-gray-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <Link
+                      to="/portfolio/$slug"
+                      params={{ slug: activeProject.slug }}
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5B8CFF] px-7 py-3 text-xs sm:text-sm font-bold text-white shadow-[0_4px_16px_rgba(91,140,255,0.35)] transition-all hover:bg-[#3E6EE0] hover:scale-105"
+                    >
+                      <span>Read Deep Case Study</span>
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+
+                    {/* Directional Previous / Next Buttons */}
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                      <button
+                        type="button"
+                        aria-label="Previous project"
+                        onClick={handlePrev}
+                        className="flex h-11 w-11 items-center justify-center rounded-full glass-pill text-[#0B1220] shadow-sm hover:border-[#5B8CFF] hover:text-[#5B8CFF] transition-all hover:scale-108 active:scale-92"
+                      >
+                        <ArrowLeft className="h-4 w-4" />
+                      </button>
+                      <span className="text-xs font-mono font-bold text-[#667085] px-2.5 py-1 rounded-full bg-white/70 border border-gray-200/80 shadow-2xs">
+                        {activeIndex + 1} / {filtered.length}
+                      </span>
+                      <button
+                        type="button"
+                        aria-label="Next project"
+                        onClick={handleNext}
+                        className="flex h-11 w-11 items-center justify-center rounded-full glass-pill text-[#0B1220] shadow-sm hover:border-[#5B8CFF] hover:text-[#5B8CFF] transition-all hover:scale-108 active:scale-92"
+                      >
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Horizontal Thumbnail Previews Strip */}
+              <div className="mt-12 pt-8 border-t border-gray-200/60 hidden md:flex items-center gap-4 overflow-x-auto pb-2">
+                {filtered.map((p, idx) => (
+                  <button
+                    key={p.slug}
+                    type="button"
+                    onClick={() => {
+                      setDirection(idx > activeIndex ? "next" : "prev");
+                      setCurrentIndex(idx);
+                    }}
+                    className={`group relative flex-shrink-0 w-36 h-20 rounded-2xl overflow-hidden border-2 transition-all duration-300 ${
+                      idx === activeIndex
+                        ? "border-[#5B8CFF] shadow-md scale-105"
+                        : "border-transparent opacity-50 hover:opacity-100"
+                    }`}
+                  >
+                    <img
+                      src={p.gallery?.[0]?.src ?? p.cover}
+                      alt={p.title}
+                      className="h-full w-full object-cover object-top"
+                    />
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-colors" />
+                  </button>
+                ))}
+              </div>
             </div>
-          )}
-        </section>
+          </section>
+        )}
 
         {/* Bottom Discuss CTA */}
         <section className="container-page py-12 text-center mb-8">
           <div className="max-w-xl mx-auto">
-            <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
-              Need a custom system like <span className="text-[#FF5E1E]">these</span>?
+            <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-[#101828]">
+              Need an automation system like <span className="text-[#5B8CFF]">these</span>?
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed">
+            <p className="text-sm sm:text-base text-[#667085] mt-3 leading-relaxed">
               Every system is customized for the exact tool stack and operational constraints of your business.
             </p>
             <div className="mt-8 flex items-center justify-center gap-4">
               <Link
                 to="/contact"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#FF5E1E] px-7 py-3 text-sm font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.35)] transition-all hover:bg-[#E54D12] hover:scale-105"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#5B8CFF] px-7 py-3 text-sm font-bold text-white shadow-[0_4px_16px_rgba(91,140,255,0.35)] transition-all hover:bg-[#3E6EE0] hover:scale-105"
               >
                 <span>Request System Architecture</span>
                 <ArrowUpRight className="h-4 w-4" />

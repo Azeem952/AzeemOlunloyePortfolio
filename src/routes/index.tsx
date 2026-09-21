@@ -46,7 +46,7 @@ export const Route = createFileRoute("/")({
 
 function HomeShell({ projects }: { projects: CmsProject[] }) {
   return (
-    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#5B8CFF] selection:text-white">
       {/* 1. Top Navigation Bar (Floating dark pill) */}
       <Nav />
 

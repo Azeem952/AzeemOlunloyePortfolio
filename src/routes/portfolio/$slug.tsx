@@ -35,7 +35,7 @@ export const Route = createFileRoute("/portfolio/$slug")({
   notFoundComponent: () => (
     <div className="container-page py-32 text-center">
       <p className="text-gray-600">Case study not found.</p>
-      <Link to="/portfolio" className="mt-4 inline-block font-bold text-[#FF5E1E] underline underline-offset-4">
+      <Link to="/portfolio" className="mt-4 inline-block font-bold text-[#5B8CFF] underline underline-offset-4">
         Back to portfolio
       </Link>
     </div>
@@ -67,7 +67,7 @@ function ProjectPage() {
   }, [lightbox, p.gallery.length]);
 
   return (
-    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#5B8CFF] selection:text-white">
       <Nav />
 
       <main className="overflow-hidden">
@@ -75,7 +75,7 @@ function ProjectPage() {
         <header className="container-page pt-8 sm:pt-14 pb-8 sm:pb-12">
           <Link
             to="/portfolio"
-            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-[#FF5E1E] transition-colors mb-6"
+            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-[#5B8CFF] transition-colors mb-6"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Back to All Work</span>
@@ -116,9 +116,9 @@ function ProjectPage() {
           </div>
 
           {p.video && (
-            <div className="mt-8 overflow-hidden rounded-[24px] border border-gray-200 bg-[#121214] p-4 text-white shadow-xl">
+            <div className="mt-8 overflow-hidden rounded-[24px] border border-gray-200 bg-[#0B1220] p-4 text-white shadow-xl">
               <div className="flex items-center gap-2 mb-3 px-2">
-                <Play className="h-4 w-4 text-[#FF5E1E]" />
+                <Play className="h-4 w-4 text-[#5B8CFF]" />
                 <span className="text-xs font-bold uppercase tracking-wider text-white/80">Live Video Demo</span>
               </div>
               <video
@@ -140,7 +140,7 @@ function ProjectPage() {
           {/* Left Metadata Sidebar */}
           <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start">
             <div className="rounded-3xl border border-gray-200/80 bg-[#F8F9FA] p-6 sm:p-7 shadow-sm space-y-5">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-[#FF5E1E] pb-2 border-b border-gray-200">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-[#5B8CFF] pb-2 border-b border-gray-200">
                 Project Parameters
               </h3>
 
@@ -174,7 +174,7 @@ function ProjectPage() {
               <div className="pt-2">
                 <Link
                   to="/contact"
-                  className="w-full flex items-center justify-center gap-1.5 rounded-full bg-[#FF5E1E] py-2.5 px-4 text-xs font-bold text-white shadow-sm hover:bg-[#E54D12] transition-colors"
+                  className="w-full flex items-center justify-center gap-1.5 rounded-full bg-[#5B8CFF] py-2.5 px-4 text-xs font-bold text-white shadow-sm hover:bg-[#4A7DEF] transition-colors"
                 >
                   <span>Build Similar System</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
@@ -188,7 +188,7 @@ function ProjectPage() {
             {/* Overview */}
             {p.overview && (
               <div className="space-y-3">
-                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF5E1E]">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#5B8CFF]">
                   <Sparkles className="h-3.5 w-3.5" />
                   <span>Overview</span>
                 </div>
@@ -222,8 +222,8 @@ function ProjectPage() {
 
             {/* Architecture Flow */}
             {p.architecture && p.architecture.length > 0 && (
-              <div className="rounded-[32px] bg-[#121214] text-white p-7 sm:p-10 border border-white/10 shadow-xl">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF5E1E] mb-2">
+              <div className="rounded-[32px] bg-[#0B1220] text-white p-7 sm:p-10 border border-white/10 shadow-xl">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#5B8CFF] mb-2">
                   <Terminal className="h-3.5 w-3.5" />
                   <span>System Pipeline</span>
                 </div>
@@ -233,7 +233,7 @@ function ProjectPage() {
                 <div className="mt-6 space-y-3">
                   {p.architecture.map((item, idx) => (
                     <div key={idx} className="flex items-start gap-4 p-3 rounded-xl bg-white/[0.04] border border-white/10">
-                      <span className="font-mono text-xs font-bold text-[#FF5E1E] mt-0.5">
+                      <span className="font-mono text-xs font-bold text-[#5B8CFF] mt-0.5">
                         {String(idx + 1).padStart(2, "0")}
                       </span>
                       <span className="text-xs sm:text-sm text-white/85 leading-relaxed">{item}</span>
@@ -246,7 +246,7 @@ function ProjectPage() {
             {/* Workflow Steps Breakdown */}
             {p.workflow && p.workflow.length > 0 && (
               <div>
-                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF5E1E] mb-2">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#5B8CFF] mb-2">
                   <Layers className="h-3.5 w-3.5" />
                   <span>Step-by-Step Logic</span>
                 </div>
@@ -257,10 +257,10 @@ function ProjectPage() {
                   {p.workflow.map((w, idx) => (
                     <div
                       key={idx}
-                      className="rounded-2xl border border-gray-200/80 bg-[#FAFBFD] p-5 sm:p-6 transition-all hover:border-[#FF5E1E]/40"
+                      className="rounded-2xl border border-gray-200/80 bg-[#FAFBFD] p-5 sm:p-6 transition-all hover:border-[#5B8CFF]/40"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FF5E1E] text-white font-mono text-xs font-bold shrink-0">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5B8CFF] text-white font-mono text-xs font-bold shrink-0">
                           {idx + 1}
                         </span>
                         <h3 className="font-display text-base font-extrabold text-gray-900">
@@ -279,7 +279,7 @@ function ProjectPage() {
             {/* Verified Outcomes */}
             {p.outcome && p.outcome.length > 0 && (
               <div>
-                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF5E1E] mb-2">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#5B8CFF] mb-2">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   <span>Measurable Impact</span>
                 </div>
@@ -292,7 +292,7 @@ function ProjectPage() {
                       key={idx}
                       className="rounded-2xl border border-gray-200 bg-[#F8F9FA] p-5 text-center flex flex-col justify-center"
                     >
-                      <p className="font-display text-3xl sm:text-4xl font-black text-[#FF5E1E] tracking-tight">
+                      <p className="font-display text-3xl sm:text-4xl font-black text-[#5B8CFF] tracking-tight">
                         {o.metric}
                       </p>
                       <p className="mt-2 text-xs text-gray-600 font-medium">
@@ -343,14 +343,14 @@ function ProjectPage() {
           <section className="container-page py-16 border-t border-gray-200">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#FF5E1E]">Next Builds</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#5B8CFF]">Next Builds</span>
                 <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
                   Related Systems
                 </h2>
               </div>
               <Link
                 to="/portfolio"
-                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-gray-800 hover:text-[#FF5E1E] transition-colors"
+                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-gray-800 hover:text-[#5B8CFF] transition-colors"
               >
                 <span>View all builds</span>
                 <ArrowUpRight className="h-4 w-4" />
@@ -373,8 +373,8 @@ function ProjectPage() {
                     />
                   </div>
                   <div className="pt-4 px-2">
-                    <span className="text-xs font-bold uppercase text-[#FF5E1E]">{r.category}</span>
-                    <h3 className="font-display text-lg font-bold text-gray-900 mt-1 group-hover:text-[#FF5E1E] transition-colors">
+                    <span className="text-xs font-bold uppercase text-[#5B8CFF]">{r.category}</span>
+                    <h3 className="font-display text-lg font-bold text-gray-900 mt-1 group-hover:text-[#5B8CFF] transition-colors">
                       {r.title}
                     </h3>
                   </div>

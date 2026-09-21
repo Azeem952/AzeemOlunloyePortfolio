@@ -80,7 +80,7 @@ function Contact() {
   };
 
   return (
-    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#5B8CFF] selection:text-white">
       <Nav />
 
       <main className="overflow-hidden">
@@ -89,12 +89,12 @@ function Contact() {
           <div className="flex justify-center mb-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-gray-300/80 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-sm">
               <span>Direct Engineering Communication</span>
-              <Sparkles className="h-3.5 w-3.5 text-[#FF5E1E]" />
+              <Sparkles className="h-3.5 w-3.5 text-[#5B8CFF]" />
             </div>
           </div>
 
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.12] max-w-3xl mx-auto">
-            Let's talk through your <span className="text-[#FF5E1E]">automation goals</span>.
+            Let's talk through your <span className="text-[#5B8CFF]">automation goals</span>.
           </h1>
           <p className="mt-6 text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
             Brief me on the workflow that is eating your team's hours. I review every submission personally and respond within one business day.
@@ -127,7 +127,7 @@ function Contact() {
                         value={form.name}
                         onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                         placeholder="Sarah Jenkins"
-                        className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E]"
+                        className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#5B8CFF] focus:outline-none focus:ring-1 focus:ring-[#5B8CFF]"
                       />
                       {errors.name && <p className="mt-1.5 text-xs text-red-600 font-medium">{errors.name}</p>}
                     </div>
@@ -143,7 +143,7 @@ function Contact() {
                         value={form.email}
                         onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                         placeholder="sarah@company.com"
-                        className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E]"
+                        className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#5B8CFF] focus:outline-none focus:ring-1 focus:ring-[#5B8CFF]"
                       />
                       {errors.email && <p className="mt-1.5 text-xs text-red-600 font-medium">{errors.email}</p>}
                     </div>
@@ -159,7 +159,7 @@ function Contact() {
                       value={form.subject}
                       onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
                       placeholder="e.g. HubSpot Lead Nurturing, n8n OCR Intake, AI Booking Agent"
-                      className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E]"
+                      className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#5B8CFF] focus:outline-none focus:ring-1 focus:ring-[#5B8CFF]"
                     />
                     {errors.subject && <p className="mt-1.5 text-xs text-red-600 font-medium">{errors.subject}</p>}
                   </div>
@@ -175,7 +175,7 @@ function Contact() {
                       value={form.message}
                       onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                       placeholder="What is the current manual process? Which tools are involved (HubSpot, Sheets, WhatsApp)? What does success look like?"
-                      className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] p-4 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E] resize-none"
+                      className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] p-4 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#5B8CFF] focus:outline-none focus:ring-1 focus:ring-[#5B8CFF] resize-none"
                     />
                     {errors.message && <p className="mt-1.5 text-xs text-red-600 font-medium">{errors.message}</p>}
                   </div>
@@ -184,7 +184,7 @@ function Contact() {
                     <button
                       type="submit"
                       disabled={status === "sending"}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#FF5E1E] py-4 text-sm font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.35)] transition-all hover:bg-[#E54D12] hover:scale-[1.01] disabled:opacity-60"
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#5B8CFF] py-4 text-sm font-bold text-white shadow-[0_4px_16px_rgba(91,140,255,0.35)] transition-all hover:bg-[#4A7DEF] hover:scale-[1.01] disabled:opacity-60"
                     >
                       {status === "sending" ? (
                         <span>Transmitting Brief...</span>
@@ -229,7 +229,7 @@ function Contact() {
                     href={WHATSAPP}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#FF5E1E] hover:shadow-md group"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#5B8CFF] hover:shadow-md group"
                   >
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-green-600 font-bold text-sm">
@@ -240,15 +240,15 @@ function Contact() {
                         <p className="text-xs sm:text-sm font-bold text-gray-900">{PHONE}</p>
                       </div>
                     </div>
-                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#FF5E1E] transition-colors" />
+                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#5B8CFF] transition-colors" />
                   </a>
 
                   <a
                     href={`mailto:${EMAIL}`}
-                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#FF5E1E] hover:shadow-md group"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#5B8CFF] hover:shadow-md group"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-[#FF5E1E]">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#5B8CFF]">
                         <Mail className="h-4 w-4" />
                       </div>
                       <div className="min-w-0">
@@ -256,14 +256,14 @@ function Contact() {
                         <p className="text-xs sm:text-sm font-bold text-gray-900 truncate">{EMAIL}</p>
                       </div>
                     </div>
-                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#FF5E1E] transition-colors" />
+                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#5B8CFF] transition-colors" />
                   </a>
 
                   <a
                     href={LINKEDIN}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#FF5E1E] hover:shadow-md group"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#5B8CFF] hover:shadow-md group"
                   >
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 font-bold text-sm">
@@ -274,17 +274,17 @@ function Contact() {
                         <p className="text-xs sm:text-sm font-bold text-gray-900">Azeem Olunloye</p>
                       </div>
                     </div>
-                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#FF5E1E] transition-colors" />
+                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#5B8CFF] transition-colors" />
                   </a>
                 </div>
 
                 <div className="mt-6 pt-5 border-t border-gray-200/80 space-y-2">
                   <div className="flex items-center gap-2 text-xs text-gray-600">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-[#FF5E1E]" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#5B8CFF]" />
                     <span>Replies within 24 business hours</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-gray-600">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-[#FF5E1E]" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#5B8CFF]" />
                     <span>Remote · Available for global engagements</span>
                   </div>
                 </div>
@@ -293,7 +293,7 @@ function Contact() {
               {/* Personal Arch Profile Card */}
               <div className="rounded-[32px] sm:rounded-[40px] bg-[#F5F6F8] border border-gray-200/80 p-6 flex items-center gap-5">
                 <div className="relative w-20 h-24 shrink-0 flex items-end justify-center">
-                  <div className="absolute inset-x-1 bottom-0 top-3 rounded-t-[30px] bg-[#FCAE80]" />
+                  <div className="absolute inset-x-1 bottom-0 top-3 rounded-t-[30px] bg-gradient-to-t from-[#8EA9FF]/30 to-[#DCE6FF]" />
                   <img
                     src={media.portraitPhoto}
                     alt="Azeem Olunloye"
@@ -302,7 +302,7 @@ function Contact() {
                 </div>
                 <div>
                   <h4 className="font-display font-bold text-gray-900 text-sm">Azeem Olunloye</h4>
-                  <p className="text-xs text-[#FF5E1E] font-semibold mt-0.5">AI Automation Engineer</p>
+                  <p className="text-xs text-[#5B8CFF] font-semibold mt-0.5">AI Automation Engineer</p>
                   <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
                     2+ years shipping production-grade n8n, Make, and AI agent architectures.
                   </p>
