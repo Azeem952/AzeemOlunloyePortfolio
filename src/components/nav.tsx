@@ -1,135 +1,190 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 export const RESUME_URL = "/api/public/media/azeem-olunloye-resume.pdf";
 
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/about", label: "About" },
-  { to: "/services", label: "Services" },
-  { to: "/portfolio", label: "Work" },
-  { to: "/contact", label: "Contact" },
-];
-
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const routerState = useRouterState();
+  const currentPath = routerState.location.pathname;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 15);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-200 ${
-        scrolled
-          ? "hairline-b bg-background/85 shadow-card backdrop-blur-xl"
-          : "hairline-b bg-background"
-      }`}
-    >
+    <header className="sticky top-0 z-50 flex w-full justify-center px-4 pt-4 sm:pt-6 transition-all duration-300">
       <div
-        className={`container-page grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 transition-[height] duration-200 md:grid-cols-[auto_1fr_auto] ${
-          scrolled ? "h-[68px] md:h-[76px]" : "h-[72px] md:h-[88px]"
+        className={`flex w-full max-w-4xl items-center justify-between rounded-full border border-white/15 bg-[#141416]/95 px-3 py-2 text-white shadow-2xl backdrop-blur-xl transition-all duration-300 ${
+          scrolled ? "scale-[0.98] bg-[#141416]/98 shadow-black/40" : ""
         }`}
       >
-        <Link to="/" className="flex min-w-0 items-center gap-3">
-          <img
-            src="/favicon.png"
-            alt=""
-            width={40}
-            height={40}
-            className="h-10 w-10 shrink-0 rounded-xl object-contain"
-          />
-          <span className="min-w-0">
-            <span className="block truncate text-[15px] font-extrabold tracking-tight">
-              Azeem Olunloye
-            </span>
-            <span className="block truncate text-xs text-muted-foreground">
-              AI Automation Engineer
-            </span>
+        {/* Left Links */}
+        <div className="flex items-center gap-1 sm:gap-2">
+          <Link
+            to="/"
+            className={`rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+              currentPath === "/"
+                ? "bg-[#FF5E1E] text-white shadow-[0_2px_12px_rgba(255,94,30,0.4)]"
+                : "text-white/70 hover:text-white"
+            }`}
+          >
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className={`hidden sm:inline-flex rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold transition-colors ${
+              currentPath === "/about"
+                ? "bg-white/15 text-white"
+                : "text-white/70 hover:text-white"
+            }`}
+          >
+            About
+          </Link>
+          <Link
+            to="/services"
+            className={`hidden sm:inline-flex rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold transition-colors ${
+              currentPath === "/services"
+                ? "bg-white/15 text-white"
+                : "text-white/70 hover:text-white"
+            }`}
+          >
+            Service
+          </Link>
+        </div>
+
+        {/* Center Logo */}
+        <Link to="/" className="flex items-center gap-2 px-2 hover:opacity-90 transition-opacity">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FF5E1E] text-white font-black text-sm shadow-[0_0_14px_rgba(255,94,30,0.5)]">
+            <span className="translate-y-[-0.5px]">✦</span>
+          </div>
+          <span className="font-display font-extrabold tracking-tight text-sm sm:text-base text-white">
+            Azeem
           </span>
         </Link>
 
-        <nav className="hidden items-center justify-center gap-8 md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className="nav-link relative text-[15px] font-semibold text-muted-foreground transition-colors hover:text-foreground"
-              activeProps={{ className: "text-foreground" }}
-              activeOptions={{ exact: l.to === "/" }}
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="hidden items-center gap-3 md:flex">
+        {/* Right Links */}
+        <div className="hidden sm:flex items-center gap-1 sm:gap-2">
           <a
             href={RESUME_URL}
             target="_blank"
             rel="noreferrer"
             download="Azeem-Olunloye-Resume.pdf"
-            className="inline-flex h-11 items-center rounded-xl border px-5 text-sm font-bold text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+            className="rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold text-white/70 hover:text-white transition-colors"
           >
             Resume
           </a>
           <Link
-            to="/contact"
-            className="inline-flex h-11 items-center rounded-xl bg-accent px-5 text-sm font-bold text-accent-foreground shadow-green transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-2"
+            to="/portfolio"
+            className={`rounded-full px-3.5 py-2 text-xs sm:text-sm font-semibold transition-colors ${
+              currentPath.startsWith("/portfolio")
+                ? "bg-white/15 text-white"
+                : "text-white/70 hover:text-white"
+            }`}
           >
-            Let's talk
+            Project
+          </Link>
+          <Link
+            to="/contact"
+            className={`rounded-full px-4 py-2 text-xs sm:text-sm font-semibold transition-colors ${
+              currentPath === "/contact"
+                ? "bg-[#FF5E1E] text-white shadow-[0_2px_12px_rgba(255,94,30,0.4)]"
+                : "bg-white/10 text-white hover:bg-white/20"
+            }`}
+          >
+            Contact
           </Link>
         </div>
 
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="grid h-11 w-11 place-items-center justify-self-end rounded-xl border md:hidden"
-        >
-          <span className="relative block h-3 w-4">
-            <span
-              className={`absolute inset-x-0 top-0 h-0.5 rounded bg-foreground transition-transform duration-300 ${open ? "translate-y-[6px] rotate-45" : ""}`}
-            />
-            <span
-              className={`absolute inset-x-0 bottom-0 h-0.5 rounded bg-foreground transition-transform duration-300 ${open ? "-translate-y-[6px] -rotate-45" : ""}`}
-            />
-          </span>
-        </button>
+        {/* Mobile Hamburger */}
+        <div className="flex sm:hidden items-center gap-2">
+          <Link
+            to="/contact"
+            className="rounded-full bg-[#FF5E1E] px-3 py-1.5 text-xs font-semibold text-white"
+          >
+            Contact
+          </Link>
+          <button
+            type="button"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="grid h-8 w-8 place-items-center rounded-full bg-white/10 text-white"
+          >
+            <span className="relative block h-2.5 w-3.5">
+              <span
+                className={`absolute inset-x-0 top-0 h-0.5 rounded bg-white transition-transform duration-300 ${
+                  open ? "translate-y-[4px] rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`absolute inset-x-0 bottom-0 h-0.5 rounded bg-white transition-transform duration-300 ${
+                  open ? "-translate-y-[4px] -rotate-45" : ""
+                }`}
+              />
+            </span>
+          </button>
+        </div>
       </div>
 
+      {/* Mobile Menu Dropdown */}
       {open && (
-        <div className="menu-in hairline-t bg-background md:hidden">
-          <nav className="container-page flex flex-col py-4">
-            {links.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                onClick={() => setOpen(false)}
-                className="py-3 text-lg font-bold tracking-tight"
-              >
-                {l.label}
-              </Link>
-            ))}
+        <div className="absolute top-16 left-4 right-4 z-50 rounded-3xl border border-white/15 bg-[#141416]/98 p-5 text-white shadow-2xl backdrop-blur-xl sm:hidden animate-in fade-in zoom-in-95 duration-200">
+          <nav className="flex flex-col gap-2">
+            <Link
+              to="/"
+              onClick={() => setOpen(false)}
+              className={`rounded-xl px-4 py-2.5 text-sm font-bold ${
+                currentPath === "/" ? "bg-[#FF5E1E] text-white" : "text-white/80 hover:bg-white/10"
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              to="/about"
+              onClick={() => setOpen(false)}
+              className={`rounded-xl px-4 py-2.5 text-sm font-bold ${
+                currentPath === "/about" ? "bg-[#FF5E1E] text-white" : "text-white/80 hover:bg-white/10"
+              }`}
+            >
+              About
+            </Link>
+            <Link
+              to="/services"
+              onClick={() => setOpen(false)}
+              className={`rounded-xl px-4 py-2.5 text-sm font-bold ${
+                currentPath === "/services" ? "bg-[#FF5E1E] text-white" : "text-white/80 hover:bg-white/10"
+              }`}
+            >
+              Services
+            </Link>
+            <Link
+              to="/portfolio"
+              onClick={() => setOpen(false)}
+              className={`rounded-xl px-4 py-2.5 text-sm font-bold ${
+                currentPath.startsWith("/portfolio") ? "bg-[#FF5E1E] text-white" : "text-white/80 hover:bg-white/10"
+              }`}
+            >
+              Projects
+            </Link>
             <a
               href={RESUME_URL}
               target="_blank"
               rel="noreferrer"
               download="Azeem-Olunloye-Resume.pdf"
               onClick={() => setOpen(false)}
-              className="py-3 text-lg font-bold tracking-tight"
+              className="rounded-xl px-4 py-2.5 text-sm font-bold text-white/80 hover:bg-white/10"
             >
               Resume
             </a>
             <Link
               to="/contact"
               onClick={() => setOpen(false)}
-              className="mt-4 inline-flex h-12 items-center justify-center rounded-xl bg-accent font-bold text-accent-foreground shadow-green"
+              className="mt-2 inline-flex h-11 items-center justify-center rounded-xl bg-[#FF5E1E] font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.4)]"
             >
               Let's talk
             </Link>
