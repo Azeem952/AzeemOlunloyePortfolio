@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /azeemadmin
 
-Sitemap: https://craft-studio-suite-73.lovable.app/sitemap.xml
+Sitemap: https://azeem-olunloye.com/sitemap.xml

@@ -1,8 +1,8 @@
 /**
  * Resolves Supabase connection settings for server-side code on ANY host.
  *
- * Lovable injects SUPABASE_URL / SUPABASE_PUBLISHABLE_KEY at runtime, but other
- * hosts (Vercel, Netlify, self-hosted) do not. The VITE_* values are inlined
+ * Resolves Supabase credentials from runtime env vars (set by the host) or
+ * build-time VITE_* values (inlined by Vite). The VITE_* values are inlined
  * into the bundle at build time, so they are always present. Falling back to
  * them means no public page depends on host-specific runtime secrets.
  */

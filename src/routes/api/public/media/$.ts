@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 // Public, host-agnostic media endpoint. Streams files out of the private
-// `media` bucket so uploaded images/videos work on any host (Lovable, Vercel,
+// `media` bucket so uploaded images/videos work on any host (Vercel,
 // custom domain) without needing a public bucket or CDN-specific URL scheme.
 export const Route = createFileRoute("/api/public/media/$")({
   server: {

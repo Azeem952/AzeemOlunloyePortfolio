@@ -1,7 +1,6 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 import { Toaster } from "@/components/ui/sonner";
 import { ADMIN_EMAIL } from "@/lib/admin-client";
 
@@ -118,24 +117,12 @@ function SignIn({ signedInAs }: { signedInAs: string | null }) {
     setBusy(true);
     setError(null);
     try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin + "/azeemadmin",
-        extraParams: { prompt: "select_account" },
-      });
-      if (result.redirected) return;
-      if (result.error) {
-        await nativeGoogle();
-        return;
-      }
+      await nativeGoogle();
     } catch {
-      try {
-        await nativeGoogle();
-        return;
-      } catch {
-        setError("Google sign-in failed on this domain. Use the owner password below.");
-      }
+      setError("Google sign-in failed. Use the owner password below.");
+    } finally {
+      setBusy(false);
     }
-    setBusy(false);
   };
 
   const signInWithPassword = async (e: React.FormEvent) => {

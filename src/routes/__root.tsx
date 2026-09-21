@@ -15,7 +15,6 @@ import { WhatsAppWidget } from "@/components/whatsapp-widget";
 import { RouteLoader } from "@/components/route-loader";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { Toaster } from "@/components/ui/sonner";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -42,9 +41,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -114,7 +110,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "Person",
           name: "Azeem Olunloye",
           jobTitle: "AI Automation Engineer",
-          url: "https://craft-studio-suite-73.lovable.app",
+          url: "https://azeem-olunloye.com",
           email: "mailto:azeemolunloye@gmail.com",
           sameAs: [
             "https://www.linkedin.com/in/azeem-olunloye-42177141b",
