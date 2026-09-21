@@ -2,231 +2,236 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { Reveal } from "@/components/reveal";
-import { CtaBand, CtaPill, Eyebrow, TechLogo } from "@/components/ui-kit";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { projectsQuery } from "@/lib/content-queries";
 import type { CmsProject } from "@/lib/cms-types";
+import { ArrowUpRight, Sparkles, CheckCircle2, Search } from "lucide-react";
 
 export const Route = createFileRoute("/portfolio/")({
   head: () => ({
     meta: [
-      { title: "Work — AI Automation Case Studies | Azeem Olunloye" },
+      { title: "Portfolio — Production AI Automation Systems | Azeem Olunloye" },
       {
         name: "description",
         content:
-          "Selected AI automation projects — CRM sequences, agentic bookers, OCR intake and lead generation systems shipped to production.",
+          "Selected AI automation systems, autonomous agents, and CRM pipelines shipped to production by Azeem Olunloye.",
       },
-      { property: "og:title", content: "Work — Azeem Olunloye" },
+      { property: "og:title", content: "Portfolio — Azeem Olunloye" },
       {
         property: "og:description",
         content:
-          "Selected AI automation projects shipped to production — CRM, agents, integrations.",
+          "Real case studies with architecture workflows, outcome metrics, and production screenshots.",
       },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(projectsQuery),
   errorComponent: () => (
     <div className="container-page py-32 text-center">
-      <p className="text-muted-foreground">Portfolio could not be loaded. Please refresh.</p>
+      <p className="text-gray-500">Portfolio could not be loaded. Please refresh.</p>
     </div>
   ),
   component: Portfolio,
 });
 
-/**
- * Compact niche filters. Each niche groups the raw project categories so the
- * work page shows a short, meaningful row instead of a wall of pills.
- */
-const NICHES: { label: string; match: string[] }[] = [
-  { label: "AI Agents", match: ["AI Agents", "AI Chatbots", "AI"] },
-  { label: "Voice AI", match: ["Voice AI"] },
-  {
-    label: "CRM & Sales",
-    match: ["CRM Automation", "CRM Integration", "Lead Generation", "Customer Service", "Customer Support"],
-  },
-  {
-    label: "Workflow Automation",
-    match: ["Workflow Automation", "Workflow Engineering", "Automation", "n8n"],
-  },
-  { label: "Integrations", match: ["Integrations"] },
-  { label: "Data & OCR", match: ["OCR", "Data", "Data & OCR", "Document Processing"] },
-];
+const CATEGORIES = ["All", "AI Agents", "CRM Automation", "Workflow Automation", "Document Processing"];
 
 function Portfolio() {
   const { data: projects } = useSuspenseQuery(projectsQuery) as { data: CmsProject[] };
-  const [cat, setCat] = useState("All");
-  const [q, setQ] = useState("");
-
-  const activeCats = useMemo(() => {
-    const present = new Set<string>();
-    projects.forEach((p) => p.categories.forEach((c) => present.add(c)));
-    const niches = NICHES.filter((n) => n.match.some((m) => present.has(m))).map((n) => n.label);
-    return ["All", ...niches];
-  }, [projects]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filtered = useMemo(() => {
-    const niche = NICHES.find((n) => n.label === cat);
     return projects.filter((p) => {
-      const inCat = cat === "All" || (niche ? p.categories.some((c) => niche.match.includes(c)) : true);
-      const query = q.trim().toLowerCase();
-      const inQ =
-        !query ||
-        p.title.toLowerCase().includes(query) ||
-        p.tagline.toLowerCase().includes(query) ||
-        p.tools.some((t) => t.toLowerCase().includes(query)) ||
-        p.categories.some((c) => c.toLowerCase().includes(query));
-      return inCat && inQ;
+      const matchesCategory =
+        selectedCategory === "All" ||
+        p.category.toLowerCase().includes(selectedCategory.toLowerCase()) ||
+        p.categories?.some((c) => c.toLowerCase().includes(selectedCategory.toLowerCase()));
+
+      const q = searchQuery.trim().toLowerCase();
+      const matchesSearch =
+        !q ||
+        p.title.toLowerCase().includes(q) ||
+        p.tagline.toLowerCase().includes(q) ||
+        p.tools?.some((t) => t.toLowerCase().includes(q)) ||
+        p.overview?.toLowerCase().includes(q);
+
+      return matchesCategory && matchesSearch;
     });
-  }, [cat, q, projects]);
+  }, [projects, selectedCategory, searchQuery]);
 
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
       <Nav />
-      <main>
-        <section className="container-page pt-14 pb-8 text-center md:pt-24 md:pb-12">
-          <Reveal>
-            <Eyebrow>Selected work</Eyebrow>
-            <h1 className="mx-auto mt-6 max-w-4xl font-display text-[40px] font-extrabold leading-[1.06] tracking-[-0.02em] text-balance md:text-[64px] md:leading-[72px]">
-              Automation systems shipped to production
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-[18px] leading-[1.7] text-muted-foreground">
-              Real builds with real screenshots, workflows and demo recordings —
-              each one running for a business, not a portfolio.
-            </p>
-          </Reveal>
-        </section>
 
-
-
-        <section className="container-page sticky top-[72px] z-30 flex flex-col gap-2.5 bg-background/90 py-3 backdrop-blur-md md:top-[88px] md:flex-row md:items-center md:justify-between md:gap-4 md:py-4">
-          <div
-            role="tablist"
-            aria-label="Filter projects by niche"
-            className="filter-row -mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-0.5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
-          >
-            {activeCats.map((c) => (
-              <button
-                key={c}
-                type="button"
-                role="tab"
-                aria-selected={cat === c}
-                onClick={() => setCat(c)}
-                className={`shrink-0 snap-start whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
-                  cat === c
-                    ? "border-accent bg-accent text-accent-foreground"
-                    : "text-muted-foreground hover:border-foreground hover:text-foreground"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
+      <main className="overflow-hidden">
+        {/* Header Hero */}
+        <section className="container-page pt-10 sm:pt-16 pb-12 sm:pb-16 text-center">
+          <div className="flex justify-center mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gray-300/80 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-sm">
+              <span>Shipped Systems</span>
+              <Sparkles className="h-3.5 w-3.5 text-[#FF5E1E]" />
+            </div>
           </div>
-          <label className="relative block w-full md:w-60 md:shrink-0">
-            <span className="sr-only">Search projects</span>
-            <input
-              type="search"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="Search projects, tools…"
-              className="h-10 w-full rounded-full border bg-background px-4 pr-9 text-sm outline-none focus:border-accent"
-            />
-            <span aria-hidden className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground">⌕</span>
-          </label>
+
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.12] max-w-4xl mx-auto">
+            Production systems engineered for <span className="text-[#FF5E1E]">real business workflows</span>.
+          </h1>
+          <p className="mt-6 text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Every build here represents a live production automation deployed for a real operational need, 
+            complete with error guards and monitoring.
+          </p>
         </section>
 
-        <section className="container-page pb-20 pt-8 md:pb-28">
+        {/* Filters & Search Toolbar */}
+        <section className="container-page mb-12">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-200">
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap items-center gap-2">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`rounded-full px-4 py-2 text-xs sm:text-sm font-bold transition-all duration-200 ${
+                    selectedCategory === cat
+                      ? "bg-[#141416] text-white shadow-sm"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Live Search Input */}
+            <div className="relative w-full md:w-72">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search systems, tools…"
+                className="w-full rounded-full border border-gray-300 bg-white py-2 pl-10 pr-4 text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E]"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Project Case Studies Grid (Editorial 2-Column with High-Quality Imagery) */}
+        <section className="container-page pb-20 sm:pb-28">
           {filtered.length === 0 ? (
-            <p className="py-24 text-center text-muted-foreground">
-              No projects found.
-            </p>
+            <div className="rounded-3xl border border-dashed border-gray-300 p-16 text-center">
+              <p className="font-display text-lg font-bold text-gray-800">No projects match your filter</p>
+              <p className="text-sm text-gray-500 mt-1">Try selecting "All" or clearing your search term.</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCategory("All");
+                  setSearchQuery("");
+                }}
+                className="mt-4 inline-flex items-center rounded-full bg-[#141416] px-5 py-2 text-xs font-bold text-white"
+              >
+                Reset Filters
+              </button>
+            </div>
           ) : (
-            <div key={cat + "|" + q} className="filter-fade grid gap-8 md:grid-cols-2">
-              {filtered.map((p, i) => (
-                <Reveal key={p.slug} delay={(i % 2) * 70}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
+              {filtered.map((p) => {
+                const coverImage = p.gallery?.[0]?.src ?? p.cover;
+
+                return (
                   <Link
+                    key={p.slug}
                     to="/portfolio/$slug"
                     params={{ slug: p.slug }}
-                    className="card-lift group flex h-full flex-col overflow-hidden rounded-2xl border bg-surface"
+                    className="group flex flex-col justify-between rounded-[32px] border border-gray-200/90 bg-white p-4 sm:p-5 shadow-md transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 overflow-hidden"
                   >
-                    <div className="relative aspect-[16/10] overflow-hidden bg-subtle">
-                      {p.video ? (
-                        <video
-                          src={p.video}
-                          muted
-                          loop
-                          playsInline
-                          preload="none"
-                          poster={p.gallery[0]?.src ?? p.cover}
-                          onMouseEnter={(e) => void e.currentTarget.play()}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.pause();
-                            e.currentTarget.currentTime = 0;
-                          }}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
+                    <div>
+                      {/* Visual Mockup Container */}
+                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[24px] bg-gray-100 border border-gray-100">
                         <img
-                          src={p.gallery[0]?.src ?? p.cover}
+                          src={coverImage}
                           alt={p.title}
-                          width={800}
-                          height={500}
-                          decoding="async"
-                          loading={i < 2 ? "eager" : "lazy"}
-                          fetchPriority={i < 2 ? "high" : "auto"}
-                          className="h-full w-full object-cover transition-transform duration-[250ms] ease-out group-hover:scale-[1.02]"
+                          className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                         />
-                      )}
-                      {p.video && (
-                        <span className="pointer-events-none absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full bg-ink/85 px-3 py-1.5 text-xs font-bold text-ink-foreground">
-                          ▶ Demo video
+                        <div className="absolute top-4 left-4">
+                          <span className="rounded-full bg-[#141416]/85 backdrop-blur-md px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-white">
+                            {p.category}
+                          </span>
+                        </div>
+                        <div className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-gray-900 shadow-md transition-all duration-300 group-hover:bg-[#FF5E1E] group-hover:text-white group-hover:scale-110">
+                          <ArrowUpRight className="h-4 w-4" />
+                        </div>
+                      </div>
+
+                      {/* Content details */}
+                      <div className="pt-6 px-2">
+                        <h2 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight text-gray-900 group-hover:text-[#FF5E1E] transition-colors leading-snug">
+                          {p.title}
+                        </h2>
+                        <p className="mt-2.5 text-xs sm:text-sm text-gray-600 leading-relaxed line-clamp-2">
+                          {p.tagline}
+                        </p>
+
+                        {/* Measurable Outcome Pill if exists */}
+                        {p.outcome && p.outcome.length > 0 && (
+                          <div className="mt-4 inline-flex items-center gap-2 rounded-xl bg-orange-50 border border-orange-200/70 px-3 py-1.5 text-xs font-semibold text-[#FF5E1E]">
+                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+                            <span className="truncate">
+                              {p.outcome[0].metric} — {p.outcome[0].label || "Verified Metric"}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Footer Tools Bar */}
+                    <div className="mt-6 pt-4 px-2 border-t border-gray-100 flex flex-wrap items-center gap-1.5">
+                      {p.tools?.slice(0, 4).map((tool) => (
+                        <span
+                          key={tool}
+                          className="rounded-lg bg-gray-100 px-2.5 py-1 text-[11px] font-semibold text-gray-600"
+                        >
+                          {tool}
+                        </span>
+                      ))}
+                      {p.tools && p.tools.length > 4 && (
+                        <span className="text-[11px] text-gray-400 font-semibold pl-1">
+                          +{p.tools.length - 4} more
                         </span>
                       )}
-                      <span
-                        aria-hidden
-                        className="pointer-events-none absolute inset-0 bg-ink opacity-0 transition-opacity duration-[250ms] group-hover:opacity-10"
-                      />
-                    </div>
-                    <div className="flex flex-1 flex-col p-7">
-                      <div className="flex flex-wrap gap-2">
-                        {p.categories.slice(0, 2).map((c) => (
-                          <span
-                            key={c}
-                            className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent-2"
-                          >
-                            {c}
-                          </span>
-                        ))}
-                      </div>
-                      <h2 className="mt-4 font-display text-2xl font-extrabold tracking-tight">
-                        {p.title}
-                      </h2>
-                      <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-                        {p.tagline}
-                      </p>
-                      <div className="mt-6 flex flex-wrap gap-4">
-                        {p.tools.slice(0, 5).map((t) => (
-                          <TechLogo key={t} name={t} size={22} showName={false} />
-                        ))}
-                      </div>
-                      <span className="mt-auto pt-7">
-                        <CtaPill>Read case study →</CtaPill>
-                      </span>
-
                     </div>
                   </Link>
-                </Reveal>
-              ))}
+                );
+              })}
             </div>
           )}
         </section>
 
-        <CtaBand
-          title="Your workflow could be the next case study"
-          body="Send a one-paragraph brief and I'll tell you how I'd automate it."
-        />
+        {/* Bottom Discuss CTA */}
+        <section className="container-page py-12 text-center mb-8">
+          <div className="max-w-xl mx-auto">
+            <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
+              Need a custom system like <span className="text-[#FF5E1E]">these</span>?
+            </h2>
+            <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed">
+              Every system is customized for the exact tool stack and operational constraints of your business.
+            </p>
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#FF5E1E] px-7 py-3 text-sm font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.35)] transition-all hover:bg-[#E54D12] hover:scale-105"
+              >
+                <span>Request System Architecture</span>
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
+
       <Footer />
     </div>
   );
 }
+

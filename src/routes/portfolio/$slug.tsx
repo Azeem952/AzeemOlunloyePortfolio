@@ -4,24 +4,23 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { projectsQuery } from "@/lib/content-queries";
 import type { CmsProject } from "@/lib/cms-types";
+import { ArrowLeft, ArrowUpRight, CheckCircle2, Terminal, Sparkles, Layers, ShieldCheck, Play } from "lucide-react";
 
 type LoaderData = { project: CmsProject; related: CmsProject[] };
 
 export const Route = createFileRoute("/portfolio/$slug")({
   head: ({ loaderData }) => {
     const p = (loaderData as LoaderData | undefined)?.project;
-    if (!p) return { meta: [{ title: "Case study — Azeem Olunloye" }] };
+    if (!p) return { meta: [{ title: "Case Study — Azeem Olunloye" }] };
     return {
       meta: [
-        { title: `${p.title} — Azeem Olunloye` },
+        { title: `${p.title} — AI Automation Case Study | Azeem Olunloye` },
         { name: "description", content: p.tagline },
         { property: "og:title", content: `${p.title} — Azeem Olunloye` },
         { property: "og:description", content: p.tagline },
       ],
     };
   },
-  // Reuses the single cached portfolio request, so opening a case study from
-  // the Work page (or after a hover prefetch) needs no extra network call.
   loader: async ({ context, params }): Promise<LoaderData> => {
     const all = (await context.queryClient.ensureQueryData(projectsQuery)) as CmsProject[];
     const project = all.find((x) => x.slug === params.slug);
@@ -30,13 +29,13 @@ export const Route = createFileRoute("/portfolio/$slug")({
   },
   errorComponent: () => (
     <div className="container-page py-32 text-center">
-      <p className="text-muted-foreground">This case study could not be loaded.</p>
+      <p className="text-gray-600">This case study could not be loaded.</p>
     </div>
   ),
   notFoundComponent: () => (
     <div className="container-page py-32 text-center">
-      <p className="text-muted-foreground">Case study not found.</p>
-      <Link to="/portfolio" className="mt-4 inline-block underline underline-offset-4">
+      <p className="text-gray-600">Case study not found.</p>
+      <Link to="/portfolio" className="mt-4 inline-block font-bold text-[#FF5E1E] underline underline-offset-4">
         Back to portfolio
       </Link>
     </div>
@@ -68,262 +67,353 @@ function ProjectPage() {
   }, [lightbox, p.gallery.length]);
 
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
       <Nav />
-      <main>
-        <article>
-          <header className="container-page pt-12 pb-10 md:pt-20">
-            <Link
-              to="/portfolio"
-              className="text-xs uppercase tracking-widest text-muted-foreground underline underline-offset-4"
-            >
-              ← Portfolio
-            </Link>
-            <p className="mt-8 font-mono text-xs text-muted-foreground">
-              {p.category} · {p.year}
-            </p>
-            <h1 className="mt-4 font-display text-5xl leading-[0.95] tracking-tight text-balance md:text-7xl">
-              {p.title}
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              {p.tagline}
-            </p>
-          </header>
 
-          <div className="container-page">
-            <div className="overflow-hidden rounded-2xl border bg-subtle shadow-card">
-              <img
-                src={p.gallery[0]?.src ?? p.cover}
-                alt={p.gallery[0]?.caption ?? p.title}
-                className="aspect-[16/9] w-full object-cover"
-              />
-            </div>
+      <main className="overflow-hidden">
+        {/* Case Study Header Banner */}
+        <header className="container-page pt-8 sm:pt-14 pb-8 sm:pb-12">
+          <Link
+            to="/portfolio"
+            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-[#FF5E1E] transition-colors mb-6"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>Back to All Work</span>
+          </Link>
 
-            {p.video && (
-              <figure className="mt-8 overflow-hidden rounded-2xl border bg-ink shadow-card">
-                <video
-                  src={p.video}
-                  controls
-                  playsInline
-                  preload="none"
-                  poster={p.gallery[0]?.src ?? p.cover}
-                  className="aspect-video w-full bg-ink"
-                >
-                  Your browser does not support embedded video.
-                </video>
-                <figcaption className="px-5 py-4 text-xs text-ink-foreground/70">
-                  Recorded walkthrough — {p.title}
-                </figcaption>
-              </figure>
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <span className="rounded-full bg-[#141416] px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-white">
+              {p.category}
+            </span>
+            {p.year && (
+              <span className="rounded-full border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-600">
+                {p.year}
+              </span>
+            )}
+            {p.client && (
+              <span className="rounded-full border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-600">
+                {p.client}
+              </span>
             )}
           </div>
 
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.12]">
+            {p.title}
+          </h1>
+          <p className="mt-4 text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl">
+            {p.tagline}
+          </p>
+        </header>
 
-          <section className="container-page grid gap-12 py-24 md:grid-cols-[1fr_2fr] md:py-32">
-            <aside className="space-y-6 md:sticky md:top-24 md:self-start">
+        {/* Hero Visual Mockup */}
+        <section className="container-page mb-14 sm:mb-20">
+          <div className="overflow-hidden rounded-[28px] sm:rounded-[36px] border border-gray-200 shadow-xl bg-gray-50">
+            <img
+              src={p.gallery[0]?.src ?? p.cover}
+              alt={p.gallery[0]?.caption ?? p.title}
+              className="aspect-[16/9] w-full object-cover object-top"
+            />
+          </div>
+
+          {p.video && (
+            <div className="mt-8 overflow-hidden rounded-[24px] border border-gray-200 bg-[#121214] p-4 text-white shadow-xl">
+              <div className="flex items-center gap-2 mb-3 px-2">
+                <Play className="h-4 w-4 text-[#FF5E1E]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-white/80">Live Video Demo</span>
+              </div>
+              <video
+                src={p.video}
+                controls
+                playsInline
+                preload="none"
+                poster={p.gallery[0]?.src ?? p.cover}
+                className="aspect-video w-full rounded-xl bg-black"
+              >
+                Your browser does not support embedded video.
+              </video>
+            </div>
+          )}
+        </section>
+
+        {/* Two-Column Deep Case Study Breakdown */}
+        <section className="container-page grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 pb-20 sm:pb-28">
+          {/* Left Metadata Sidebar */}
+          <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 self-start">
+            <div className="rounded-3xl border border-gray-200/80 bg-[#F8F9FA] p-6 sm:p-7 shadow-sm space-y-5">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-[#FF5E1E] pb-2 border-b border-gray-200">
+                Project Parameters
+              </h3>
+
               {[
-                ["Client", p.client],
-                ["Role", p.role],
-                ["Duration", p.duration],
-                ["Year", p.year],
+                ["Role", p.role || "AI Automation Engineer"],
+                ["Duration", p.duration || "Production Build"],
+                ["Deployment", "Live in Production"],
               ].map(([k, v]) => (
-                <div key={k} className="hairline-b pb-4">
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                    {k}
-                  </p>
-                  <p className="mt-1 text-sm">{v}</p>
+                <div key={k} className="border-b border-gray-200/60 pb-3">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-gray-400">{k}</p>
+                  <p className="mt-1 text-xs sm:text-sm font-bold text-gray-800">{v}</p>
                 </div>
               ))}
+
               <div>
-                <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
-                  Tools
+                <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-gray-400">
+                  Tech Stack & APIs
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  {p.tools.map((t) => (
-                    <span key={t} className="rounded-full border px-2.5 py-1 text-xs">
+                  {p.tools?.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-lg bg-white border border-gray-200 px-2.5 py-1 text-xs font-semibold text-gray-700"
+                    >
                       {t}
                     </span>
                   ))}
                 </div>
               </div>
-            </aside>
 
-            <div className="space-y-16">
-              <Block title="Overview" body={p.overview} />
-              <Block title="The problem" body={p.problem} />
-              <Block title="The solution" body={p.solution} />
+              <div className="pt-2">
+                <Link
+                  to="/contact"
+                  className="w-full flex items-center justify-center gap-1.5 rounded-full bg-[#FF5E1E] py-2.5 px-4 text-xs font-bold text-white shadow-sm hover:bg-[#E54D12] transition-colors"
+                >
+                  <span>Build Similar System</span>
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            </div>
+          </aside>
 
-              <div>
-                <SectionLabel>Architecture</SectionLabel>
-                <ul className="mt-6 space-y-4">
-                  {p.architecture.map((line, i) => (
-                    <li key={i} className="flex gap-4 border-t pt-4">
-                      <span className="font-mono text-xs text-muted-foreground">
-                        {String(i + 1).padStart(2, "0")}
+          {/* Right Narrative Content */}
+          <div className="lg:col-span-8 space-y-12 sm:space-y-16">
+            {/* Overview */}
+            {p.overview && (
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF5E1E]">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span>Overview</span>
+                </div>
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                  The Context & Need
+                </h2>
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                  {p.overview}
+                </p>
+              </div>
+            )}
+
+            {/* Problem & Solution Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {p.problem && (
+                <div className="rounded-3xl border border-red-200/60 bg-red-50/40 p-6 sm:p-7">
+                  <span className="text-xs font-bold uppercase tracking-wider text-red-600">The Problem</span>
+                  <h3 className="font-display text-lg font-bold text-gray-900 mt-1 mb-3">What was broken</h3>
+                  <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">{p.problem}</p>
+                </div>
+              )}
+
+              {p.solution && (
+                <div className="rounded-3xl border border-green-200/60 bg-green-50/40 p-6 sm:p-7">
+                  <span className="text-xs font-bold uppercase tracking-wider text-green-700">The Solution</span>
+                  <h3 className="font-display text-lg font-bold text-gray-900 mt-1 mb-3">The Engineered Fix</h3>
+                  <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">{p.solution}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Architecture Flow */}
+            {p.architecture && p.architecture.length > 0 && (
+              <div className="rounded-[32px] bg-[#121214] text-white p-7 sm:p-10 border border-white/10 shadow-xl">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF5E1E] mb-2">
+                  <Terminal className="h-3.5 w-3.5" />
+                  <span>System Pipeline</span>
+                </div>
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">
+                  Architecture & Data Flow
+                </h2>
+                <div className="mt-6 space-y-3">
+                  {p.architecture.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-4 p-3 rounded-xl bg-white/[0.04] border border-white/10">
+                      <span className="font-mono text-xs font-bold text-[#FF5E1E] mt-0.5">
+                        {String(idx + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-base leading-relaxed">{line}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <SectionLabel>Workflow</SectionLabel>
-                <ol className="mt-6 grid gap-px bg-border">
-                  {p.workflow.map((w, i) => (
-                    <li
-                      key={i}
-                      className="grid grid-cols-[80px_1fr] gap-6 bg-background p-5 md:grid-cols-[160px_1fr]"
-                    >
-                      <span className="font-mono text-xs text-muted-foreground">
-                        {String(i + 1).padStart(2, "0")} · {w.step}
-                      </span>
-                      <span className="text-sm leading-relaxed">{w.detail}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-
-              <div>
-                <SectionLabel>Key features</SectionLabel>
-                <ul className="mt-6 grid gap-3 md:grid-cols-2">
-                  {p.features.map((f) => (
-                    <li
-                      key={f}
-                      className="rounded-md border p-4 text-sm leading-relaxed"
-                    >
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <SectionLabel>Business outcome</SectionLabel>
-                <div className="mt-6 grid gap-px bg-border md:grid-cols-3">
-                  {p.outcome.map((o) => (
-                    <div key={o.label} className="bg-background p-6">
-                      <p className="font-display text-4xl">{o.metric}</p>
-                      <p className="mt-2 text-sm text-muted-foreground">{o.label}</p>
+                      <span className="text-xs sm:text-sm text-white/85 leading-relaxed">{item}</span>
                     </div>
                   ))}
                 </div>
               </div>
-            </div>
-          </section>
+            )}
 
-          {/* Gallery */}
-          <section className="hairline-t bg-muted">
-            <div className="container-page py-24">
-              <SectionLabel>Gallery</SectionLabel>
-              <div className="mt-8 grid gap-6 md:grid-cols-2">
-                {p.gallery.map((g, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setLightbox(i)}
-                    className="group text-left"
-                  >
-                    <div className="overflow-hidden rounded-lg bg-background">
-                      <img
-                        src={g.src}
-                        alt={g.caption}
-                        loading="lazy"
-                        className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                      />
+            {/* Workflow Steps Breakdown */}
+            {p.workflow && p.workflow.length > 0 && (
+              <div>
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF5E1E] mb-2">
+                  <Layers className="h-3.5 w-3.5" />
+                  <span>Step-by-Step Logic</span>
+                </div>
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-6">
+                  Execution Workflow
+                </h2>
+                <div className="space-y-4">
+                  {p.workflow.map((w, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-2xl border border-gray-200/80 bg-[#FAFBFD] p-5 sm:p-6 transition-all hover:border-[#FF5E1E]/40"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FF5E1E] text-white font-mono text-xs font-bold shrink-0">
+                          {idx + 1}
+                        </span>
+                        <h3 className="font-display text-base font-extrabold text-gray-900">
+                          {w.step}
+                        </h3>
+                      </div>
+                      <p className="mt-2.5 pl-10 text-xs sm:text-sm text-gray-600 leading-relaxed">
+                        {w.detail}
+                      </p>
                     </div>
-                    <p className="mt-3 text-xs text-muted-foreground">{g.caption}</p>
-                  </button>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>
+            )}
 
-          {/* Related */}
-          <section className="container-page py-24 md:py-32">
-            <div className="mb-10 flex items-end justify-between">
-              <SectionLabel>Related projects</SectionLabel>
-              <Link to="/portfolio" className="text-sm underline underline-offset-4">
-                All →
+            {/* Verified Outcomes */}
+            {p.outcome && p.outcome.length > 0 && (
+              <div>
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#FF5E1E] mb-2">
+                  <ShieldCheck className="h-3.5 w-3.5" />
+                  <span>Measurable Impact</span>
+                </div>
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-6">
+                  Verified Business Outcomes
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {p.outcome.map((o, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-2xl border border-gray-200 bg-[#F8F9FA] p-5 text-center flex flex-col justify-center"
+                    >
+                      <p className="font-display text-3xl sm:text-4xl font-black text-[#FF5E1E] tracking-tight">
+                        {o.metric}
+                      </p>
+                      <p className="mt-2 text-xs text-gray-600 font-medium">
+                        {o.label || "Production Target"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Visual Gallery */}
+            {p.gallery && p.gallery.length > 1 && (
+              <div>
+                <h2 className="font-display text-2xl font-extrabold text-gray-900 tracking-tight mb-6">
+                  System Screenshots & Evidence
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {p.gallery.slice(1).map((g, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setLightbox(idx + 1)}
+                      className="group text-left block overflow-hidden rounded-2xl border border-gray-200 bg-gray-50 shadow-sm"
+                    >
+                      <div className="relative aspect-[4/3] w-full overflow-hidden">
+                        <img
+                          src={g.src}
+                          alt={g.caption || p.title}
+                          className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      {g.caption && (
+                        <p className="p-3 text-xs text-gray-600 bg-white border-t border-gray-100">
+                          {g.caption}
+                        </p>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Related Case Studies */}
+        {related.length > 0 && (
+          <section className="container-page py-16 border-t border-gray-200">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#FF5E1E]">Next Builds</span>
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                  Related Systems
+                </h2>
+              </div>
+              <Link
+                to="/portfolio"
+                className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-gray-800 hover:text-[#FF5E1E] transition-colors"
+              >
+                <span>View all builds</span>
+                <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="grid gap-8 md:grid-cols-2">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {related.map((r) => (
                 <Link
                   key={r.slug}
                   to="/portfolio/$slug"
                   params={{ slug: r.slug }}
-                  className="group block"
+                  className="group block rounded-3xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
                 >
-                  <div className="overflow-hidden rounded-lg bg-subtle">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-gray-100">
                     <img
                       src={r.gallery[0]?.src ?? r.cover}
                       alt={r.title}
-                      loading="lazy"
-                      className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                      className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
-                  <p className="mt-4 font-mono text-xs text-muted-foreground">
-                    {r.category}
-                  </p>
-                  <h3 className="mt-1 font-display text-2xl">{r.title}</h3>
+                  <div className="pt-4 px-2">
+                    <span className="text-xs font-bold uppercase text-[#FF5E1E]">{r.category}</span>
+                    <h3 className="font-display text-lg font-bold text-gray-900 mt-1 group-hover:text-[#FF5E1E] transition-colors">
+                      {r.title}
+                    </h3>
+                  </div>
                 </Link>
               ))}
             </div>
           </section>
-        </article>
+        )}
       </main>
+
       <Footer />
 
+      {/* Lightbox Modal */}
       {lightbox !== null && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={p.gallery[lightbox].caption}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 backdrop-blur-md"
           onClick={() => setLightbox(null)}
         >
           <button
             type="button"
             aria-label="Close"
             onClick={() => setLightbox(null)}
-            className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20"
+            className="absolute right-6 top-6 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20"
           >
             ✕
           </button>
-          <button
-            type="button"
-            aria-label="Previous"
-            onClick={(e) => {
-              e.stopPropagation();
-              setLightbox((i) =>
-                i === null ? 0 : (i - 1 + p.gallery.length) % p.gallery.length,
-              );
-            }}
-            className="absolute left-4 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20"
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            aria-label="Next"
-            onClick={(e) => {
-              e.stopPropagation();
-              setLightbox((i) => (i === null ? 0 : (i + 1) % p.gallery.length));
-            }}
-            className="absolute right-4 top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20"
-          >
-            →
-          </button>
-          <figure className="max-h-[90vh] max-w-6xl" onClick={(e) => e.stopPropagation()}>
+          <figure className="max-h-[90vh] max-w-5xl" onClick={(e) => e.stopPropagation()}>
             <img
-              src={p.gallery[lightbox].src}
-              alt={p.gallery[lightbox].caption}
-              className="max-h-[80vh] w-auto rounded"
+              src={p.gallery[lightbox]?.src}
+              alt={p.gallery[lightbox]?.caption || p.title}
+              className="max-h-[82vh] w-auto rounded-xl shadow-2xl mx-auto"
             />
-            <figcaption className="mt-3 text-center text-sm text-white/80">
-              {p.gallery[lightbox].caption}
-            </figcaption>
+            {p.gallery[lightbox]?.caption && (
+              <figcaption className="mt-4 text-center text-xs sm:text-sm text-white/80">
+                {p.gallery[lightbox]?.caption}
+              </figcaption>
+            )}
           </figure>
         </div>
       )}
@@ -331,21 +421,3 @@ function ProjectPage() {
   );
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-      {children}
-    </p>
-  );
-}
-
-function Block({ title, body }: { title: string; body: string }) {
-  return (
-    <div>
-      <SectionLabel>{title}</SectionLabel>
-      <p className="mt-4 text-lg leading-relaxed text-foreground/90 text-balance">
-        {body}
-      </p>
-    </div>
-  );
-}

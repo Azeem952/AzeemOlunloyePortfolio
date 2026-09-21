@@ -4,24 +4,23 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { Reveal } from "@/components/reveal";
-import { Eyebrow, HexPortrait } from "@/components/ui-kit";
 import { media } from "@/data/media";
 import { submitContact } from "@/lib/contact.functions";
+import { ArrowUpRight, CheckCircle2, Mail, MessageSquare, Sparkles, Send } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Azeem Olunloye, AI Automation Engineer" },
+      { title: "Contact Azeem Olunloye — AI Automation Engineer" },
       {
         name: "description",
         content:
-          "Start an automation project with Azeem Olunloye. Send a brief, message on WhatsApp, or connect on LinkedIn. Replies within one working day.",
+          "Start an automation project with Azeem Olunloye. Direct brief submission, WhatsApp, or LinkedIn. Direct engineer response within one business day.",
       },
-      { property: "og:title", content: "Contact — Azeem Olunloye" },
+      { property: "og:title", content: "Contact Azeem Olunloye — AI Automation Engineer" },
       {
         property: "og:description",
-        content: "Start an automation project with Azeem Olunloye — AI Automation Engineer.",
+        content: "Discuss your workflow bottlenecks directly with Azeem Olunloye.",
       },
     ],
   }),
@@ -30,10 +29,8 @@ export const Route = createFileRoute("/contact")({
 
 const EMAIL = "azeemolunloye@gmail.com";
 const PHONE = "+234 813 860 2053";
-const WHATSAPP =
-  "https://wa.me/2348138602053?text=Hi%20Azeem%2C%20I%27d%20like%20to%20talk%20about%20automation.";
-const LINKEDIN =
-  "https://www.linkedin.com/in/azeem-olunloye-42177141b?utm_source=share_via&utm_content=profile&utm_medium=member_io";
+const WHATSAPP = "https://wa.me/2348138602053?text=Hi%20Azeem%2C%20I%27d%20like%20to%20discuss%20an%20automation%20project.";
+const LINKEDIN = "https://www.linkedin.com/in/azeem-olunloye-42177141b";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -46,13 +43,13 @@ function Contact() {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (form.name.trim().length < 2) errs.name = "Please tell me your name.";
+    if (form.name.trim().length < 2) errs.name = "Please enter your name.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
       errs.email = "Please enter a valid email address.";
-    if (form.subject.trim().length < 2) errs.subject = "Please add a subject.";
+    if (form.subject.trim().length < 2) errs.subject = "Please add a brief topic or subject.";
     if (form.message.trim().length < 10)
-      errs.message = "A little more context, please (10 characters minimum).";
-    if (form.message.trim().length > 4000) errs.message = "That's a little too long.";
+      errs.message = "Please provide at least 10 characters of context.";
+    if (form.message.trim().length > 4000) errs.message = "Message exceeds maximum length.";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -74,302 +71,250 @@ function Contact() {
       setStatus("sent");
       setForm({ name: "", email: "", subject: "", message: "" });
       setErrors({});
-      toast.success("Message sent successfully.");
+      toast.success("Message delivered successfully.");
     } catch {
       setStatus("error");
-      setServerError("Unable to send message. Please try again later.");
-      toast.error("Unable to send message. Please try again later.");
+      setServerError("Unable to send message right now. Please message directly on WhatsApp or Email.");
+      toast.error("Unable to send message. Please contact via WhatsApp or Email.");
     }
-
   };
 
   return (
-    <div className="min-h-dvh">
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#FF5E1E] selection:text-white">
       <Nav />
-      <main>
-        <section className="container-page grid items-center gap-14 pt-14 pb-16 md:grid-cols-[1.1fr_0.9fr] md:pt-24 md:pb-20">
-          <div>
-            <Reveal>
-              <Eyebrow>Available for new projects</Eyebrow>
-              <h1 className="mt-6 font-display text-[40px] font-extrabold leading-[1.06] tracking-[-0.02em] text-balance md:text-[64px] md:leading-[72px]">
-                Let's talk about what to automate
-              </h1>
-              <p className="mt-6 max-w-xl text-[18px] leading-[1.7] text-muted-foreground">
-                The best briefs are one paragraph: the workflow that's costing
-                you time, what you've already tried, and what "done" looks like.
-                I read everything and reply within one working day.
-              </p>
-              <div className="mt-9 grid gap-3 sm:grid-cols-2">
-                <InfoCard label="Email" value={EMAIL} href={`mailto:${EMAIL}`} />
-                <InfoCard label="WhatsApp" value={PHONE} href={WHATSAPP} external />
-                <InfoCard label="LinkedIn" value="Azeem Olunloye" href={LINKEDIN} external />
-                <InfoCard label="Location" value="Remote — worldwide" />
-              </div>
-            </Reveal>
+
+      <main className="overflow-hidden">
+        {/* Editorial Contact Header */}
+        <section className="container-page pt-10 sm:pt-16 pb-12 sm:pb-16 text-center">
+          <div className="flex justify-center mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gray-300/80 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-semibold text-gray-800 shadow-sm backdrop-blur-sm">
+              <span>Direct Engineering Communication</span>
+              <Sparkles className="h-3.5 w-3.5 text-[#FF5E1E]" />
+            </div>
           </div>
-          <Reveal delay={120}>
-            <HexPortrait src={media.portraitHero} alt="Azeem Olunloye" />
-          </Reveal>
+
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.12] max-w-3xl mx-auto">
+            Let's talk through your <span className="text-[#FF5E1E]">automation goals</span>.
+          </h1>
+          <p className="mt-6 text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+            Brief me on the workflow that is eating your team's hours. I review every submission personally and respond within one business day.
+          </p>
         </section>
 
-        <section className="container-page grid gap-8 pb-20 md:grid-cols-[1.4fr_1fr] md:pb-28">
-          <Reveal>
-            <form
-              onSubmit={onSubmit}
-              noValidate
-              aria-describedby="form-status"
-              className="rounded-2xl border bg-surface p-7 shadow-card md:p-10"
-            >
-              <h2 className="font-display text-2xl font-extrabold tracking-tight">
-                Send a brief
-              </h2>
-              <div className="mt-7 grid gap-6 sm:grid-cols-2">
-                <Field
-                  label="Name"
-                  id="name"
-                  autoComplete="name"
-                  value={form.name}
-                  onChange={(v) => setForm((f) => ({ ...f, name: v }))}
-                  error={errors.name}
-                />
-                <Field
-                  label="Email"
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  value={form.email}
-                  onChange={(v) => setForm((f) => ({ ...f, email: v }))}
-                  error={errors.email}
-                />
-              </div>
-              <div className="mt-6">
-                <Field
-                  label="Subject"
-                  id="subject"
-                  value={form.subject}
-                  onChange={(v) => setForm((f) => ({ ...f, subject: v }))}
-                  error={errors.subject}
-                />
-              </div>
+        {/* Dual Column: Form & Direct Contact Cards */}
+        <section className="container-page pb-20 sm:pb-28">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            {/* Form Column */}
+            <div className="lg:col-span-7">
+              <div className="rounded-[32px] sm:rounded-[40px] border border-gray-200 bg-white p-7 sm:p-10 shadow-lg">
+                <h2 className="font-display text-2xl font-extrabold text-gray-900 tracking-tight">
+                  Send a Project Brief
+                </h2>
+                <p className="mt-1 text-xs sm:text-sm text-gray-500">
+                  Fill in the details below. All fields are sent directly to my private inbox.
+                </p>
 
-
-              <div className="mt-6">
-                <label htmlFor="message" className="mb-2 block text-sm font-bold">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={7}
-                  maxLength={4000}
-                  value={form.message}
-                  onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                  aria-invalid={!!errors.message}
-                  aria-errormessage={errors.message ? "message-error" : undefined}
-                  className="w-full resize-none rounded-xl border bg-background px-4 py-3 text-base outline-none transition-[border-color,box-shadow] duration-200 placeholder:opacity-70 placeholder:transition-opacity focus:border-accent focus:shadow-green focus:placeholder:opacity-40"
-                  placeholder="What are you trying to automate?"
-                />
-                {errors.message && (
-                  <p id="message-error" className="animate-fade-in mt-2 text-xs text-destructive">
-                    {errors.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="group inline-flex h-14 items-center gap-2 rounded-xl bg-accent px-7 text-[15px] font-bold text-accent-foreground shadow-green transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent-2 disabled:translate-y-0 disabled:opacity-60"
-                >
-                  {status === "sending" ? (
-                    <>
-                      Sending...
-                      <span
-                        aria-hidden
-                        className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+                <form onSubmit={onSubmit} noValidate className="mt-8 space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+                        Your Name *
+                      </label>
+                      <input
+                        id="name"
+                        type="text"
+                        autoComplete="name"
+                        value={form.name}
+                        onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                        placeholder="Sarah Jenkins"
+                        className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E]"
                       />
-                    </>
-                  ) : status === "sent" ? (
-                    <>
-                      Sent
-                      <span aria-hidden className="check-pop inline-block">✓</span>
-                    </>
-                  ) : (
-                    <>
-                      Send message
-                      <span className="cta-arrow">→</span>
-                    </>
-                  )}
-                </button>
+                      {errors.name && <p className="mt-1.5 text-xs text-red-600 font-medium">{errors.name}</p>}
+                    </div>
 
-                <p id="form-status" role="status" aria-live="polite" className="text-sm">
-                  {status === "sent" && (
-                    <span className="animate-fade-in inline-flex items-center gap-2 font-semibold text-accent-2">
-                      <span
-                        aria-hidden
-                        className="check-pop grid h-5 w-5 place-items-center rounded-full bg-accent text-[11px] text-accent-foreground"
-                      >
-                        ✓
-                      </span>
-                      Message sent successfully.
-                    </span>
-                  )}
-                  {status === "error" && (
-                    <span className="text-destructive">{serverError}</span>
+                    <div>
+                      <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+                        Email Address *
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        autoComplete="email"
+                        value={form.email}
+                        onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                        placeholder="sarah@company.com"
+                        className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E]"
+                      />
+                      {errors.email && <p className="mt-1.5 text-xs text-red-600 font-medium">{errors.email}</p>}
+                    </div>
+                  </div>
 
-                  )}
-                </p>
+                  <div>
+                    <label htmlFor="subject" className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+                      Topic or System Needed *
+                    </label>
+                    <input
+                      id="subject"
+                      type="text"
+                      value={form.subject}
+                      onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
+                      placeholder="e.g. HubSpot Lead Nurturing, n8n OCR Intake, AI Booking Agent"
+                      className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E]"
+                    />
+                    {errors.subject && <p className="mt-1.5 text-xs text-red-600 font-medium">{errors.subject}</p>}
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+                      Workflow Description & Context *
+                    </label>
+                    <textarea
+                      id="message"
+                      rows={5}
+                      maxLength={4000}
+                      value={form.message}
+                      onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                      placeholder="What is the current manual process? Which tools are involved (HubSpot, Sheets, WhatsApp)? What does success look like?"
+                      className="w-full rounded-2xl border border-gray-300 bg-[#F9FAFB] p-4 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#FF5E1E] focus:outline-none focus:ring-1 focus:ring-[#FF5E1E] resize-none"
+                    />
+                    {errors.message && <p className="mt-1.5 text-xs text-red-600 font-medium">{errors.message}</p>}
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={status === "sending"}
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#FF5E1E] py-4 text-sm font-bold text-white shadow-[0_4px_16px_rgba(255,94,30,0.35)] transition-all hover:bg-[#E54D12] hover:scale-[1.01] disabled:opacity-60"
+                    >
+                      {status === "sending" ? (
+                        <span>Transmitting Brief...</span>
+                      ) : status === "sent" ? (
+                        <span>Brief Received — Will Reply Soon!</span>
+                      ) : (
+                        <>
+                          <span>Submit Project Brief</span>
+                          <Send className="h-4 w-4" />
+                        </>
+                      )}
+                    </button>
+
+                    {status === "sent" && (
+                      <p className="mt-3 text-center text-xs font-semibold text-green-600">
+                        Thank you! Your inquiry was sent directly to Azeem.
+                      </p>
+                    )}
+                    {serverError && (
+                      <p className="mt-3 text-center text-xs font-semibold text-red-600">
+                        {serverError}
+                      </p>
+                    )}
+                  </div>
+                </form>
               </div>
-            </form>
-          </Reveal>
+            </div>
 
-          <Reveal delay={120}>
-            <aside className="space-y-6">
-              <div className="rounded-2xl border bg-surface p-7">
-                <p className="text-sm font-extrabold">Other ways to reach me</p>
-                <ul className="mt-4 space-y-1">
-                  <ContactLink href={WHATSAPP} external label="WhatsApp" value={PHONE} />
-                  <ContactLink href={LINKEDIN} external label="LinkedIn" value="Azeem Olunloye" />
-                  <ContactLink href={`mailto:${EMAIL}`} label="Email" value={EMAIL} last />
-                </ul>
+            {/* Sidebar Column: Direct Contact & Portrait */}
+            <div className="lg:col-span-5 space-y-6">
+              {/* Direct Channels Card */}
+              <div className="rounded-[32px] sm:rounded-[40px] border border-gray-200/80 bg-[#FAFBFD] p-6 sm:p-8">
+                <h3 className="font-display text-xl font-extrabold text-gray-900 tracking-tight">
+                  Direct Communication
+                </h3>
+                <p className="mt-1 text-xs sm:text-sm text-gray-500">
+                  Prefer instant messaging? Reach out directly via these channels:
+                </p>
+
+                <div className="mt-6 space-y-3">
+                  <a
+                    href={WHATSAPP}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#FF5E1E] hover:shadow-md group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-green-600 font-bold text-sm">
+                        WA
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold uppercase text-gray-400">WhatsApp</p>
+                        <p className="text-xs sm:text-sm font-bold text-gray-900">{PHONE}</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#FF5E1E] transition-colors" />
+                  </a>
+
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#FF5E1E] hover:shadow-md group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-[#FF5E1E]">
+                        <Mail className="h-4 w-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold uppercase text-gray-400">Email</p>
+                        <p className="text-xs sm:text-sm font-bold text-gray-900 truncate">{EMAIL}</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#FF5E1E] transition-colors" />
+                  </a>
+
+                  <a
+                    href={LINKEDIN}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-200 shadow-sm transition-all hover:border-[#FF5E1E] hover:shadow-md group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 font-bold text-sm">
+                        IN
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold uppercase text-gray-400">LinkedIn</p>
+                        <p className="text-xs sm:text-sm font-bold text-gray-900">Azeem Olunloye</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="h-4 w-4 text-gray-400 group-hover:text-[#FF5E1E] transition-colors" />
+                  </a>
+                </div>
+
+                <div className="mt-6 pt-5 border-t border-gray-200/80 space-y-2">
+                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#FF5E1E]" />
+                    <span>Replies within 24 business hours</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#FF5E1E]" />
+                    <span>Remote · Available for global engagements</span>
+                  </div>
+                </div>
               </div>
 
-              <div className="rounded-2xl border bg-muted p-7">
-                <p className="flex items-center gap-2 text-sm font-extrabold">
-                  <span className="inline-block h-2 w-2 rounded-full bg-accent" />
-                  Availability
-                </p>
-                <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-                  Always open to new automation projects — no waitlist, no cap.
-                  Typical engagements run one to four weeks from brief to handover.
-                </p>
+              {/* Personal Arch Profile Card */}
+              <div className="rounded-[32px] sm:rounded-[40px] bg-[#F5F6F8] border border-gray-200/80 p-6 flex items-center gap-5">
+                <div className="relative w-20 h-24 shrink-0 flex items-end justify-center">
+                  <div className="absolute inset-x-1 bottom-0 top-3 rounded-t-[30px] bg-[#FCAE80]" />
+                  <img
+                    src={media.portraitPhoto}
+                    alt="Azeem Olunloye"
+                    className="relative z-10 h-[92%] w-auto object-cover object-top drop-shadow"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-display font-bold text-gray-900 text-sm">Azeem Olunloye</h4>
+                  <p className="text-xs text-[#FF5E1E] font-semibold mt-0.5">AI Automation Engineer</p>
+                  <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
+                    2+ years shipping production-grade n8n, Make, and AI agent architectures.
+                  </p>
+                </div>
               </div>
-
-              <div className="bg-gradient-ink rounded-2xl p-7">
-                <p className="text-sm font-extrabold text-ink-foreground">
-                  Good fits for me
-                </p>
-                <ul className="mt-4 space-y-3 text-[15px] text-ink-foreground/75">
-                  {[
-                    "Repetitive multi-tool processes",
-                    "Lead follow-up and CRM hygiene",
-                    "Document and receipt intake",
-                    "Customer enquiries answered 24/7",
-                  ].map((f) => (
-                    <li key={f} className="flex gap-3">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </aside>
-          </Reveal>
+            </div>
+          </div>
         </section>
       </main>
+
       <Footer />
     </div>
   );
 }
 
-function InfoCard({
-  label,
-  value,
-  href,
-  external,
-}: {
-  label: string;
-  value: string;
-  href?: string;
-  external?: boolean;
-}) {
-  const inner = (
-    <div className="rounded-xl border bg-surface px-5 py-4 transition-colors hover:border-accent">
-      <p className="text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
-        {label}
-      </p>
-      <p className="mt-1.5 truncate text-[15px] font-semibold">{value}</p>
-    </div>
-  );
-  if (!href) return inner;
-  return (
-    <a href={href} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
-      {inner}
-    </a>
-  );
-}
-
-function ContactLink({
-  href,
-  label,
-  value,
-  external,
-  last,
-}: {
-  href: string;
-  label: string;
-  value: string;
-  external?: boolean;
-  last?: boolean;
-}) {
-  return (
-    <li>
-      <a
-        href={href}
-        {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-        className={`group flex items-baseline justify-between gap-4 py-3.5 transition-colors hover:text-accent ${
-          last ? "" : "border-b"
-        }`}
-      >
-        <span className="min-w-0">
-          <span className="block text-xs font-bold uppercase tracking-[0.14em] text-muted-foreground">
-            {label}
-          </span>
-          <span className="mt-1 block truncate text-[15px] font-semibold">{value}</span>
-        </span>
-        <span className="text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
-      </a>
-    </li>
-  );
-}
-
-function Field({
-  label,
-  id,
-  value,
-  onChange,
-  type = "text",
-  error,
-  autoComplete,
-}: {
-  label: string;
-  id: string;
-  value: string;
-  onChange: (v: string) => void;
-  type?: string;
-  error?: string;
-  autoComplete?: string;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="mb-2 block text-sm font-bold">
-        {label}
-      </label>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        autoComplete={autoComplete}
-        onChange={(e) => onChange(e.target.value)}
-        aria-invalid={!!error}
-        aria-errormessage={error ? `${id}-error` : undefined}
-        className="h-14 w-full rounded-xl border bg-background px-4 text-base outline-none transition-[border-color,box-shadow] duration-200 placeholder:opacity-70 placeholder:transition-opacity focus:border-accent focus:shadow-green focus:placeholder:opacity-40"
-      />
-      {error && (
-        <p id={`${id}-error`} className="animate-fade-in mt-2 text-xs text-destructive">
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
